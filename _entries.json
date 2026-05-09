@@ -1,0 +1,1899 @@
+[
+  {
+    "slug": "phillie-phanatic",
+    "name": "Phillie Phanatic",
+    "team": "Phillies",
+    "city": "Philadelphia",
+    "animal": "creature"
+  },
+  {
+    "slug": "mr-met",
+    "name": "Mr. Met",
+    "team": "Mets",
+    "city": "New York",
+    "animal": "human"
+  },
+  {
+    "slug": "mrs-met",
+    "name": "Mrs. Met",
+    "team": "Mets",
+    "city": "New York",
+    "animal": "human"
+  },
+  {
+    "slug": "billy-the-marlin",
+    "name": "Billy the Marlin",
+    "team": "Marlins",
+    "city": "Miami",
+    "animal": "fish"
+  },
+  {
+    "slug": "slider",
+    "name": "Slider",
+    "team": "Guardians",
+    "city": "Cleveland",
+    "animal": "creature"
+  },
+  {
+    "slug": "wally",
+    "name": "Wally",
+    "team": "Red Sox",
+    "city": "Boston",
+    "animal": "creature"
+  },
+  {
+    "slug": "bernie-brewer",
+    "name": "Bernie Brewer",
+    "team": "Brewers",
+    "city": "Milwaukee",
+    "animal": "human"
+  },
+  {
+    "slug": "orbit",
+    "name": "Orbit",
+    "team": "Astros",
+    "city": "Houston",
+    "animal": "alien"
+  },
+  {
+    "slug": "paws",
+    "name": "Paws",
+    "team": "Tigers",
+    "city": "Detroit",
+    "animal": "tiger"
+  },
+  {
+    "slug": "fredbird",
+    "name": "Fredbird",
+    "team": "Cardinals",
+    "city": "St. Louis",
+    "animal": "bird"
+  },
+  {
+    "slug": "lou-seal",
+    "name": "Lou Seal",
+    "team": "Giants",
+    "city": "San Francisco",
+    "animal": "seal"
+  },
+  {
+    "slug": "dinger",
+    "name": "Dinger",
+    "team": "Rockies",
+    "city": "Denver",
+    "animal": "dinosaur"
+  },
+  {
+    "slug": "pirate-parrot",
+    "name": "Pirate Parrot",
+    "team": "Pirates",
+    "city": "Pittsburgh",
+    "animal": "parrot"
+  },
+  {
+    "slug": "raymond",
+    "name": "Raymond",
+    "team": "Rays",
+    "city": "St. Petersburg",
+    "animal": "creature"
+  },
+  {
+    "slug": "stomper",
+    "name": "Stomper",
+    "team": "Athletics",
+    "city": "Oakland",
+    "animal": "elephant"
+  },
+  {
+    "slug": "mariner-moose",
+    "name": "Mariner Moose",
+    "team": "Mariners",
+    "city": "Seattle",
+    "animal": "moose"
+  },
+  {
+    "slug": "ace",
+    "name": "Ace",
+    "team": "Blue Jays",
+    "city": "Toronto",
+    "animal": "bird"
+  },
+  {
+    "slug": "southpaw",
+    "name": "Southpaw",
+    "team": "White Sox",
+    "city": "Chicago",
+    "animal": "creature"
+  },
+  {
+    "slug": "screech",
+    "name": "Screech",
+    "team": "Nationals",
+    "city": "Washington",
+    "animal": "eagle"
+  },
+  {
+    "slug": "clark",
+    "name": "Clark",
+    "team": "Cubs",
+    "city": "Chicago",
+    "animal": "bear"
+  },
+  {
+    "slug": "tc-bear",
+    "name": "T.C. Bear",
+    "team": "Twins",
+    "city": "Minneapolis",
+    "animal": "bear"
+  },
+  {
+    "slug": "rangers-captain",
+    "name": "Rangers Captain",
+    "team": "Rangers",
+    "city": "Arlington",
+    "animal": "horse"
+  },
+  {
+    "slug": "baxter",
+    "name": "D. Baxter",
+    "team": "Diamondbacks",
+    "city": "Phoenix",
+    "animal": "bobcat"
+  },
+  {
+    "slug": "swinging-friar",
+    "name": "Swinging Friar",
+    "team": "Padres",
+    "city": "San Diego",
+    "animal": "human"
+  },
+  {
+    "slug": "burnie",
+    "name": "Burnie",
+    "team": "Heat",
+    "city": "Miami",
+    "animal": "fire"
+  },
+  {
+    "slug": "stuff-magic",
+    "name": "Stuff the Magic Dragon",
+    "team": "Magic",
+    "city": "Orlando",
+    "animal": "dragon"
+  },
+  {
+    "slug": "harry-the-hawk",
+    "name": "Harry the Hawk",
+    "team": "Hawks",
+    "city": "Atlanta",
+    "animal": "bird"
+  },
+  {
+    "slug": "benny-the-bull",
+    "name": "Benny the Bull",
+    "team": "Bulls",
+    "city": "Chicago",
+    "animal": "bull"
+  },
+  {
+    "slug": "the-coyote",
+    "name": "The Coyote",
+    "team": "Spurs",
+    "city": "San Antonio",
+    "animal": "coyote"
+  },
+  {
+    "slug": "rumble",
+    "name": "Rumble the Bison",
+    "team": "Thunder",
+    "city": "Oklahoma City",
+    "animal": "bison"
+  },
+  {
+    "slug": "rocky",
+    "name": "Rocky",
+    "team": "Nuggets",
+    "city": "Denver",
+    "animal": "mountain-lion"
+  },
+  {
+    "slug": "clutch",
+    "name": "Clutch",
+    "team": "Rockets",
+    "city": "Houston",
+    "animal": "bear"
+  },
+  {
+    "slug": "chuck-condor",
+    "name": "Chuck the Condor",
+    "team": "Clippers",
+    "city": "Los Angeles",
+    "animal": "condor"
+  },
+  {
+    "slug": "hugo",
+    "name": "Hugo",
+    "team": "Hornets",
+    "city": "Charlotte",
+    "animal": "hornet"
+  },
+  {
+    "slug": "gorilla",
+    "name": "The Gorilla",
+    "team": "Suns",
+    "city": "Phoenix",
+    "animal": "gorilla"
+  },
+  {
+    "slug": "bango",
+    "name": "Bango",
+    "team": "Bucks",
+    "city": "Milwaukee",
+    "animal": "deer"
+  },
+  {
+    "slug": "slamson",
+    "name": "Slamson the Lion",
+    "team": "Kings",
+    "city": "Sacramento",
+    "animal": "lion"
+  },
+  {
+    "slug": "moondog",
+    "name": "Moondog",
+    "team": "Cavaliers",
+    "city": "Cleveland",
+    "animal": "dog"
+  },
+  {
+    "slug": "boomer",
+    "name": "Boomer",
+    "team": "Pacers",
+    "city": "Indianapolis",
+    "animal": "panther"
+  },
+  {
+    "slug": "champ",
+    "name": "Champ",
+    "team": "Mavericks",
+    "city": "Dallas",
+    "animal": "horse"
+  },
+  {
+    "slug": "grizz",
+    "name": "Grizz",
+    "team": "Grizzlies",
+    "city": "Memphis",
+    "animal": "bear"
+  },
+  {
+    "slug": "raptor",
+    "name": "The Raptor",
+    "team": "Raptors",
+    "city": "Toronto",
+    "animal": "raptor"
+  },
+  {
+    "slug": "blaze",
+    "name": "Blaze the Trail Cat",
+    "team": "Trail Blazers",
+    "city": "Portland",
+    "animal": "cat"
+  },
+  {
+    "slug": "franklin",
+    "name": "Franklin the Dog",
+    "team": "76ers",
+    "city": "Philadelphia",
+    "animal": "dog"
+  },
+  {
+    "slug": "jazz-bear",
+    "name": "Jazz Bear",
+    "team": "Jazz",
+    "city": "Salt Lake City",
+    "animal": "bear"
+  },
+  {
+    "slug": "g-wiz",
+    "name": "G-Wiz",
+    "team": "Wizards",
+    "city": "Washington",
+    "animal": "creature"
+  },
+  {
+    "slug": "swoop",
+    "name": "Swoop",
+    "team": "Eagles",
+    "city": "Philadelphia",
+    "animal": "bird"
+  },
+  {
+    "slug": "pat-patriot",
+    "name": "Pat Patriot",
+    "team": "Patriots",
+    "city": "Foxborough",
+    "animal": "human"
+  },
+  {
+    "slug": "billy-buffalo",
+    "name": "Billy Buffalo",
+    "team": "Bills",
+    "city": "Buffalo",
+    "animal": "buffalo"
+  },
+  {
+    "slug": "td",
+    "name": "T.D.",
+    "team": "Dolphins",
+    "city": "Miami",
+    "animal": "dolphin"
+  },
+  {
+    "slug": "poe",
+    "name": "Poe",
+    "team": "Ravens",
+    "city": "Baltimore",
+    "animal": "raven"
+  },
+  {
+    "slug": "who-dey",
+    "name": "Who Dey",
+    "team": "Bengals",
+    "city": "Cincinnati",
+    "animal": "tiger"
+  },
+  {
+    "slug": "chomps",
+    "name": "Chomps",
+    "team": "Browns",
+    "city": "Cleveland",
+    "animal": "dog"
+  },
+  {
+    "slug": "steel-curtain",
+    "name": "Steel Curtain",
+    "team": "Steelers",
+    "city": "Pittsburgh",
+    "animal": "creature"
+  },
+  {
+    "slug": "toro",
+    "name": "Toro",
+    "team": "Texans",
+    "city": "Houston",
+    "animal": "bull"
+  },
+  {
+    "slug": "blue",
+    "name": "Blue",
+    "team": "Colts",
+    "city": "Indianapolis",
+    "animal": "horse"
+  },
+  {
+    "slug": "jaxson-de-ville",
+    "name": "Jaxson de Ville",
+    "team": "Jaguars",
+    "city": "Jacksonville",
+    "animal": "jaguar"
+  },
+  {
+    "slug": "t-rac",
+    "name": "T-Rac",
+    "team": "Titans",
+    "city": "Nashville",
+    "animal": "raccoon"
+  },
+  {
+    "slug": "miles",
+    "name": "Miles",
+    "team": "Broncos",
+    "city": "Denver",
+    "animal": "horse"
+  },
+  {
+    "slug": "kc-wolf",
+    "name": "KC Wolf",
+    "team": "Chiefs",
+    "city": "Kansas City",
+    "animal": "wolf"
+  },
+  {
+    "slug": "raider-rush",
+    "name": "Raider Rush",
+    "team": "Raiders",
+    "city": "Las Vegas",
+    "animal": "human"
+  },
+  {
+    "slug": "rowdy",
+    "name": "Rowdy",
+    "team": "Cowboys",
+    "city": "Arlington",
+    "animal": "human"
+  },
+  {
+    "slug": "commander",
+    "name": "Commander",
+    "team": "Commanders",
+    "city": "Washington",
+    "animal": "horse"
+  },
+  {
+    "slug": "staley-da-bear",
+    "name": "Staley da Bear",
+    "team": "Bears",
+    "city": "Chicago",
+    "animal": "bear"
+  },
+  {
+    "slug": "roary",
+    "name": "Roary",
+    "team": "Lions",
+    "city": "Detroit",
+    "animal": "lion"
+  },
+  {
+    "slug": "viktor",
+    "name": "Viktor",
+    "team": "Vikings",
+    "city": "Minneapolis",
+    "animal": "human"
+  },
+  {
+    "slug": "freddie-falcon",
+    "name": "Freddie Falcon",
+    "team": "Falcons",
+    "city": "Atlanta",
+    "animal": "falcon"
+  },
+  {
+    "slug": "sir-purr",
+    "name": "Sir Purr",
+    "team": "Panthers",
+    "city": "Charlotte",
+    "animal": "panther"
+  },
+  {
+    "slug": "sir-saint",
+    "name": "Sir Saint",
+    "team": "Saints",
+    "city": "New Orleans",
+    "animal": "human"
+  },
+  {
+    "slug": "krewe",
+    "name": "Krewe",
+    "team": "Buccaneers",
+    "city": "Tampa",
+    "animal": "human"
+  },
+  {
+    "slug": "big-red",
+    "name": "Big Red",
+    "team": "Cardinals",
+    "city": "Glendale",
+    "animal": "bird"
+  },
+  {
+    "slug": "rampage",
+    "name": "Rampage",
+    "team": "Rams",
+    "city": "Los Angeles",
+    "animal": "ram"
+  },
+  {
+    "slug": "blitz",
+    "name": "Blitz",
+    "team": "Seahawks",
+    "city": "Seattle",
+    "animal": "bird"
+  },
+  {
+    "slug": "sourdough-sam",
+    "name": "Sourdough Sam",
+    "team": "49ers",
+    "city": "San Francisco",
+    "animal": "human"
+  },
+  {
+    "slug": "gritty",
+    "name": "Gritty",
+    "team": "Flyers",
+    "city": "Philadelphia",
+    "animal": "creature"
+  },
+  {
+    "slug": "stanley-c-panther",
+    "name": "Stanley C. Panther",
+    "team": "Panthers",
+    "city": "Sunrise",
+    "animal": "panther"
+  },
+  {
+    "slug": "youppi",
+    "name": "Youppi!",
+    "team": "Canadiens",
+    "city": "Montreal",
+    "animal": "creature"
+  },
+  {
+    "slug": "iceburgh",
+    "name": "Iceburgh",
+    "team": "Penguins",
+    "city": "Pittsburgh",
+    "animal": "penguin"
+  },
+  {
+    "slug": "bailey",
+    "name": "Bailey",
+    "team": "Kings",
+    "city": "Los Angeles",
+    "animal": "lion"
+  },
+  {
+    "slug": "nj-devil",
+    "name": "N.J. Devil",
+    "team": "Devils",
+    "city": "Newark",
+    "animal": "devil"
+  },
+  {
+    "slug": "carlton",
+    "name": "Carlton the Bear",
+    "team": "Maple Leafs",
+    "city": "Toronto",
+    "animal": "bear"
+  },
+  {
+    "slug": "sparky-islanders",
+    "name": "Sparky the Dragon",
+    "team": "Islanders",
+    "city": "New York",
+    "animal": "dragon"
+  },
+  {
+    "slug": "sj-sharkie",
+    "name": "S.J. Sharkie",
+    "team": "Sharks",
+    "city": "San Jose",
+    "animal": "shark"
+  },
+  {
+    "slug": "gnash",
+    "name": "Gnash",
+    "team": "Predators",
+    "city": "Nashville",
+    "animal": "saber-cat"
+  },
+  {
+    "slug": "nordy",
+    "name": "Nordy",
+    "team": "Wild",
+    "city": "Saint Paul",
+    "animal": "creature"
+  },
+  {
+    "slug": "tommy-hawk",
+    "name": "Tommy Hawk",
+    "team": "Blackhawks",
+    "city": "Chicago",
+    "animal": "bird"
+  },
+  {
+    "slug": "howler",
+    "name": "Howler",
+    "team": "Coyotes",
+    "city": "Glendale",
+    "animal": "coyote"
+  },
+  {
+    "slug": "louie",
+    "name": "Louie",
+    "team": "Blues",
+    "city": "St. Louis",
+    "animal": "bear"
+  },
+  {
+    "slug": "snowy",
+    "name": "Snowy",
+    "team": "Avalanche",
+    "city": "Denver",
+    "animal": "yeti"
+  },
+  {
+    "slug": "sabretooth",
+    "name": "Sabretooth",
+    "team": "Sabres",
+    "city": "Buffalo",
+    "animal": "saber-cat"
+  },
+  {
+    "slug": "buoy",
+    "name": "Buoy",
+    "team": "Kraken",
+    "city": "Seattle",
+    "animal": "creature"
+  },
+  {
+    "slug": "talon",
+    "name": "Talon",
+    "team": "United",
+    "city": "Atlanta",
+    "animal": "bird"
+  },
+  {
+    "slug": "kingston",
+    "name": "Kingston",
+    "team": "Galaxy",
+    "city": "Los Angeles",
+    "animal": "lion"
+  },
+  {
+    "slug": "blue-mls",
+    "name": "Blue",
+    "team": "CF Montréal",
+    "city": "Montreal",
+    "animal": "bear"
+  },
+  {
+    "slug": "houston-dynamo-man",
+    "name": "Houston Dynamo Man",
+    "team": "Dynamo",
+    "city": "Houston",
+    "animal": "creature"
+  },
+  {
+    "slug": "rhinoman",
+    "name": "Rhinoman",
+    "team": "Red Bulls",
+    "city": "Harrison",
+    "animal": "rhino"
+  },
+  {
+    "slug": "clawhauser",
+    "name": "Clawhauser",
+    "team": "Crew",
+    "city": "Columbus",
+    "animal": "jaguar"
+  },
+  {
+    "slug": "swoop-mls",
+    "name": "Swoop",
+    "team": "Union",
+    "city": "Philadelphia",
+    "animal": "eagle"
+  },
+  {
+    "slug": "shelly",
+    "name": "Shelly",
+    "team": "Revolution",
+    "city": "Foxborough",
+    "animal": "turtle"
+  },
+  {
+    "slug": "redbird",
+    "name": "Redbird",
+    "team": "City SC",
+    "city": "St. Louis",
+    "animal": "bird"
+  },
+  {
+    "slug": "panther",
+    "name": "Panther",
+    "team": "Inter Miami",
+    "city": "Miami",
+    "animal": "panther"
+  },
+  {
+    "slug": "king",
+    "name": "King",
+    "team": "Orlando City",
+    "city": "Orlando",
+    "animal": "lion"
+  },
+  {
+    "slug": "take-flight",
+    "name": "Take Flight",
+    "team": "Earthquakes",
+    "city": "San Jose",
+    "animal": "bird"
+  },
+  {
+    "slug": "wolfie",
+    "name": "Wolfie",
+    "team": "United FC",
+    "city": "Saint Paul",
+    "animal": "wolf"
+  },
+  {
+    "slug": "rocky-mls",
+    "name": "Rocky",
+    "team": "Rapids",
+    "city": "Commerce City",
+    "animal": "ram"
+  },
+  {
+    "slug": "timbers-army",
+    "name": "Timbers Army",
+    "team": "Timbers",
+    "city": "Portland",
+    "animal": "tree"
+  },
+  {
+    "slug": "el-matador",
+    "name": "El Matador",
+    "team": "Austin FC",
+    "city": "Austin",
+    "animal": "bull"
+  },
+  {
+    "slug": "sparky-mls",
+    "name": "Sparky",
+    "team": "Fire FC",
+    "city": "Chicago",
+    "animal": "dog"
+  },
+  {
+    "slug": "finley",
+    "name": "Finley",
+    "team": "Whitecaps",
+    "city": "Vancouver",
+    "animal": "creature"
+  },
+  {
+    "slug": "bucky",
+    "name": "Bucky",
+    "team": "Real Salt Lake",
+    "city": "Salt Lake City",
+    "animal": "ram"
+  },
+  {
+    "slug": "rally-cat",
+    "name": "Rally Cat",
+    "team": "Sporting KC",
+    "city": "Kansas City",
+    "animal": "cat"
+  },
+  {
+    "slug": "captain-k",
+    "name": "Captain K",
+    "team": "Sounders",
+    "city": "Seattle",
+    "animal": "human"
+  },
+  {
+    "slug": "hoots",
+    "name": "Hoots",
+    "team": "D.C. United",
+    "city": "Washington",
+    "animal": "owl"
+  },
+  {
+    "slug": "chomps-mls",
+    "name": "Chomps",
+    "team": "Nashville SC",
+    "city": "Nashville",
+    "animal": "creature"
+  },
+  {
+    "slug": "brutus-buckeye",
+    "name": "Brutus Buckeye",
+    "team": "Buckeyes",
+    "city": "Ohio State",
+    "animal": "buckeye"
+  },
+  {
+    "slug": "sparty",
+    "name": "Sparty",
+    "team": "Spartans",
+    "city": "Michigan State",
+    "animal": "spartan"
+  },
+  {
+    "slug": "goldy-gopher",
+    "name": "Goldy Gopher",
+    "team": "Golden Gophers",
+    "city": "Minnesota",
+    "animal": "gopher"
+  },
+  {
+    "slug": "bucky-badger",
+    "name": "Bucky Badger",
+    "team": "Badgers",
+    "city": "Wisconsin",
+    "animal": "badger"
+  },
+  {
+    "slug": "herbie-husker",
+    "name": "Herbie Husker",
+    "team": "Cornhuskers",
+    "city": "Nebraska",
+    "animal": "human"
+  },
+  {
+    "slug": "oregon-duck",
+    "name": "The Oregon Duck",
+    "team": "Ducks",
+    "city": "Oregon",
+    "animal": "duck"
+  },
+  {
+    "slug": "joe-bruin",
+    "name": "Joe Bruin",
+    "team": "Bruins",
+    "city": "UCLA",
+    "animal": "bear"
+  },
+  {
+    "slug": "testudo",
+    "name": "Testudo",
+    "team": "Terrapins",
+    "city": "Maryland",
+    "animal": "turtle"
+  },
+  {
+    "slug": "hoosier-the-bison",
+    "name": "Hoosier the Bison",
+    "team": "Hoosiers",
+    "city": "Indiana",
+    "animal": "bison"
+  },
+  {
+    "slug": "herky-the-hawk",
+    "name": "Herky the Hawk",
+    "team": "Hawkeyes",
+    "city": "Iowa",
+    "animal": "hawk"
+  },
+  {
+    "slug": "willie-the-wildcat-nu",
+    "name": "Willie the Wildcat",
+    "team": "Wildcats",
+    "city": "Northwestern",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "nittany-lion",
+    "name": "Nittany Lion",
+    "team": "Nittany Lions",
+    "city": "Penn State",
+    "animal": "lion"
+  },
+  {
+    "slug": "purdue-pete",
+    "name": "Purdue Pete",
+    "team": "Boilermakers",
+    "city": "Purdue",
+    "animal": "human"
+  },
+  {
+    "slug": "scarlet-knight",
+    "name": "Scarlet Knight",
+    "team": "Scarlet Knights",
+    "city": "Rutgers",
+    "animal": "knight"
+  },
+  {
+    "slug": "tommy-trojan",
+    "name": "Tommy Trojan",
+    "team": "Trojans",
+    "city": "USC",
+    "animal": "human"
+  },
+  {
+    "slug": "harry-the-husky",
+    "name": "Harry the Husky",
+    "team": "Huskies",
+    "city": "Washington",
+    "animal": "husky"
+  },
+  {
+    "slug": "sebastian-ibis",
+    "name": "Sebastian the Ibis",
+    "team": "Hurricanes",
+    "city": "Miami",
+    "animal": "ibis"
+  },
+  {
+    "slug": "hokie-bird",
+    "name": "Hokie Bird",
+    "team": "Hokies",
+    "city": "Virginia Tech",
+    "animal": "turkey"
+  },
+  {
+    "slug": "otto-orange",
+    "name": "Otto the Orange",
+    "team": "Orange",
+    "city": "Syracuse",
+    "animal": "fruit"
+  },
+  {
+    "slug": "demon-deacon",
+    "name": "Demon Deacon",
+    "team": "Demon Deacons",
+    "city": "Wake Forest",
+    "animal": "human"
+  },
+  {
+    "slug": "blue-devil",
+    "name": "Blue Devil",
+    "team": "Blue Devils",
+    "city": "Duke",
+    "animal": "devil"
+  },
+  {
+    "slug": "rameses",
+    "name": "Rameses",
+    "team": "Tar Heels",
+    "city": "North Carolina",
+    "animal": "ram"
+  },
+  {
+    "slug": "mr-wuf",
+    "name": "Mr. Wuf",
+    "team": "Wolfpack",
+    "city": "NC State",
+    "animal": "wolf"
+  },
+  {
+    "slug": "stanford-tree",
+    "name": "Stanford Tree",
+    "team": "Cardinal",
+    "city": "Stanford",
+    "animal": "tree"
+  },
+  {
+    "slug": "big-al",
+    "name": "Big Al",
+    "team": "Crimson Tide",
+    "city": "Alabama",
+    "animal": "elephant"
+  },
+  {
+    "slug": "aubie",
+    "name": "Aubie",
+    "team": "Tigers",
+    "city": "Auburn",
+    "animal": "tiger"
+  },
+  {
+    "slug": "smokey",
+    "name": "Smokey",
+    "team": "Volunteers",
+    "city": "Tennessee",
+    "animal": "dog"
+  },
+  {
+    "slug": "albert-gator",
+    "name": "Albert Gator",
+    "team": "Gators",
+    "city": "Florida",
+    "animal": "gator"
+  },
+  {
+    "slug": "mike-tiger",
+    "name": "Mike the Tiger",
+    "team": "Tigers",
+    "city": "LSU",
+    "animal": "tiger"
+  },
+  {
+    "slug": "reveille",
+    "name": "Reveille",
+    "team": "Aggies",
+    "city": "Texas A&M",
+    "animal": "dog"
+  },
+  {
+    "slug": "cocky",
+    "name": "Cocky",
+    "team": "Gamecocks",
+    "city": "South Carolina",
+    "animal": "rooster"
+  },
+  {
+    "slug": "bevo",
+    "name": "Bevo",
+    "team": "Longhorns",
+    "city": "Texas",
+    "animal": "longhorn"
+  },
+  {
+    "slug": "sooner-ou",
+    "name": "Boomer",
+    "team": "Sooners",
+    "city": "Oklahoma",
+    "animal": "horse"
+  },
+  {
+    "slug": "uga",
+    "name": "Hairy Dawg",
+    "team": "Bulldogs",
+    "city": "Georgia",
+    "animal": "dog"
+  },
+  {
+    "slug": "truman-tiger",
+    "name": "Truman the Tiger",
+    "team": "Tigers",
+    "city": "Missouri",
+    "animal": "tiger"
+  },
+  {
+    "slug": "big-jay",
+    "name": "Big Jay",
+    "team": "Jayhawks",
+    "city": "Kansas",
+    "animal": "jayhawk"
+  },
+  {
+    "slug": "ralphie",
+    "name": "Ralphie",
+    "team": "Buffaloes",
+    "city": "Colorado",
+    "animal": "buffalo"
+  },
+  {
+    "slug": "cy-cyclone",
+    "name": "Cy the Cardinal",
+    "team": "Cyclones",
+    "city": "Iowa State",
+    "animal": "bird"
+  },
+  {
+    "slug": "pistol-pete",
+    "name": "Pistol Pete",
+    "team": "Cowboys",
+    "city": "Oklahoma State",
+    "animal": "human"
+  },
+  {
+    "slug": "willie-the-wildcat-ksu",
+    "name": "Willie the Wildcat",
+    "team": "Wildcats",
+    "city": "Kansas State",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "cosmo",
+    "name": "Cosmo",
+    "team": "Cougars",
+    "city": "BYU",
+    "animal": "cougar"
+  },
+  {
+    "slug": "wilbur-wilma",
+    "name": "Wilbur & Wilma",
+    "team": "Wildcats",
+    "city": "Arizona",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "sparky-sun-devil",
+    "name": "Sparky the Sun Devil",
+    "team": "Sun Devils",
+    "city": "Arizona State",
+    "animal": "devil"
+  },
+  {
+    "slug": "sic-em-bear",
+    "name": "Sic ",
+    "team": "Bears",
+    "city": "Baylor",
+    "animal": "bear"
+  },
+  {
+    "slug": "bearcat",
+    "name": "Bearcat",
+    "team": "Bearcats",
+    "city": "Cincinnati",
+    "animal": "bearcat"
+  },
+  {
+    "slug": "superfrog",
+    "name": "SuperFrog",
+    "team": "Horned Frogs",
+    "city": "TCU",
+    "animal": "frog"
+  },
+  {
+    "slug": "hook-em",
+    "name": "Hook ",
+    "team": "Longhorns",
+    "city": "Texas",
+    "animal": "longhorn"
+  },
+  {
+    "slug": "raider-red",
+    "name": "Raider Red",
+    "team": "Red Raiders",
+    "city": "Texas Tech",
+    "animal": "human"
+  },
+  {
+    "slug": "knightro",
+    "name": "Knightro",
+    "team": "Knights",
+    "city": "UCF",
+    "animal": "knight"
+  },
+  {
+    "slug": "swoop-utah",
+    "name": "Swoop",
+    "team": "Utes",
+    "city": "Utah",
+    "animal": "bird"
+  },
+  {
+    "slug": "mountaineer",
+    "name": "Mountaineer",
+    "team": "Mountaineers",
+    "city": "West Virginia",
+    "animal": "human"
+  },
+  {
+    "slug": "shasta",
+    "name": "Shasta",
+    "team": "Cougars",
+    "city": "Houston",
+    "animal": "cougar"
+  },
+  {
+    "slug": "leprechaun",
+    "name": "The Leprechaun",
+    "team": "Fighting Irish",
+    "city": "Notre Dame",
+    "animal": "leprechaun"
+  },
+  {
+    "slug": "jonathan-the-husky",
+    "name": "Jonathan the Husky",
+    "team": "Huskies",
+    "city": "UConn",
+    "animal": "dog"
+  },
+  {
+    "slug": "blue-iii",
+    "name": "Blue III",
+    "team": "Bulldogs",
+    "city": "Butler",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "billy-bluejay",
+    "name": "Billy Bluejay",
+    "team": "Bluejays",
+    "city": "Creighton",
+    "animal": "bird"
+  },
+  {
+    "slug": "dibs-blue-demon",
+    "name": "Dibs",
+    "team": "Blue Demons",
+    "city": "DePaul",
+    "animal": "devil"
+  },
+  {
+    "slug": "jack-the-bulldog",
+    "name": "Jack the Bulldog",
+    "team": "Hoyas",
+    "city": "Georgetown",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "golden-eagle",
+    "name": "Golden Eagle",
+    "team": "Golden Eagles",
+    "city": "Marquette",
+    "animal": "eagle"
+  },
+  {
+    "slug": "friar-dom",
+    "name": "Friar Dom",
+    "team": "Friars",
+    "city": "Providence",
+    "animal": "human"
+  },
+  {
+    "slug": "johnny-thunder",
+    "name": "Johnny Thunderbird",
+    "team": "Red Storm",
+    "city": "St. John",
+    "animal": "bird"
+  },
+  {
+    "slug": "pirate-pete-shu",
+    "name": "Pirate Pete",
+    "team": "Pirates",
+    "city": "Seton Hall",
+    "animal": "human"
+  },
+  {
+    "slug": "will-d-cat",
+    "name": "Will D. Cat",
+    "team": "Wildcats",
+    "city": "Villanova",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "xavier-musketeer",
+    "name": "Xavier Musketeer",
+    "team": "Musketeers",
+    "city": "Xavier",
+    "animal": "human"
+  },
+  {
+    "slug": "sam-minuteman",
+    "name": "Sam the Minuteman",
+    "team": "Minutemen",
+    "city": "UMass",
+    "animal": "human"
+  },
+  {
+    "slug": "river-hawk",
+    "name": "River Hawk",
+    "team": "River Hawks",
+    "city": "UMass Lowell",
+    "animal": "hawk"
+  },
+  {
+    "slug": "bonnie-bonnies",
+    "name": "Bonnie",
+    "team": "Bonnies",
+    "city": "St. Bonaventure",
+    "animal": "creature"
+  },
+  {
+    "slug": "spike-gonzaga",
+    "name": "Spike",
+    "team": "Bulldogs",
+    "city": "Gonzaga",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "gael",
+    "name": "The Gael",
+    "team": "Gaels",
+    "city": "Saint Mary",
+    "animal": "human"
+  },
+  {
+    "slug": "lux-cat",
+    "name": "Lux Cat",
+    "team": "Wildcats",
+    "city": "Davidson",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "rudy-flyer",
+    "name": "Rudy Flyer",
+    "team": "Flyers",
+    "city": "Dayton",
+    "animal": "human"
+  },
+  {
+    "slug": "sju-hawk",
+    "name": "The Hawk",
+    "team": "Hawks",
+    "city": "Saint Joseph",
+    "animal": "hawk"
+  },
+  {
+    "slug": "rodney-ram",
+    "name": "Rodney the Ram",
+    "team": "Rams",
+    "city": "VCU",
+    "animal": "ram"
+  },
+  {
+    "slug": "mason-patriot",
+    "name": "Patriot",
+    "team": "Patriots",
+    "city": "George Mason",
+    "animal": "human"
+  },
+  {
+    "slug": "lu-wolf",
+    "name": "LU Wolf",
+    "team": "Ramblers",
+    "city": "Loyola Chicago",
+    "animal": "wolf"
+  },
+  {
+    "slug": "wushock",
+    "name": "WuShock",
+    "team": "Shockers",
+    "city": "Wichita State",
+    "animal": "wheat"
+  },
+  {
+    "slug": "handsome-dan",
+    "name": "Handsome Dan",
+    "team": "Bulldogs",
+    "city": "Yale",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "princeton-tiger",
+    "name": "The Tiger",
+    "team": "Tigers",
+    "city": "Princeton",
+    "animal": "tiger"
+  },
+  {
+    "slug": "boomer-bear",
+    "name": "Boomer the Bear",
+    "team": "Bears",
+    "city": "Brown",
+    "animal": "bear"
+  },
+  {
+    "slug": "roaree",
+    "name": "Roaree the Lion",
+    "team": "Lions",
+    "city": "Columbia",
+    "animal": "lion"
+  },
+  {
+    "slug": "touchdown-bear",
+    "name": "Touchdown the Bear",
+    "team": "Big Red",
+    "city": "Cornell",
+    "animal": "bear"
+  },
+  {
+    "slug": "big-green",
+    "name": "The Big Green",
+    "team": "Big Green",
+    "city": "Dartmouth",
+    "animal": "human"
+  },
+  {
+    "slug": "john-harvard",
+    "name": "John Harvard",
+    "team": "Crimson",
+    "city": "Harvard",
+    "animal": "human"
+  },
+  {
+    "slug": "penn-quaker",
+    "name": "The Penn Quaker",
+    "team": "Quakers",
+    "city": "Penn",
+    "animal": "human"
+  },
+  {
+    "slug": "bananas-bear",
+    "name": "Bananas T. Bear",
+    "team": "Black Bears",
+    "city": "Maine",
+    "animal": "bear"
+  },
+  {
+    "slug": "damien-great-dane",
+    "name": "Damien",
+    "team": "Great Danes",
+    "city": "Albany",
+    "animal": "dog"
+  },
+  {
+    "slug": "howie-hawk-hartford",
+    "name": "Howie the Hawk",
+    "team": "Hawks",
+    "city": "Hartford",
+    "animal": "hawk"
+  },
+  {
+    "slug": "benny-beaver",
+    "name": "Benny the Beaver",
+    "team": "Beavers",
+    "city": "Oregon State",
+    "animal": "beaver"
+  },
+  {
+    "slug": "butch-cougar",
+    "name": "Butch T. Cougar",
+    "team": "Cougars",
+    "city": "Washington State",
+    "animal": "cougar"
+  },
+  {
+    "slug": "traveler",
+    "name": "Traveler",
+    "team": "Trojans",
+    "city": "USC",
+    "animal": "horse"
+  },
+  {
+    "slug": "niner-norm",
+    "name": "Niner Norm",
+    "team": "49ers",
+    "city": "Charlotte",
+    "animal": "miner"
+  },
+  {
+    "slug": "ecu-pirate",
+    "name": "PeeDee the Pirate",
+    "team": "Pirates",
+    "city": "East Carolina",
+    "animal": "human"
+  },
+  {
+    "slug": "owlsley",
+    "name": "Owlsley",
+    "team": "Owls",
+    "city": "Florida Atlantic",
+    "animal": "owl"
+  },
+  {
+    "slug": "tom-tiger",
+    "name": "Tom the Tiger",
+    "team": "Tigers",
+    "city": "Memphis",
+    "animal": "tiger"
+  },
+  {
+    "slug": "scrappy-unt",
+    "name": "Scrappy",
+    "team": "Mean Green",
+    "city": "North Texas",
+    "animal": "eagle"
+  },
+  {
+    "slug": "sammy-owl",
+    "name": "Sammy the Owl",
+    "team": "Owls",
+    "city": "Rice",
+    "animal": "owl"
+  },
+  {
+    "slug": "rocky-bull",
+    "name": "Rocky the Bull",
+    "team": "Bulls",
+    "city": "South Florida",
+    "animal": "bull"
+  },
+  {
+    "slug": "riptide",
+    "name": "Riptide the Wave",
+    "team": "Green Wave",
+    "city": "Tulane",
+    "animal": "pelican"
+  },
+  {
+    "slug": "captain-cane",
+    "name": "Captain Cane",
+    "team": "Golden Hurricane",
+    "city": "Tulsa",
+    "animal": "human"
+  },
+  {
+    "slug": "zippy",
+    "name": "Zippy",
+    "team": "Zips",
+    "city": "Akron",
+    "animal": "kangaroo"
+  },
+  {
+    "slug": "freddy-falcon-bg",
+    "name": "Freddy Falcon",
+    "team": "Falcons",
+    "city": "Bowling Green",
+    "animal": "falcon"
+  },
+  {
+    "slug": "rufus-bobcat",
+    "name": "Rufus the Bobcat",
+    "team": "Bobcats",
+    "city": "Ohio",
+    "animal": "bobcat"
+  },
+  {
+    "slug": "yodel",
+    "name": "Yodel the Mountaineer",
+    "team": "Mountaineers",
+    "city": "Appalachian State",
+    "animal": "human"
+  },
+  {
+    "slug": "chanticleer",
+    "name": "The Chanticleer",
+    "team": "Chanticleers",
+    "city": "Coastal Carolina",
+    "animal": "rooster"
+  },
+  {
+    "slug": "duke-dog",
+    "name": "Duke Dog",
+    "team": "Dukes",
+    "city": "James Madison",
+    "animal": "dog"
+  },
+  {
+    "slug": "lu-eagle",
+    "name": "LU the Eagle",
+    "team": "Flames",
+    "city": "Liberty",
+    "animal": "eagle"
+  },
+  {
+    "slug": "sammy-bearkat",
+    "name": "Sammy Bearkat",
+    "team": "Bearkats",
+    "city": "Sam Houston",
+    "animal": "bearkat"
+  },
+  {
+    "slug": "big-red-wku",
+    "name": "Big Red",
+    "team": "Hilltoppers",
+    "city": "Western Kentucky",
+    "animal": "creature"
+  },
+  {
+    "slug": "rose-hill-ram",
+    "name": "Rose Hill Ram",
+    "team": "Rams",
+    "city": "Fordham",
+    "animal": "ram"
+  },
+  {
+    "slug": "gw-colonial",
+    "name": "George the Colonial",
+    "team": "Colonials",
+    "city": "George Washington",
+    "animal": "human"
+  },
+  {
+    "slug": "rhody",
+    "name": "Rhody",
+    "team": "Rams",
+    "city": "Rhode Island",
+    "animal": "ram"
+  },
+  {
+    "slug": "webstur",
+    "name": "Webstur",
+    "team": "Spiders",
+    "city": "Richmond",
+    "animal": "spider"
+  },
+  {
+    "slug": "lmu-lion",
+    "name": "The Lion",
+    "team": "Lions",
+    "city": "Loyola Marymount",
+    "animal": "lion"
+  },
+  {
+    "slug": "willie-the-wave",
+    "name": "Willie the Wave",
+    "team": "Waves",
+    "city": "Pepperdine",
+    "animal": "human"
+  },
+  {
+    "slug": "tom-tiger-pacific",
+    "name": "Tom the Tiger",
+    "team": "Tigers",
+    "city": "Pacific",
+    "animal": "tiger"
+  },
+  {
+    "slug": "san-fran-don",
+    "name": "Don",
+    "team": "Dons",
+    "city": "San Francisco",
+    "animal": "human"
+  },
+  {
+    "slug": "bruin-belmont",
+    "name": "Bruin the Bear",
+    "team": "Bruins",
+    "city": "Belmont",
+    "animal": "bear"
+  },
+  {
+    "slug": "spike-drake",
+    "name": "Spike (Drake)",
+    "team": "Bulldogs",
+    "city": "Drake",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "reggie-isu",
+    "name": "Reggie Redbird",
+    "team": "Redbirds",
+    "city": "Illinois State",
+    "animal": "bird"
+  },
+  {
+    "slug": "sycamore-sam",
+    "name": "Sycamore Sam",
+    "team": "Sycamores",
+    "city": "Indiana State",
+    "animal": "tree"
+  },
+  {
+    "slug": "tc-uni",
+    "name": "TC the Panther",
+    "team": "Panthers",
+    "city": "Northern Iowa",
+    "animal": "panther"
+  },
+  {
+    "slug": "petey-peacock",
+    "name": "Petey the Peacock",
+    "team": "Peacocks",
+    "city": "Saint Peter",
+    "animal": "peacock"
+  },
+  {
+    "slug": "bobcat-quinnipiac",
+    "name": "Boomer (Quinnipiac)",
+    "team": "Bobcats",
+    "city": "Quinnipiac",
+    "animal": "bobcat"
+  },
+  {
+    "slug": "youdee",
+    "name": "YoUDee",
+    "team": "Blue Hens",
+    "city": "Delaware",
+    "animal": "chicken"
+  },
+  {
+    "slug": "drex",
+    "name": "Drex the Dragon",
+    "team": "Dragons",
+    "city": "Drexel",
+    "animal": "dragon"
+  },
+  {
+    "slug": "sammy-seahawk",
+    "name": "Sammy the Seahawk",
+    "team": "Seahawks",
+    "city": "UNC Wilmington",
+    "animal": "seahawk"
+  },
+  {
+    "slug": "vandal",
+    "name": "Joe Vandal",
+    "team": "Vandals",
+    "city": "Idaho",
+    "animal": "human"
+  },
+  {
+    "slug": "louie-lumberjack",
+    "name": "Louie the Lumberjack",
+    "team": "Lumberjacks",
+    "city": "Northern Arizona",
+    "animal": "human"
+  },
+  {
+    "slug": "bill-goat-navy",
+    "name": "Bill the Goat",
+    "team": "Midshipmen",
+    "city": "Navy",
+    "animal": "goat"
+  },
+  {
+    "slug": "bison-bucknell",
+    "name": "Bucky the Bison",
+    "team": "Bison",
+    "city": "Bucknell",
+    "animal": "bison"
+  },
+  {
+    "slug": "rhett-bu",
+    "name": "Rhett the Terrier",
+    "team": "Terriers",
+    "city": "Boston University",
+    "animal": "terrier"
+  },
+  {
+    "slug": "holy-cross-eagle",
+    "name": "Holy Cross Crusader",
+    "team": "Crusaders",
+    "city": "Holy Cross",
+    "animal": "human"
+  },
+  {
+    "slug": "general-citadel",
+    "name": "The Citadel General",
+    "team": "Bulldogs",
+    "city": "The Citadel",
+    "animal": "human"
+  },
+  {
+    "slug": "boomtown-lamar",
+    "name": "Boomtown",
+    "team": "Cardinals",
+    "city": "Lamar",
+    "animal": "lion"
+  },
+  {
+    "slug": "sammy-cowboy",
+    "name": "Sammy the Cowboy",
+    "team": "Cowboys",
+    "city": "McNeese",
+    "animal": "human"
+  },
+  {
+    "slug": "colonel-nicholls",
+    "name": "Colonel Tillou",
+    "team": "Colonels",
+    "city": "Nicholls",
+    "animal": "human"
+  },
+  {
+    "slug": "demon-nwst",
+    "name": "Vic the Demon",
+    "team": "Demons",
+    "city": "Northwestern State",
+    "animal": "devil"
+  },
+  {
+    "slug": "islander-tamucc",
+    "name": "Izzy the Islander",
+    "team": "Islanders",
+    "city": "Texas A&M–Corpus Christi",
+    "animal": "human"
+  },
+  {
+    "slug": "dusty-cardinal",
+    "name": "Dusty the Cardinal",
+    "team": "Cardinals",
+    "city": "Incarnate Word",
+    "animal": "bird"
+  },
+  {
+    "slug": "awoo-eagle",
+    "name": "Awoo the Golden Eagle",
+    "team": "Golden Eagles",
+    "city": "Tennessee Tech",
+    "animal": "eagle"
+  },
+  {
+    "slug": "governor-peay",
+    "name": "The Governor",
+    "team": "Governors",
+    "city": "Austin Peay",
+    "animal": "human"
+  },
+  {
+    "slug": "racer-one",
+    "name": "Racer One",
+    "team": "Racers",
+    "city": "Murray State",
+    "animal": "horse"
+  },
+  {
+    "slug": "skyhawk-utm",
+    "name": "Captain Skyhawk",
+    "team": "Skyhawks",
+    "city": "UT Martin",
+    "animal": "hawk"
+  },
+  {
+    "slug": "eddie-cougar",
+    "name": "Eddie the Cougar",
+    "team": "Cougars",
+    "city": "SIUE",
+    "animal": "cougar"
+  },
+  {
+    "slug": "tusk",
+    "name": "Tusk",
+    "team": "Razorbacks",
+    "city": "Arkansas",
+    "animal": "razorback"
+  },
+  {
+    "slug": "kentucky-wildcat",
+    "name": "The Wildcat",
+    "team": "Wildcats",
+    "city": "Kentucky",
+    "animal": "wildcat"
+  },
+  {
+    "slug": "rebel-black-bear",
+    "name": "Rebel Black Bear",
+    "team": "Rebels",
+    "city": "Ole Miss",
+    "animal": "bear"
+  },
+  {
+    "slug": "bully",
+    "name": "Bully",
+    "team": "Bulldogs",
+    "city": "Mississippi State",
+    "animal": "bulldog"
+  },
+  {
+    "slug": "mr-c",
+    "name": "Mr. C",
+    "team": "Commodores",
+    "city": "Vanderbilt",
+    "animal": "human"
+  },
+  {
+    "slug": "baldwin-eagle",
+    "name": "Baldwin the Eagle",
+    "team": "Eagles",
+    "city": "Boston College",
+    "animal": "eagle"
+  },
+  {
+    "slug": "clemson-tiger",
+    "name": "The Tiger (Clemson)",
+    "team": "Tigers",
+    "city": "Clemson",
+    "animal": "tiger"
+  },
+  {
+    "slug": "chief-osceola",
+    "name": "Chief Osceola",
+    "team": "Seminoles",
+    "city": "Florida State",
+    "animal": "human"
+  },
+  {
+    "slug": "buzz",
+    "name": "Buzz",
+    "team": "Yellow Jackets",
+    "city": "Georgia Tech",
+    "animal": "yellow-jacket"
+  },
+  {
+    "slug": "louisville-cardinal",
+    "name": "The Cardinal Bird",
+    "team": "Cardinals",
+    "city": "Louisville",
+    "animal": "bird"
+  },
+  {
+    "slug": "roc-panther",
+    "name": "Roc the Panther",
+    "team": "Panthers",
+    "city": "Pitt",
+    "animal": "panther"
+  },
+  {
+    "slug": "peruna",
+    "name": "Peruna",
+    "team": "Mustangs",
+    "city": "SMU",
+    "animal": "horse"
+  },
+  {
+    "slug": "cavman",
+    "name": "CavMan",
+    "team": "Cavaliers",
+    "city": "Virginia",
+    "animal": "human"
+  }
+]
