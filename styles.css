@@ -1422,6 +1422,77 @@ main#screen {
   }
 }
 
+/* Rank tier markers — opposite side of tower from numeric ticks. */
+.striker-tier {
+  position: absolute;
+  right: 100%;
+  margin-right: 6px;
+  transform: translateY(50%);
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 5px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0.55;
+  color: #cdb98f;
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
+}
+.striker-tier-line {
+  width: 8px;
+  height: 1.5px;
+  background: #cdb98f;
+  opacity: 0.5;
+}
+.striker-tier-emoji {
+  font-size: 12px;
+  filter: grayscale(0.5) brightness(0.85);
+  transition: filter 0.25s ease;
+}
+.striker-tier.crossed {
+  opacity: 1;
+}
+.striker-tier.crossed .striker-tier-emoji {
+  filter: none;
+  animation: tier-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.striker-tier.crossed .striker-tier-line {
+  animation: tick-flash 0.55s ease-out;
+}
+.striker-tier[data-tier="HALLOFFAME"].crossed {
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
+}
+.striker-tier[data-tier="CHAMPION"].crossed {
+  color: #ffe27a;
+}
+.striker-tier[data-tier="PRO"].crossed {
+  color: #9be7ff;
+}
+.striker-tier[data-tier="AMATEUR"].crossed {
+  color: #c8f5b0;
+}
+.striker-tier[data-tier="ROOKIE"].crossed {
+  color: #f3e2c6;
+}
+@keyframes tier-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.55);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* LED ticker punch every 10 points */
 .striker-led-num.punch {
   animation: led-punch 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);

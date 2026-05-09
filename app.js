@@ -1017,7 +1017,7 @@
   const state = loadState();
   state.streak ||= 0;
   state.lastPlayed ||= null;
-  state.level ||= "pro";
+  state.level ||= "all";
   state.contentType ||= "both";
   state.theme ||= "default";
 
@@ -1230,7 +1230,7 @@
         ? el(
             "div",
             { class: "level-status" },
-            `Played today — ${today.score}/100 (${today.correctCount || today.results.filter(Boolean).length}/5).`,
+            `Played today — ${today.score}/1000 (${today.correctCount || today.results.filter(Boolean).length}/5).`,
           )
         : null,
       el(
@@ -1684,10 +1684,35 @@
         ]),
       );
     }
+    // Rank tier markers on the opposite side — light up as the puck passes.
+    const tierEls = [];
+    for (const tier of RANK_TIERS) {
+      if (tier.min === 0) continue; // skip floor; everyone starts there
+      const pct = tier.min / 10; // 950 → 95%
+      tierEls.push(
+        el(
+          "div",
+          {
+            class: "striker-tier",
+            style: `bottom:${pct}%`,
+            "data-tier": tier.label.replace(/\s+/g, ""),
+          },
+          [
+            el("span", { class: "striker-tier-label" }, tier.label),
+            el("span", { class: "striker-tier-emoji" }, tier.emoji),
+            el("div", { class: "striker-tier-line" }),
+          ],
+        ),
+      );
+    }
     const fillEl = el("div", { class: "striker-fill" });
     const puckEl = el("div", { class: "striker-puck" });
+    // Tower-glass keeps overflow:hidden for the gradient + fill + puck.
+    // Tick numbers and tier markers live OUTSIDE the glass so they aren't clipped.
     const tower = el("div", { class: "striker-tower" }, [
-      el("div", { class: "striker-tower-glass" }, [...tickEls, fillEl, puckEl]),
+      el("div", { class: "striker-tower-glass" }, [fillEl, puckEl]),
+      ...tickEls,
+      ...tierEls,
     ]);
     // Hammer + striker pad at the base
     const hammer = el("div", { class: "striker-hammer" });
@@ -1785,7 +1810,7 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick #${n} • ${levelMeta.short} ${today.score}/100\n${grid}`;
+              const text = `Hat Trick #${n} • ${levelMeta.short} ${today.score}/1000\n${grid}`;
               try {
                 if (navigator.share) await navigator.share({ text });
                 else {
@@ -1819,7 +1844,7 @@
     };
     let lastTier = null;
     let lastDecade = -1;
-    const flashTicks = striker.querySelectorAll(".striker-tick");
+    const flashTicks = striker.querySelectorAll(".striker-tick, .striker-tier");
     const flashedTicks = new Set();
     function tick(now) {
       const t = Math.min(1, (now - startTs) / duration);
@@ -1841,11 +1866,12 @@
         ticker.classList.add("punch");
       }
 
-      // Flash thermometer ticks as the puck crosses them.
+      // Flash thermometer ticks and tier markers as the puck crosses them.
       flashTicks.forEach((m) => {
+        if (flashedTicks.has(m)) return;
         const tickPct = parseFloat(m.style.bottom);
-        if (!flashedTicks.has(tickPct) && pct >= tickPct) {
-          flashedTicks.add(tickPct);
+        if (pct >= tickPct) {
+          flashedTicks.add(m);
           m.classList.add("crossed");
         }
       });
