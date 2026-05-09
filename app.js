@@ -913,14 +913,14 @@
 
   // Per-question MAX point values. Total perfect = 100.
   const POINTS = [10, 10, 20, 30, 30];
-  const TIMER_SECONDS = 15;
+  const TIMER_SECONDS = 30;
   // Speed bands — each correct answer scaled by this multiplier based on elapsed seconds.
   const BANDS = [
-    { name: "Lightning", maxSec: 4, mult: 1.0, emoji: "⚡" },
-    { name: "Quick", maxSec: 8, mult: 0.75, emoji: "🔥" },
-    { name: "Steady", maxSec: 12, mult: 0.5, emoji: "✓" },
-    { name: "Last second", maxSec: 15, mult: 0.25, emoji: "⏱" },
-    // beyond 15s: still floor (player took longer than the timer)
+    { name: "Lightning", maxSec: 8, mult: 1.0, emoji: "⚡" },
+    { name: "Quick", maxSec: 16, mult: 0.75, emoji: "🔥" },
+    { name: "Steady", maxSec: 24, mult: 0.5, emoji: "✓" },
+    { name: "Last second", maxSec: 30, mult: 0.25, emoji: "⏱" },
+    // beyond 30s: still floor (player took longer than the timer)
     { name: "Overtime", maxSec: Infinity, mult: 0.25, emoji: "🐢" },
   ];
   function getBand(elapsedSec) {

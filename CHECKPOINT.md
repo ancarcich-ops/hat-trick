@@ -80,7 +80,7 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 | Generator                | Type                | Difficulty bucket | Notes                                                                                           |
 | ------------------------ | ------------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
 | `gen_pickLeague`         | multiple-choice     | EASY              | Subject = mascot name only (no team, no logo) — text-only to avoid leak                         |
-| `gen_logoToTeam`         | multiple-choice     | EASY              | Logo subject with **center-out reveal animation** over 15s                                      |
+| `gen_logoToTeam`         | multiple-choice     | EASY              | Logo subject with **center-out reveal animation** over 30s                                      |
 | `gen_logoToCity`         | multiple-choice     | EASY              | Same reveal animation                                                                           |
 | `gen_pickTeamFromMascot` | multiple-choice     | MEDIUM            | Photo + name subject (no league sub)                                                            |
 | `gen_pickMascotFromTeam` | multiple-choice     | MEDIUM            | Logo subject; choices are mascot **photos** (filtered to mascots with `image` so no emoji-leak) |
@@ -102,12 +102,12 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 ## Scoring (out of 100)
 
 - Per-question max: **Q1=10, Q2=10, Q3=20, Q4=30, Q5=30** (= 100 perfect)
-- 15-second timer per question with 4 speed bands:
-  - **⚡ Lightning** (<4s): 100% × max
-  - **🔥 Quick** (<8s): 75%
-  - **✓ Steady** (<12s): 50%
-  - **⏱ Last second** (<15s): 25%
-  - **🐢 Overtime** (≥15s): 25% floor (player can still answer; floor = your spec)
+- 30-second timer per question with 4 speed bands:
+  - **⚡ Lightning** (<8s): 100% × max
+  - **🔥 Quick** (<16s): 75%
+  - **✓ Steady** (<24s): 50%
+  - **⏱ Last second** (<30s): 25%
+  - **🐢 Overtime** (≥30s): 25% floor (player can still answer; floor = your spec)
 - Wrong answer = 0 pts.
 - Write-in scoring: partial credit by ratio. `points = max × (correctCount / inputs) × bandMultiplier`.
 - State persisted in `state.history[`${date}:${level}:${contentType}`]` with `{score, results, points, bands}`.
@@ -171,7 +171,7 @@ User picked 1, 2, 8, 10 to wire into the main app as themes.
 
 ## Recently shipped (last few turns of the session)
 
-- ⏰ Speed-band scoring with 15s timer + animated countdown bar
+- ⏰ Speed-band scoring with 30s timer + animated countdown bar
 - 🎨 4 theme switcher in header
 - 🖼️ Mid-session image swap: AI-generated grids → cropped photos for ~270 mascots
 - 🎯 Map question on US SVG (`gen_pickState`) with hidden tooltip + state-name reveal

@@ -430,10 +430,10 @@ main#screen {
 }
 
 /* Logo reveal animation — circle grows out from the center of the logo over
-   the 15s timer. Front-loaded easing so early answers (Lightning band) still
+   the 30s timer. Front-loaded easing so early answers (Lightning band) still
    have enough info; trailing edge slowly catches the corners. */
 .q-subject-reveal .visual img {
-  animation: logo-reveal 15s linear forwards;
+  animation: logo-reveal 30s linear forwards;
 }
 @keyframes logo-reveal {
   0% {
