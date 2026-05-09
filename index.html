@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0E1A2E" />
+    <title>Hat Trick — A daily sports mascot game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@500;700&family=Bebas+Neue&family=Satoshi:wght@500;700;900&family=Caprasimo&family=Familjen+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="themes.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="images/hat-trick-icon.png" alt="" class="brand-mark-img" />
+          <span class="brand-name">Hat Trick</span>
+        </div>
+        <div class="topbar-right">
+          <div class="theme-switcher" role="tablist" aria-label="Theme">
+            <button
+              class="theme-dot"
+              data-theme="editorial"
+              title="Editorial Sports Card"
+            ></button>
+            <button
+              class="theme-dot"
+              data-theme="stadium"
+              title="Stadium Night"
+            ></button>
+            <button class="theme-dot" data-theme="glass" title="Glass"></button>
+            <button
+              class="theme-dot"
+              data-theme="riso"
+              title="Risograph Zine"
+            ></button>
+          </div>
+          <button id="streakBtn" class="streak" title="Streak">
+            <span class="streak-flame">🔥</span>
+            <span id="streakCount">0</span>
+          </button>
+        </div>
+      </header>
+
+      <main id="screen"></main>
+
+      <footer class="footer">
+        <span id="dayLabel"></span>
+      </footer>
+    </div>
+
+    <script src="mascots.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

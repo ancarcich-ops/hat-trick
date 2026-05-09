@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Skin Previews</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Inter",
+          -apple-system,
+          system-ui,
+          sans-serif;
+        background: #faf7f2;
+        color: #0f1a14;
+        padding: 60px 24px;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 36px;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .lede {
+        color: #4b5a52;
+        margin: 0 0 40px;
+        font-size: 16px;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 720px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      a.skin-card {
+        text-decoration: none;
+        color: inherit;
+        background: #fff;
+        border: 1px solid #e6e0d6;
+        border-radius: 18px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition:
+          transform 200ms ease,
+          border-color 200ms ease,
+          box-shadow 200ms ease;
+      }
+      a.skin-card:hover {
+        transform: translateY(-4px);
+        border-color: #0f5132;
+        box-shadow: 0 12px 30px rgba(15, 81, 50, 0.1);
+      }
+      .skin-card .num {
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #4b5a52;
+      }
+      .skin-card .name {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .skin-card .desc {
+        color: #4b5a52;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-top: 4px;
+      }
+      .swatch {
+        height: 120px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        overflow: hidden;
+        position: relative;
+      }
+      .s1 {
+        background: repeating-linear-gradient(
+          45deg,
+          #f4ecdb 0 6px,
+          #ede3ce 6px 12px
+        );
+        border: 1px solid #dcd3c2;
+      }
+      .s2 {
+        background: radial-gradient(ellipse at top, #1d3a5f 0%, #060e1b 70%);
+      }
+      .s3 {
+        background: linear-gradient(180deg, #0a0a1e 0%, #1b0033 100%);
+        box-shadow:
+          inset 0 0 0 4px #0a0a1e,
+          inset 0 0 0 5px #ff2da9;
+      }
+      .s3::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.04) 0 1px,
+          transparent 1px 3px
+        );
+        pointer-events: none;
+      }
+      .s4 {
+        background: linear-gradient(135deg, #ffd56b, #ff8ac1, #88d8ff);
+        border: 3px solid #1f1a2e;
+        box-shadow: 4px 4px 0 #1f1a2e;
+      }
+      .s5 {
+        background: #faf7f2;
+        border: 1px solid #e6e0d6;
+      }
+      .s6 {
+        background: linear-gradient(135deg, #1f1734, #100a1f);
+        position: relative;
+      }
+      .s6::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 30%,
+          rgba(255, 203, 69, 0.2) 45%,
+          rgba(255, 111, 171, 0.15) 55%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .s7 {
+        background: #edeae3;
+        border: 4px solid #0a0a0a;
+        border-radius: 0;
+        position: relative;
+      }
+      .s7::before {
+        content: "NO. 127";
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        font-family: monospace;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        font-size: 11px;
+        color: #0a0a0a;
+      }
+      .s7::after {
+        content: "MASCOT";
+        position: absolute;
+        bottom: 16px;
+        left: 12px;
+        font-family: "Inter", sans-serif;
+        font-weight: 900;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+        color: #0a0a0a;
+        text-transform: uppercase;
+      }
+      .s8 {
+        background:
+          radial-gradient(circle at 0% 0%, #ffe3f1 0%, transparent 35%),
+          radial-gradient(circle at 100% 0%, #dde6ff 0%, transparent 40%),
+          radial-gradient(circle at 50% 100%, #c5f2ea 0%, transparent 40%),
+          linear-gradient(135deg, #f4f2ff 0%, #fff6f0 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .s8::after {
+        content: "";
+        position: absolute;
+        width: 60%;
+        height: 70%;
+        top: 20%;
+        left: 20%;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+      }
+      .s9 {
+        background: linear-gradient(180deg, #0f1730 0%, #0a0f1b 100%);
+        position: relative;
+      }
+      .s9::before {
+        content: "LIVE";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #d7141a;
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        font-weight: 800;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        padding: 3px 8px;
+      }
+      .s9::after {
+        content: "QUIZ #127";
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        color: #ffc42a;
+        font-family: "Inter", sans-serif;
+        font-weight: 900;
+        font-size: 16px;
+        letter-spacing: 0.04em;
+      }
+      .s10 {
+        background: #f4ecdb;
+        border: 3px solid #1b1a2e;
+        position: relative;
+      }
+      .s10::before {
+        content: "";
+        position: absolute;
+        inset: 6px -8px -8px 6px;
+        background: #ff5e8e;
+        z-index: 0;
+        mix-blend-mode: multiply;
+        opacity: 0.7;
+      }
+      .s10::after {
+        content: "ZINE";
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: serif;
+        font-weight: 700;
+        font-style: italic;
+        font-size: 28px;
+        color: #2a4ed6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Hat Trick — Skin Previews</h1>
+      <p class="lede">
+        Ten candidate aesthetics. Each preview shows the home screen, two
+        questions, and a result.
+      </p>
+      <div class="grid">
+        <a class="skin-card" href="skin1-editorial.html">
+          <div class="swatch s1"></div>
+          <div class="num">01</div>
+          <div class="name">Editorial Sports Card</div>
+          <div class="desc">
+            Newsprint cream, serif headers, baseball-card framing. Sports
+            nostalgia.
+          </div>
+        </a>
+        <a class="skin-card" href="skin2-stadium.html">
+          <div class="swatch s2"></div>
+          <div class="num">02</div>
+          <div class="name">Stadium Night</div>
+          <div class="desc">
+            Dark mode, neon stadium glow, photos pop on dark. Phone-friendly.
+          </div>
+        </a>
+        <a class="skin-card" href="skin3-arcade.html">
+          <div class="swatch s3"></div>
+          <div class="num">03</div>
+          <div class="name">Retro Arcade Scoreboard</div>
+          <div class="desc">
+            80s arcade, pixel font, scanlines, combo-meter scoring.
+          </div>
+        </a>
+        <a class="skin-card" href="skin4-cartoon.html">
+          <div class="swatch s4"></div>
+          <div class="num">04</div>
+          <div class="name">Saturday Morning Cartoon</div>
+          <div class="desc">
+            Bright, rounded, springy. Comic-book ZAP! feedback.
+          </div>
+        </a>
+        <a class="skin-card" href="skin5-minimal.html">
+          <div class="swatch s5"></div>
+          <div class="num">05</div>
+          <div class="name">Minimalist Daily Ritual</div>
+          <div class="desc">
+            NYT Games restraint. Generous whitespace, share grid as hero.
+          </div>
+        </a>
+
+        <a class="skin-card" href="skin6-foil.html">
+          <div class="swatch s6"></div>
+          <div class="num">06</div>
+          <div class="name">Trading Card Foil</div>
+          <div class="desc">
+            Holographic shimmer, gold corners, rarity tiers. "Pull the perfect
+            10."
+          </div>
+        </a>
+        <a class="skin-card" href="skin7-brutalist.html">
+          <div class="swatch s7"></div>
+          <div class="num">07</div>
+          <div class="name">Brutalist Press</div>
+          <div class="desc">
+            Massive Archivo Black type, hard rules, ink-on-paper, single pop
+            accent.
+          </div>
+        </a>
+        <a class="skin-card" href="skin8-glass.html">
+          <div class="swatch s8"></div>
+          <div class="num">08</div>
+          <div class="name">Glassmorphism Pro</div>
+          <div class="desc">
+            Frosted cards, gradient mesh background, soft depth. Modern app
+            feel.
+          </div>
+        </a>
+        <a class="skin-card" href="skin9-broadcast.html">
+          <div class="swatch s9"></div>
+          <div class="num">09</div>
+          <div class="name">Broadcast HUD</div>
+          <div class="desc">
+            Live TV sports — red bars, scrolling ticker, scoreboard, chyron
+            lower-thirds.
+          </div>
+        </a>
+        <a class="skin-card" href="skin10-riso.html">
+          <div class="swatch s10"></div>
+          <div class="num">10</div>
+          <div class="name">Risograph Zine</div>
+          <div class="desc">
+            Two-color overlay print, paper grain, hand-printed offsets,
+            indie-zine voice.
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

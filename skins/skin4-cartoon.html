@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Saturday Morning Cartoon</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Bagel+Fat+One&family=Quicksand:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff8e7;
+        --bg-2: #ffe9b0;
+        --paper: #ffffff;
+        --ink: #1f1a2e;
+        --ink-soft: #6b5e83;
+        --border: #1f1a2e;
+        --pink: #ff6fa0;
+        --pink-deep: #e04684;
+        --teal: #29d5c9;
+        --teal-deep: #0ea89c;
+        --yellow: #ffd24a;
+        --orange: #ff9034;
+        --purple: #9b6bff;
+        --green: #4ed981;
+        --red: #ff5e5e;
+        --display: "Bagel Fat One", cursive;
+        --sans: "Fredoka", sans-serif;
+        --body: "Quicksand", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        font-family: var(--body);
+        background: var(--bg);
+        background-image:
+          radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 111, 160, 0.18) 0%,
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 90% 30%,
+            rgba(41, 213, 201, 0.18) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 90%,
+            rgba(255, 210, 74, 0.2) 0%,
+            transparent 40%
+          );
+        color: var(--ink);
+        padding: 30px 14px;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      .canvas {
+        max-width: 460px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      a.back {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 12px;
+        color: var(--pink-deep);
+        text-decoration: none;
+        margin-bottom: -10px;
+      }
+
+      .card {
+        background: var(--paper);
+        border: 3px solid var(--border);
+        border-radius: 28px;
+        padding: 26px 22px;
+        position: relative;
+        box-shadow: 6px 6px 0 var(--border);
+        transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .card.tilt-l {
+        transform: rotate(-1.2deg);
+      }
+      .card.tilt-r {
+        transform: rotate(1deg);
+      }
+
+      /* Hero */
+      .hero {
+        text-align: center;
+        padding-top: 8px;
+      }
+      .hero .splat {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: radial-gradient(circle, var(--yellow) 0%, transparent 60%);
+        filter: blur(20px);
+        opacity: 0.7;
+        z-index: 0;
+      }
+      .hero > * {
+        position: relative;
+        z-index: 1;
+      }
+      .hero .logo-wrap {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: bob 3s ease-in-out infinite;
+      }
+      @keyframes bob {
+        50% {
+          transform: translateY(-8px) rotate(2deg);
+        }
+      }
+      .hero .logo-wrap img {
+        width: 130px;
+        height: 130px;
+        object-fit: contain;
+        filter: drop-shadow(4px 4px 0 var(--border));
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-size: 56px;
+        margin: 8px 0 4px;
+        letter-spacing: -0.01em;
+        color: var(--pink-deep);
+        -webkit-text-stroke: 3px var(--border);
+        paint-order: stroke fill;
+        text-shadow: 4px 4px 0 var(--yellow);
+        line-height: 1;
+      }
+      .hero .lede {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.3;
+        color: var(--ink-soft);
+        margin: 14px 0 18px;
+      }
+
+      .sec-label {
+        font-family: var(--display);
+        font-size: 14px;
+        color: var(--purple);
+        letter-spacing: 0.02em;
+        margin: 14px 4px 6px;
+        text-align: left;
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+        background: var(--bg);
+        border: 3px solid var(--border);
+        padding: 5px;
+        border-radius: 18px;
+      }
+      .tab {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 14px;
+        padding: 10px 4px;
+        background: transparent;
+        border: 0;
+        color: var(--ink-soft);
+        cursor: pointer;
+        border-radius: 12px;
+        transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .tab.active {
+        background: var(--pink);
+        color: #fff;
+        box-shadow: 0 3px 0 var(--border);
+        transform: translateY(-1px);
+        text-shadow: 1px 1px 0 var(--pink-deep);
+      }
+      .tab:not(.active):hover {
+        background: var(--bg-2);
+        color: var(--ink);
+      }
+
+      .cta {
+        width: 100%;
+        margin-top: 20px;
+        padding: 18px;
+        background: var(--teal);
+        color: #fff;
+        border: 3px solid var(--border);
+        border-radius: 18px;
+        font-family: var(--display);
+        font-size: 24px;
+        cursor: pointer;
+        letter-spacing: 0.02em;
+        box-shadow: 0 6px 0 var(--border);
+        transition: all 100ms ease;
+        text-shadow: 2px 2px 0 var(--teal-deep);
+      }
+      .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 0 var(--border);
+      }
+      .cta:active {
+        transform: translateY(4px);
+        box-shadow: 0 2px 0 var(--border);
+      }
+
+      .meta {
+        text-align: center;
+        margin-top: 14px;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--purple);
+      }
+
+      /* Question */
+      .progress {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+      .pip {
+        flex: 1;
+        height: 10px;
+        background: var(--bg-2);
+        border: 2px solid var(--border);
+        border-radius: 5px;
+      }
+      .pip.active {
+        background: var(--ink);
+      }
+      .pip.green {
+        background: var(--green);
+      }
+      .pip.red {
+        background: var(--red);
+      }
+
+      .q-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .q-meta .label {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--purple);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .q-points {
+        font-family: var(--display);
+        font-size: 14px;
+        background: var(--yellow);
+        color: var(--ink);
+        border: 2px solid var(--border);
+        padding: 4px 12px;
+        border-radius: 999px;
+        box-shadow: 0 2px 0 var(--border);
+      }
+      .q-points.x2 {
+        background: var(--orange);
+        color: #fff;
+        text-shadow: 1px 1px 0 var(--border);
+      }
+      .q-points.x3 {
+        background: var(--pink);
+        color: #fff;
+        text-shadow: 1px 1px 0 var(--border);
+        animation: wiggle 1s ease-in-out infinite;
+      }
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+
+      .q-prompt {
+        font-family: var(--display);
+        font-size: 30px;
+        line-height: 1.1;
+        margin: 6px 0 16px;
+        color: var(--ink);
+      }
+
+      .subject-card {
+        background: var(--bg-2);
+        border: 3px solid var(--border);
+        border-radius: 22px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+        box-shadow: 4px 4px 0 var(--border);
+      }
+      .subject-card.centered {
+        justify-content: center;
+        padding: 26px;
+      }
+      .subject-card .frame {
+        width: 92px;
+        height: 92px;
+        background: #fff;
+        border: 3px solid var(--border);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .subject-card.centered .frame {
+        width: 130px;
+        height: 130px;
+      }
+      .subject-card .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 8px;
+      }
+      .subject-card .frame.photo img {
+        object-fit: cover;
+        padding: 0;
+        object-position: 50% 18%;
+      }
+      .subject-card .name {
+        font-family: var(--display);
+        font-size: 24px;
+        line-height: 1.05;
+        color: var(--ink);
+      }
+      .subject-card .meta-line {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--ink-soft);
+        margin-top: 2px;
+      }
+
+      .choices {
+        display: grid;
+        gap: 10px;
+      }
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        background: #fff;
+        border: 3px solid var(--border);
+        border-radius: 18px;
+        text-align: left;
+        font: inherit;
+        cursor: pointer;
+        box-shadow: 0 3px 0 var(--border);
+        transition: all 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+      }
+      .choice:hover {
+        transform: translateY(-2px) rotate(-0.5deg);
+        box-shadow: 0 5px 0 var(--border);
+        background: var(--bg-2);
+      }
+      .choice:active {
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 var(--border);
+      }
+      .choice .frame {
+        width: 46px;
+        height: 46px;
+        background: #fff;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .choice .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 18%;
+      }
+      .choice .frame.logo img {
+        object-fit: contain;
+        padding: 4px;
+      }
+      .choice .label-name {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .choice .label-sub {
+        font-family: var(--body);
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--ink-soft);
+        margin-top: 1px;
+      }
+      .choice.correct {
+        background: #dbffe3;
+        border-color: var(--green);
+        box-shadow: 0 3px 0 #1aa94a;
+        animation: pop 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .choice.correct::after {
+        content: "ZAP!";
+        position: absolute;
+        top: -14px;
+        right: 14px;
+        font-family: var(--display);
+        font-size: 18px;
+        color: var(--yellow);
+        -webkit-text-stroke: 2px var(--border);
+        paint-order: stroke fill;
+        transform: rotate(-8deg);
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(0.96);
+        }
+        60% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .section-divider {
+        text-align: center;
+        font-family: var(--display);
+        font-size: 16px;
+        color: var(--purple);
+        position: relative;
+      }
+      .section-divider span {
+        background: var(--bg);
+        padding: 0 14px;
+        position: relative;
+        z-index: 1;
+      }
+      .section-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top: 3px dashed var(--ink);
+        z-index: 0;
+      }
+
+      /* Result */
+      .result-card {
+        text-align: center;
+      }
+      .result-card .top {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--purple);
+      }
+      .score-burst {
+        position: relative;
+        margin: 8px 0;
+      }
+      .score-burst .burst {
+        position: absolute;
+        inset: -10px;
+        background: radial-gradient(circle, var(--yellow) 30%, transparent 60%);
+        filter: blur(2px);
+        animation: pulseBurst 1.4s ease-in-out infinite;
+        z-index: 0;
+      }
+      @keyframes pulseBurst {
+        50% {
+          transform: scale(1.06);
+          opacity: 0.7;
+        }
+      }
+      .score {
+        font-family: var(--display);
+        font-size: 110px;
+        line-height: 1;
+        color: var(--pink);
+        -webkit-text-stroke: 5px var(--border);
+        paint-order: stroke fill;
+        text-shadow: 6px 6px 0 var(--teal);
+        position: relative;
+        z-index: 1;
+      }
+      .score-of {
+        font-size: 56px;
+        color: var(--purple);
+        -webkit-text-stroke: 4px var(--border);
+      }
+      .grid-share {
+        font-size: 36px;
+        letter-spacing: 8px;
+        margin: 18px 0 8px;
+      }
+      .streak-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--orange);
+        color: #fff;
+        padding: 8px 16px;
+        border: 3px solid var(--border);
+        border-radius: 999px;
+        box-shadow: 0 3px 0 var(--border);
+        font-family: var(--display);
+        font-size: 16px;
+        margin-bottom: 8px;
+        text-shadow: 1px 1px 0 var(--border);
+      }
+      .summary {
+        background: var(--bg-2);
+        border: 3px solid var(--border);
+        border-radius: 18px;
+        padding: 6px 16px;
+        text-align: left;
+        margin-top: 14px;
+      }
+      .summary-row {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 2px dashed rgba(31, 26, 46, 0.2);
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .summary-row:last-child {
+        border-bottom: 0;
+      }
+      .summary-row .dot {
+        width: 14px;
+        height: 14px;
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        background: #fff;
+      }
+      .summary-row .dot.green {
+        background: var(--green);
+      }
+      .summary-row .dot.red {
+        background: var(--red);
+      }
+      .summary-row .pts {
+        font-family: var(--display);
+        font-size: 14px;
+        color: var(--purple);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <a class="back" href="index.html">← All skins</a>
+
+      <!-- Home -->
+      <div class="card hero tilt-l">
+        <div class="splat"></div>
+        <div class="logo-wrap">
+          <img src="../images/hat-trick-icon.png" alt="" />
+        </div>
+        <h1>Hat Trick!</h1>
+        <p class="lede">
+          Five wild questions. Easy at first. BIG points later. Let's gooo!
+        </p>
+
+        <div style="text-align: left">
+          <div class="sec-label">Pick your pool</div>
+          <div class="tabs">
+            <button class="tab active">Pro</button>
+            <button class="tab">College</button>
+            <button class="tab">All</button>
+          </div>
+          <div class="sec-label">Question type</div>
+          <div class="tabs">
+            <button class="tab">Mascots</button>
+            <button class="tab active">Both</button>
+            <button class="tab">Logos</button>
+          </div>
+        </div>
+
+        <button class="cta">Play Today!</button>
+        <div class="meta">⭐ Quiz #127 · Today's Adventure</div>
+      </div>
+
+      <div class="section-divider"><span>★ Round 1 ★</span></div>
+
+      <!-- Q1 -->
+      <div class="card tilt-r">
+        <div class="progress">
+          <div class="pip active"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="q-meta">
+          <div class="label">MLB · Logo</div>
+          <div class="q-points">1 pt</div>
+        </div>
+        <h2 class="q-prompt">Whose logo is this?</h2>
+        <div class="subject-card centered">
+          <div class="frame">
+            <img
+              src="https://a.espncdn.com/i/teamlogos/mlb/500/sd.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="choices">
+          <button class="choice">
+            <div class="label-name">Padres</div>
+            <div class="label-sub">San Diego</div>
+          </button>
+          <button class="choice">
+            <div class="label-name">Mets</div>
+            <div class="label-sub">New York</div>
+          </button>
+          <button class="choice">
+            <div class="label-name">Red Sox</div>
+            <div class="label-sub">Boston</div>
+          </button>
+          <button class="choice">
+            <div class="label-name">Cardinals</div>
+            <div class="label-sub">St. Louis</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>★ Round 3 · 2× points! ★</span></div>
+
+      <!-- Q3 -->
+      <div class="card tilt-l">
+        <div class="progress">
+          <div class="pip green"></div>
+          <div class="pip green"></div>
+          <div class="pip active"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="q-meta">
+          <div class="label">MLB · Mascot</div>
+          <div class="q-points x2">2 pts</div>
+        </div>
+        <h2 class="q-prompt">Who is the mascot of this team?</h2>
+        <div class="subject-card">
+          <div class="frame">
+            <img
+              src="https://a.espncdn.com/i/teamlogos/mlb/500/phi.png"
+              alt=""
+            />
+          </div>
+          <div>
+            <div class="name">Philadelphia Phillies</div>
+            <div class="meta-line">National League · MLB</div>
+          </div>
+        </div>
+        <div class="choices">
+          <button class="choice correct">
+            <div class="frame">
+              <img src="../images/mascots/phillie-phanatic.png" alt="" />
+            </div>
+            <div><div class="label-name">Phillie Phanatic</div></div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/mr-met.png" alt="" />
+            </div>
+            <div><div class="label-name">Mr. Met</div></div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/wally.png" alt="" />
+            </div>
+            <div><div class="label-name">Wally the Green Monster</div></div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/fredbird.png" alt="" />
+            </div>
+            <div><div class="label-name">Fredbird</div></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>🎉 Final Score! 🎉</span></div>
+
+      <!-- Result -->
+      <div class="card result-card tilt-r">
+        <div class="top">Pro · May 8, 2026</div>
+        <div class="score-burst">
+          <div class="burst"></div>
+          <div class="score">8<span class="score-of">/10</span></div>
+        </div>
+        <div class="streak-badge">🔥 7-day streak!</div>
+        <div class="grid-share">🟩🟩🟥🟩🟩</div>
+        <div class="summary">
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q1 — Padres logo</div>
+            <div class="pts">1 / 1</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q2 — Maple Leafs</div>
+            <div class="pts">1 / 1</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot red"></div>
+            <div>Q3 — Phillie Phanatic</div>
+            <div class="pts">0 / 2</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q4 — Wisconsin map</div>
+            <div class="pts">3 / 3</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q5 — Odd one out</div>
+            <div class="pts">3 / 3</div>
+          </div>
+        </div>
+        <button class="cta" style="margin-top: 18px">Share Score!</button>
+        <div class="meta">Next quiz tomorrow! 🌅</div>
+      </div>
+    </div>
+  </body>
+</html>

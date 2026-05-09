@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Brutalist Press</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #edeae3;
+        --paper-2: #dad3c5;
+        --ink: #0a0a0a;
+        --ink-soft: #4a4a4a;
+        --line: #0a0a0a;
+        --pop: #ff3d00;
+        --green: #1b7a3a;
+        --display: "Archivo Black", Impact, sans-serif;
+        --sans: "Inter Tight", sans-serif;
+        --mono: "JetBrains Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--paper);
+        background-image: repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          rgba(0, 0, 0, 0.014) 3px 4px
+        );
+        color: var(--ink);
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: "ss01", "cv01";
+      }
+      .canvas {
+        max-width: 460px;
+        margin: 0 auto;
+        padding: 24px 0;
+      }
+      a.back {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-soft);
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        display: inline-block;
+        padding: 0 16px;
+      }
+
+      /* Top header — full bleed */
+      .masthead-strip {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 8px 16px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+      }
+
+      .section {
+        padding: 24px 16px;
+        border-top: 4px solid var(--ink);
+      }
+      .section.tight {
+        padding: 16px;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 28px 16px 32px;
+        border-top: 4px solid var(--ink);
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-size: 88px;
+        line-height: 0.85;
+        margin: 0;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+      }
+      .hero h1 .accent {
+        color: var(--pop);
+        display: block;
+      }
+      .hero .sub {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-top: 14px;
+        border-top: 2px solid var(--ink);
+        border-bottom: 2px solid var(--ink);
+        padding: 8px 0;
+      }
+      .hero .logo-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .hero .logo-frame {
+        width: 84px;
+        height: 84px;
+        background: var(--ink);
+        border: 3px solid var(--ink);
+        flex-shrink: 0;
+      }
+      .hero .logo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 6px;
+      }
+      .hero .lede {
+        font-size: 16px;
+        line-height: 1.25;
+        font-weight: 500;
+        margin: 0;
+        letter-spacing: -0.005em;
+      }
+
+      /* Section labels */
+      .sec-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 4px 8px;
+        display: inline-block;
+        margin-bottom: 8px;
+      }
+
+      /* Tabs as raw blocks */
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border: 3px solid var(--ink);
+      }
+      .tab {
+        padding: 14px 8px;
+        font-family: var(--display);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: var(--paper);
+        color: var(--ink);
+        border: 0;
+        border-right: 3px solid var(--ink);
+        cursor: pointer;
+      }
+      .tab:last-child {
+        border-right: 0;
+      }
+      .tab.active {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .cta {
+        width: 100%;
+        margin-top: 16px;
+        padding: 22px;
+        background: var(--pop);
+        color: var(--ink);
+        border: 3px solid var(--ink);
+        font-family: var(--display);
+        font-size: 26px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        transition: transform 80ms ease;
+      }
+      .cta:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+      .cta:active {
+        transform: translate(0, 0);
+        box-shadow: none;
+      }
+      .cta.invert {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .meta {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-top: 14px;
+      }
+
+      /* Horizontal rules between sections */
+      .rule {
+        height: 0;
+        border-top: 4px solid var(--ink);
+        margin: 0;
+      }
+      .rule.thick {
+        border-top-width: 12px;
+      }
+      .rule.dashed {
+        border-top-style: dashed;
+        border-top-width: 2px;
+      }
+      .section-tag {
+        background: var(--ink);
+        color: var(--pop);
+        font-family: var(--display);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        padding: 6px 16px;
+        text-transform: uppercase;
+        display: inline-block;
+      }
+
+      /* Question */
+      .q-frame {
+        border: 3px solid var(--ink);
+      }
+      .q-head {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .q-head .points {
+        font-family: var(--display);
+        font-size: 14px;
+        background: var(--pop);
+        color: var(--ink);
+        padding: 4px 10px;
+        letter-spacing: 0.04em;
+      }
+      .q-head .points.x2 {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .q-head .points.x3 {
+        background: #ffd500;
+        color: var(--ink);
+        animation: blink 0.8s steps(2) infinite;
+      }
+      @keyframes blink {
+        50% {
+          background: var(--pop);
+          color: var(--paper);
+        }
+      }
+
+      .q-body {
+        padding: 18px 16px;
+      }
+      .progress {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        margin-bottom: 16px;
+      }
+      .pip {
+        height: 16px;
+        background: var(--paper);
+        border: 2px solid var(--ink);
+      }
+      .pip.active {
+        background: var(--ink);
+      }
+      .pip.green {
+        background: var(--green);
+      }
+      .pip.red {
+        background: var(--pop);
+      }
+
+      .q-prompt {
+        font-family: var(--display);
+        font-size: 38px;
+        line-height: 0.95;
+        margin: 4px 0 18px;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+
+      .subject {
+        border: 3px solid var(--ink);
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+        background: var(--paper-2);
+      }
+      .subject.centered {
+        justify-content: center;
+        padding: 26px;
+      }
+      .subject .frame {
+        width: 90px;
+        height: 90px;
+        background: #fff;
+        border: 3px solid var(--ink);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .subject.centered .frame {
+        width: 130px;
+        height: 130px;
+      }
+      .subject .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 6px;
+      }
+      .subject .frame.photo img {
+        object-fit: cover;
+        padding: 0;
+        object-position: 50% 18%;
+      }
+      .subject .name {
+        font-family: var(--display);
+        font-size: 24px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .subject .meta-line {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+
+      .choices {
+        display: grid;
+        gap: 0;
+      }
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        background: var(--paper);
+        border: 3px solid var(--ink);
+        border-bottom: 0;
+        text-align: left;
+        font: inherit;
+        color: var(--ink);
+        cursor: pointer;
+        transition: background 100ms ease;
+      }
+      .choice:last-child {
+        border-bottom: 3px solid var(--ink);
+      }
+      .choice:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .choice:hover .label-sub {
+        color: var(--paper);
+      }
+      .choice .frame {
+        width: 44px;
+        height: 44px;
+        background: #fff;
+        border: 2px solid var(--ink);
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .choice .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 18%;
+      }
+      .choice .frame.logo img {
+        object-fit: contain;
+        padding: 4px;
+      }
+      .choice .label-name {
+        font-family: var(--display);
+        font-size: 18px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .choice .label-sub {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        color: var(--ink-soft);
+        margin-top: 2px;
+        text-transform: uppercase;
+      }
+      .choice.correct {
+        background: var(--green);
+        color: var(--paper);
+      }
+      .choice.correct .label-sub {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Result */
+      .result-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        border: 3px solid var(--ink);
+      }
+      .result-grid .row {
+        padding: 18px 16px;
+        border-bottom: 3px solid var(--ink);
+      }
+      .result-grid .row:last-child {
+        border-bottom: 0;
+      }
+      .result-grid .row.score {
+        background: var(--pop);
+        color: var(--ink);
+        text-align: center;
+        padding: 28px 16px 32px;
+      }
+      .result-grid .row.score .top {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+      }
+      .result-grid .row.score .number {
+        font-family: var(--display);
+        font-size: 140px;
+        line-height: 0.85;
+        letter-spacing: -0.05em;
+        margin: 4px 0 -4px;
+      }
+      .result-grid .row.score .of {
+        font-family: var(--display);
+        font-size: 22px;
+        letter-spacing: 0.04em;
+      }
+      .result-grid .row.grid {
+        background: var(--ink);
+        color: var(--paper);
+        text-align: center;
+      }
+      .result-grid .row.grid .grid-share {
+        font-size: 36px;
+        letter-spacing: 8px;
+      }
+      .result-grid .row.grid .caption {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+      .result-grid .row.summary {
+        padding: 0;
+      }
+      .summary-row {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 2px solid var(--ink);
+        font-family: var(--mono);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .summary-row:last-child {
+        border-bottom: 0;
+      }
+      .summary-row .dot {
+        width: 14px;
+        height: 14px;
+        background: var(--ink);
+      }
+      .summary-row .dot.green {
+        background: var(--green);
+      }
+      .summary-row .dot.red {
+        background: var(--pop);
+      }
+      .summary-row .pts {
+        font-family: var(--display);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <a class="back" href="index.html">← ALL SKINS</a>
+
+      <div class="masthead-strip">
+        <span>VOL. 1 · NO. 127</span>
+        <span>MAY 8, 2026</span>
+      </div>
+
+      <!-- Hero -->
+      <section class="hero">
+        <h1>MASCOT<br /><span class="accent">DAILY</span></h1>
+        <div class="sub">
+          FIVE QUESTIONS · ESCALATING POINTS · ONE EDITION DAILY
+        </div>
+        <div class="logo-row">
+          <div class="logo-frame">
+            <img src="../images/hat-trick-icon.png" alt="" />
+          </div>
+          <p class="lede">
+            A daily test of mascot, logo &amp; geography knowledge — for fans
+            who pay attention.
+          </p>
+        </div>
+      </section>
+
+      <div class="rule"></div>
+
+      <section class="section">
+        <div class="sec-label">[A] POOL</div>
+        <div class="tabs">
+          <button class="tab active">Pro</button>
+          <button class="tab">College</button>
+          <button class="tab">All</button>
+        </div>
+      </section>
+
+      <div class="rule dashed"></div>
+
+      <section class="section">
+        <div class="sec-label">[B] TYPE</div>
+        <div class="tabs">
+          <button class="tab">Mascots</button>
+          <button class="tab active">Both</button>
+          <button class="tab">Logos</button>
+        </div>
+        <button class="cta">Begin Today's Edition</button>
+        <div class="meta">QUIZ #127 · POOL: PRO · TYPE: BOTH</div>
+      </section>
+
+      <div class="rule thick"></div>
+      <div style="padding: 0 16px">
+        <div class="section-tag">QUESTION 01 / 05</div>
+      </div>
+
+      <section class="section tight">
+        <div class="q-frame">
+          <div class="q-head">
+            <span>MLB · LOGO</span>
+            <span class="points">1 PT</span>
+          </div>
+          <div class="q-body">
+            <div class="progress">
+              <div class="pip active"></div>
+              <div class="pip"></div>
+              <div class="pip"></div>
+              <div class="pip"></div>
+              <div class="pip"></div>
+            </div>
+            <h2 class="q-prompt">Whose logo is this?</h2>
+            <div class="subject centered">
+              <div class="frame">
+                <img
+                  src="https://a.espncdn.com/i/teamlogos/mlb/500/sd.png"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="choices">
+              <button class="choice">
+                <div class="text-block">
+                  <div class="label-name">Padres</div>
+                  <div class="label-sub">San Diego</div>
+                </div>
+              </button>
+              <button class="choice">
+                <div class="text-block">
+                  <div class="label-name">Mets</div>
+                  <div class="label-sub">New York</div>
+                </div>
+              </button>
+              <button class="choice">
+                <div class="text-block">
+                  <div class="label-name">Red Sox</div>
+                  <div class="label-sub">Boston</div>
+                </div>
+              </button>
+              <button class="choice">
+                <div class="text-block">
+                  <div class="label-name">Cardinals</div>
+                  <div class="label-sub">St. Louis</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="rule thick"></div>
+      <div style="padding: 0 16px">
+        <div class="section-tag">QUESTION 03 / 05 · DOUBLE</div>
+      </div>
+
+      <section class="section tight">
+        <div class="q-frame">
+          <div class="q-head">
+            <span>MLB · MASCOT</span>
+            <span class="points x2">2 PTS · 2×</span>
+          </div>
+          <div class="q-body">
+            <div class="progress">
+              <div class="pip green"></div>
+              <div class="pip green"></div>
+              <div class="pip active"></div>
+              <div class="pip"></div>
+              <div class="pip"></div>
+            </div>
+            <h2 class="q-prompt">Who is the mascot of this team?</h2>
+            <div class="subject">
+              <div class="frame">
+                <img
+                  src="https://a.espncdn.com/i/teamlogos/mlb/500/phi.png"
+                  alt=""
+                />
+              </div>
+              <div>
+                <div class="name">Phillies</div>
+                <div class="meta-line">Philadelphia · National League</div>
+              </div>
+            </div>
+            <div class="choices">
+              <button class="choice correct">
+                <div class="frame">
+                  <img src="../images/mascots/phillie-phanatic.png" alt="" />
+                </div>
+                <div><div class="label-name">Phillie Phanatic</div></div>
+              </button>
+              <button class="choice">
+                <div class="frame">
+                  <img src="../images/mascots/mr-met.png" alt="" />
+                </div>
+                <div><div class="label-name">Mr. Met</div></div>
+              </button>
+              <button class="choice">
+                <div class="frame">
+                  <img src="../images/mascots/wally.png" alt="" />
+                </div>
+                <div><div class="label-name">Wally</div></div>
+              </button>
+              <button class="choice">
+                <div class="frame">
+                  <img src="../images/mascots/fredbird.png" alt="" />
+                </div>
+                <div><div class="label-name">Fredbird</div></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="rule thick"></div>
+      <div style="padding: 0 16px">
+        <div class="section-tag">EDITION CLOSED</div>
+      </div>
+
+      <section class="section tight">
+        <div class="result-grid">
+          <div class="row score">
+            <div class="top">FINAL SCORE</div>
+            <div class="number">8</div>
+            <div class="of">OUT OF 10</div>
+          </div>
+          <div class="row grid">
+            <div class="grid-share">🟩🟩🟥🟩🟩</div>
+            <div class="caption">Q1 Q2 Q3 Q4 Q5</div>
+          </div>
+          <div class="row summary">
+            <div class="summary-row">
+              <div class="dot green"></div>
+              <div>Q1 · PADRES</div>
+              <div class="pts">1/1</div>
+            </div>
+            <div class="summary-row">
+              <div class="dot green"></div>
+              <div>Q2 · MAPLE LEAFS</div>
+              <div class="pts">1/1</div>
+            </div>
+            <div class="summary-row">
+              <div class="dot red"></div>
+              <div>Q3 · PHANATIC</div>
+              <div class="pts">0/2</div>
+            </div>
+            <div class="summary-row">
+              <div class="dot green"></div>
+              <div>Q4 · WISCONSIN</div>
+              <div class="pts">3/3</div>
+            </div>
+            <div class="summary-row">
+              <div class="dot green"></div>
+              <div>Q5 · ODD ONE OUT</div>
+              <div class="pts">3/3</div>
+            </div>
+          </div>
+        </div>
+        <button class="cta invert">Share</button>
+        <div class="meta">NEXT EDITION · 00:00 LOCAL</div>
+      </section>
+    </div>
+  </body>
+</html>

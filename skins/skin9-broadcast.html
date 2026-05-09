@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Broadcast HUD</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800;900&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0f1b;
+        --bg-2: #0f1730;
+        --panel: #131d38;
+        --panel-2: #1a2848;
+        --line: rgba(255, 255, 255, 0.08);
+        --ink: #ffffff;
+        --ink-soft: #95a4c7;
+        --ink-faint: #5c6890;
+        --red: #d7141a;
+        --red-deep: #a30f14;
+        --gold: #ffc42a;
+        --green: #1fcc72;
+        --display: "Barlow Condensed", Impact, sans-serif;
+        --sans: "Inter", sans-serif;
+        --mono: "Roboto Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        font-family: var(--sans);
+        background:
+          radial-gradient(
+            ellipse at top,
+            rgba(215, 20, 26, 0.1),
+            transparent 50%
+          ),
+          var(--bg);
+        color: var(--ink);
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+      .canvas {
+        max-width: 460px;
+        margin: 0 auto;
+        padding: 0 0 24px;
+      }
+      a.back {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 10px 16px;
+        display: inline-block;
+      }
+
+      /* Top broadcast bar */
+      .broadcast-bar {
+        background: linear-gradient(90deg, var(--red-deep) 0%, var(--red) 100%);
+        color: #fff;
+        padding: 6px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+      }
+      .broadcast-bar::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 50px;
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.3));
+      }
+      .live-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        border-radius: 50%;
+        margin-right: 6px;
+        animation: livePulse 1.2s ease-in-out infinite;
+      }
+      @keyframes livePulse {
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Ticker */
+      .ticker {
+        background: var(--panel);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        overflow: hidden;
+        position: relative;
+      }
+      .ticker-track {
+        display: flex;
+        gap: 32px;
+        padding: 8px 0;
+        animation: ticker-scroll 30s linear infinite;
+        white-space: nowrap;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
+      }
+      @keyframes ticker-scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      .ticker-track .item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--ink-soft);
+      }
+      .ticker-track .item .team {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .ticker-track .item .change.up {
+        color: var(--green);
+      }
+      .ticker-track .item .change.down {
+        color: var(--red);
+      }
+
+      /* Panels */
+      .panel {
+        background: var(--panel);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 22px 16px;
+      }
+      .panel + .panel {
+        border-top: 0;
+      }
+
+      /* Hero */
+      .hero {
+        text-align: center;
+        padding: 26px 16px 28px;
+        background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
+      }
+      .hero .branding {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .hero .logo-frame {
+        width: 84px;
+        height: 84px;
+        background: #fff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 24px rgba(255, 196, 42, 0.3);
+      }
+      .hero .logo-frame img {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+      }
+      .hero h1 {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 56px;
+        line-height: 0.85;
+        margin: 0;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        text-align: left;
+      }
+      .hero h1 .accent {
+        color: var(--gold);
+        display: block;
+      }
+      .hero .lede {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin: 14px 0 0;
+      }
+
+      .sec-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 6px;
+      }
+      .sec-label .pre {
+        background: var(--red);
+        color: #fff;
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        padding: 3px 10px;
+        text-transform: uppercase;
+      }
+      .sec-label .text {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border: 1px solid var(--line);
+        background: var(--bg);
+      }
+      .tab {
+        padding: 12px 6px;
+        background: transparent;
+        border: 0;
+        border-right: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 200ms ease;
+      }
+      .tab:last-child {
+        border-right: 0;
+      }
+      .tab.active {
+        background: var(--gold);
+        color: var(--bg);
+      }
+
+      .cta {
+        width: 100%;
+        margin-top: 18px;
+        padding: 18px;
+        background: var(--red);
+        color: #fff;
+        border: 0;
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 22px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        transition: all 100ms ease;
+        clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+      }
+      .cta:hover {
+        background: var(--red-deep);
+      }
+
+      .meta {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: var(--ink-faint);
+        margin-top: 12px;
+        text-align: center;
+      }
+
+      /* Question — chyron lower-third style */
+      .q-section {
+        padding: 0;
+      }
+      .q-banner {
+        background: var(--red);
+        color: #fff;
+        padding: 6px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--display);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 14px;
+      }
+      .q-banner .points {
+        background: var(--gold);
+        color: var(--bg);
+        padding: 3px 10px;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+      }
+      .q-banner .points.x2 {
+        background: #ffa940;
+      }
+      .q-banner .points.x3 {
+        background: #ff4d4f;
+        color: #fff;
+        animation: redFlash 1s ease-in-out infinite;
+      }
+      @keyframes redFlash {
+        50% {
+          background: #fff;
+          color: var(--red);
+        }
+      }
+
+      .q-body {
+        padding: 18px 16px;
+        background: var(--panel);
+      }
+      .progress {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        margin-bottom: 16px;
+      }
+      .pip {
+        height: 4px;
+        background: var(--line);
+      }
+      .pip.active {
+        background: var(--gold);
+      }
+      .pip.green {
+        background: var(--green);
+      }
+      .pip.red {
+        background: var(--red);
+      }
+
+      .q-prompt {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 32px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        margin: 4px 0 16px;
+      }
+
+      /* Lower third style subject */
+      .lt-third {
+        margin: 0 -16px 16px;
+        padding: 12px 16px;
+        background: linear-gradient(
+          90deg,
+          var(--bg) 0%,
+          var(--panel-2) 80%,
+          transparent
+        );
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        border-left: 6px solid var(--red);
+        position: relative;
+      }
+      .lt-third .frame {
+        width: 64px;
+        height: 64px;
+        background: #fff;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 14px rgba(255, 196, 42, 0.2);
+      }
+      .lt-third .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 4px;
+      }
+      .lt-third .frame.photo img {
+        object-fit: cover;
+        padding: 0;
+        object-position: 50% 18%;
+        border-radius: 6px;
+      }
+      .lt-third .name {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 22px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .lt-third .meta-line {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--gold);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+
+      .subject-feature {
+        background: linear-gradient(180deg, var(--panel-2), var(--bg));
+        border: 1px solid var(--line);
+        padding: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        margin-left: -16px;
+        margin-right: -16px;
+        border-left: 0;
+        border-right: 0;
+      }
+      .subject-feature .frame {
+        width: 150px;
+        height: 150px;
+        background: #fff;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          0 0 0 4px var(--gold),
+          0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+      .subject-feature .frame img {
+        width: 130px;
+        height: 130px;
+        object-fit: contain;
+      }
+
+      .choices {
+        display: grid;
+        gap: 6px;
+      }
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 16px;
+        background: var(--panel-2);
+        border: 0;
+        border-left: 4px solid var(--ink-faint);
+        text-align: left;
+        font: inherit;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 180ms ease;
+        position: relative;
+      }
+      .choice:hover {
+        background: var(--gold);
+        color: var(--bg);
+        border-left-color: var(--red);
+      }
+      .choice:hover .label-sub {
+        color: rgba(0, 0, 0, 0.7);
+      }
+      .choice .frame {
+        width: 44px;
+        height: 44px;
+        background: #fff;
+        border-radius: 6px;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .choice .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 18%;
+      }
+      .choice .frame.logo img {
+        object-fit: contain;
+        padding: 4px;
+      }
+      .choice .label-name {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 18px;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      .choice .label-sub {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--ink-soft);
+        letter-spacing: 0.15em;
+        margin-top: 3px;
+        text-transform: uppercase;
+      }
+      .choice.correct {
+        background: var(--green);
+        color: #fff;
+        border-left: 4px solid #fff;
+      }
+      .choice.correct .label-sub {
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      /* Result — scoreboard */
+      .scoreboard {
+        background: var(--bg);
+        padding: 0;
+      }
+      .scoreboard .top-strip {
+        background: var(--red);
+        color: #fff;
+        padding: 8px 16px;
+        font-family: var(--display);
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .scoreboard .big {
+        background: linear-gradient(180deg, var(--panel-2), var(--bg));
+        padding: 24px 16px 28px;
+        text-align: center;
+        border-bottom: 1px solid var(--line);
+      }
+      .scoreboard .you {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.18em;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .scoreboard .score-row {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 14px;
+      }
+      .scoreboard .score {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 110px;
+        line-height: 0.85;
+        letter-spacing: -0.04em;
+        color: var(--gold);
+        text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
+      }
+      .scoreboard .vs {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 28px;
+        color: var(--ink-soft);
+      }
+      .scoreboard .of {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 64px;
+        color: var(--ink-faint);
+      }
+      .scoreboard .grid-strip {
+        background: #000;
+        padding: 14px 16px;
+        text-align: center;
+        font-size: 32px;
+        letter-spacing: 8px;
+      }
+      .scoreboard .summary {
+        padding: 0;
+      }
+      .summary-row {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+      }
+      .summary-row:nth-child(even) {
+        background: var(--panel-2);
+      }
+      .summary-row:last-child {
+        border-bottom: 0;
+      }
+      .summary-row .num {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 16px;
+        background: var(--bg);
+        color: var(--gold);
+        padding: 2px 8px;
+        letter-spacing: 0.06em;
+      }
+      .summary-row .label-text {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .summary-row .pts {
+        font-family: var(--mono);
+        font-weight: 700;
+        background: var(--bg);
+        padding: 4px 10px;
+        border-left: 3px solid var(--green);
+        font-size: 13px;
+      }
+      .summary-row .pts.bad {
+        border-left-color: var(--red);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <a class="back" href="index.html">← All skins</a>
+
+      <!-- Live Bar -->
+      <div class="broadcast-bar">
+        <span><span class="live-dot"></span>LIVE · DAILY QUIZ</span>
+        <span>QUIZ #127</span>
+      </div>
+      <div class="ticker">
+        <div class="ticker-track">
+          <span class="item"
+            >PHILA <span class="team">PHILLIES</span> NEXT GAME 7:05</span
+          >
+          <span class="item"
+            >DETROIT <span class="team">TIGERS</span> W 4-2</span
+          >
+          <span class="item"
+            >BOS <span class="team">RED SOX</span>
+            <span class="change up">↑ STREAK 5</span></span
+          >
+          <span class="item"
+            >CHI <span class="team">BULLS</span>
+            <span class="change down">↓ -3</span></span
+          >
+          <span class="item"
+            >SF <span class="team">49ERS</span> · INJURY UPDATE</span
+          >
+          <span class="item"
+            >PHILA <span class="team">PHILLIES</span> NEXT GAME 7:05</span
+          >
+          <span class="item"
+            >DETROIT <span class="team">TIGERS</span> W 4-2</span
+          >
+          <span class="item"
+            >BOS <span class="team">RED SOX</span>
+            <span class="change up">↑ STREAK 5</span></span
+          >
+          <span class="item"
+            >CHI <span class="team">BULLS</span>
+            <span class="change down">↓ -3</span></span
+          >
+          <span class="item"
+            >SF <span class="team">49ERS</span> · INJURY UPDATE</span
+          >
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="branding">
+          <div class="logo-frame">
+            <img src="../images/hat-trick-icon.png" alt="" />
+          </div>
+          <h1>Mascot<br /><span class="accent">Daily</span></h1>
+        </div>
+        <div class="lede">
+          Daily 5-Question Quiz · Easier Early · Bigger Late
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="sec-label">
+          <span class="pre">A</span><span class="text">Pool</span>
+        </div>
+        <div class="tabs">
+          <button class="tab active">Pro</button>
+          <button class="tab">College</button>
+          <button class="tab">All</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="sec-label">
+          <span class="pre">B</span><span class="text">Type</span>
+        </div>
+        <div class="tabs">
+          <button class="tab">Mascots</button>
+          <button class="tab active">Both</button>
+          <button class="tab">Logos</button>
+        </div>
+        <button class="cta">▶ Start Today's Quiz</button>
+        <div class="meta">EDITION 127 · MAY 8, 2026 · 7:00 AM ET</div>
+      </section>
+
+      <!-- Q1 -->
+      <section class="q-section">
+        <div class="q-banner">
+          <span>Q1 · MLB · LOGO</span>
+          <span class="points">1 PT</span>
+        </div>
+        <div class="q-body">
+          <div class="progress">
+            <div class="pip active"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+          <h2 class="q-prompt">Whose logo is this?</h2>
+          <div class="subject-feature">
+            <div class="frame">
+              <img
+                src="https://a.espncdn.com/i/teamlogos/mlb/500/sd.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="choices">
+            <button class="choice">
+              <div class="text-block">
+                <div class="label-name">Padres</div>
+                <div class="label-sub">San Diego</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="text-block">
+                <div class="label-name">Mets</div>
+                <div class="label-sub">New York</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="text-block">
+                <div class="label-name">Red Sox</div>
+                <div class="label-sub">Boston</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="text-block">
+                <div class="label-name">Cardinals</div>
+                <div class="label-sub">St. Louis</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Q3 -->
+      <section class="q-section" style="margin-top: 16px">
+        <div class="q-banner">
+          <span>Q3 · MLB · MASCOT · 2X</span>
+          <span class="points x2">2 PTS</span>
+        </div>
+        <div class="q-body">
+          <div class="progress">
+            <div class="pip green"></div>
+            <div class="pip green"></div>
+            <div class="pip active"></div>
+            <div class="pip"></div>
+            <div class="pip"></div>
+          </div>
+          <h2 class="q-prompt">Who is the mascot of this team?</h2>
+          <div class="lt-third">
+            <div class="frame">
+              <img
+                src="https://a.espncdn.com/i/teamlogos/mlb/500/phi.png"
+                alt=""
+              />
+            </div>
+            <div>
+              <div class="name">Philadelphia Phillies</div>
+              <div class="meta-line">NL East · Citizens Bank Park</div>
+            </div>
+          </div>
+          <div class="choices">
+            <button class="choice correct">
+              <div class="frame">
+                <img src="../images/mascots/phillie-phanatic.png" alt="" />
+              </div>
+              <div>
+                <div class="label-name">Phillie Phanatic</div>
+                <div class="label-sub">CORRECT</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="frame">
+                <img src="../images/mascots/mr-met.png" alt="" />
+              </div>
+              <div>
+                <div class="label-name">Mr. Met</div>
+                <div class="label-sub">NEW YORK METS</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="frame">
+                <img src="../images/mascots/wally.png" alt="" />
+              </div>
+              <div>
+                <div class="label-name">Wally</div>
+                <div class="label-sub">RED SOX</div>
+              </div>
+            </button>
+            <button class="choice">
+              <div class="frame">
+                <img src="../images/mascots/fredbird.png" alt="" />
+              </div>
+              <div>
+                <div class="label-name">Fredbird</div>
+                <div class="label-sub">CARDINALS</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Result -->
+      <section class="scoreboard" style="margin-top: 16px">
+        <div class="top-strip">
+          <span>FINAL · QUIZ #127 · POSTGAME</span>
+          <span>5/8/26</span>
+        </div>
+        <div class="big">
+          <div class="you">YOUR FINAL SCORE</div>
+          <div class="score-row">
+            <div class="score">8</div>
+            <div class="vs">/</div>
+            <div class="of">10</div>
+          </div>
+        </div>
+        <div class="grid-strip">🟩🟩🟥🟩🟩</div>
+        <div class="summary">
+          <div class="summary-row">
+            <span class="num">Q1</span>
+            <div class="label-text">Padres logo</div>
+            <div class="pts">+1</div>
+          </div>
+          <div class="summary-row">
+            <span class="num">Q2</span>
+            <div class="label-text">Maple Leafs</div>
+            <div class="pts">+1</div>
+          </div>
+          <div class="summary-row">
+            <span class="num">Q3</span>
+            <div class="label-text">Phillie Phanatic</div>
+            <div class="pts bad">+0</div>
+          </div>
+          <div class="summary-row">
+            <span class="num">Q4</span>
+            <div class="label-text">Wisconsin map</div>
+            <div class="pts">+3</div>
+          </div>
+          <div class="summary-row">
+            <span class="num">Q5</span>
+            <div class="label-text">Odd one out</div>
+            <div class="pts">+3</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <button class="cta">▶ Share Highlight</button>
+        <div class="meta">NEXT EDITION · TOMORROW · 7:00 AM ET</div>
+      </section>
+    </div>
+  </body>
+</html>

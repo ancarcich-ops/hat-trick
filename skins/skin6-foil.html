@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Trading Card Foil</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0712;
+        --bg-2: #1a1326;
+        --ink: #eceaff;
+        --ink-soft: #a399c7;
+        --ink-faint: #6e6294;
+        --gold: #ffcb45;
+        --gold-deep: #c39028;
+        --pink: #ff6fab;
+        --cyan: #5ee0ff;
+        --violet: #9b6bff;
+        --line: rgba(255, 255, 255, 0.1);
+        --display: "Bricolage Grotesque", "Inter", sans-serif;
+        --sans: "Inter", sans-serif;
+        --mono: "Space Mono", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        background-image:
+          radial-gradient(
+            ellipse at top,
+            rgba(155, 107, 255, 0.18) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at bottom,
+            rgba(94, 224, 255, 0.12) 0%,
+            transparent 60%
+          );
+        color: var(--ink);
+        padding: 30px 16px;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      .canvas {
+        max-width: 460px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      a.back {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-faint);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        margin-bottom: -10px;
+      }
+
+      /* Holo card chrome */
+      .card {
+        position: relative;
+        background: linear-gradient(135deg, #1f1734 0%, #100a1f 100%);
+        border-radius: 22px;
+        padding: 28px 22px;
+        overflow: hidden;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+          0 0 0 2px rgba(255, 203, 69, 0.14),
+          0 30px 60px rgba(0, 0, 0, 0.55);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 0%,
+          rgba(94, 224, 255, 0.1) 25%,
+          rgba(255, 111, 171, 0.1) 45%,
+          rgba(255, 203, 69, 0.1) 60%,
+          rgba(155, 107, 255, 0.1) 80%,
+          transparent 100%
+        );
+        background-size: 200% 200%;
+        animation: shimmer 6s linear infinite;
+        pointer-events: none;
+        mix-blend-mode: screen;
+      }
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.03) 0 1px,
+            transparent 1px 3px
+          ),
+          radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 255, 255, 0.06),
+            transparent 40%
+          );
+        pointer-events: none;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+      .card > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Card frame elements */
+      .holo-corner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--gold);
+        z-index: 3;
+      }
+      .holo-corner.tl {
+        top: 12px;
+        left: 12px;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      .holo-corner.tr {
+        top: 12px;
+        right: 12px;
+        border-left: 0;
+        border-bottom: 0;
+      }
+      .holo-corner.bl {
+        bottom: 12px;
+        left: 12px;
+        border-right: 0;
+        border-top: 0;
+      }
+      .holo-corner.br {
+        bottom: 12px;
+        right: 12px;
+        border-left: 0;
+        border-top: 0;
+      }
+
+      .rarity {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold);
+        background: linear-gradient(
+          90deg,
+          var(--gold-deep),
+          var(--gold),
+          var(--gold-deep)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
+
+      /* Hero card */
+      .hero {
+        text-align: center;
+        padding-top: 16px;
+      }
+      .hero .num {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        color: var(--ink-faint);
+        margin-bottom: 4px;
+      }
+      .hero .logo-frame {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 12px;
+        position: relative;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #fff 0%, #f7e5c2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          0 0 0 2px var(--gold),
+          0 0 24px rgba(255, 203, 69, 0.45),
+          inset 0 0 30px rgba(255, 255, 255, 0.6);
+        overflow: hidden;
+      }
+      .hero .logo-frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          120deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.6) 50%,
+          transparent 70%
+        );
+        background-size: 200% 200%;
+        animation: shimmer 4s linear infinite;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+      .hero .logo-frame img {
+        width: 130px;
+        height: 130px;
+        object-fit: contain;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-family: var(--display);
+        font-size: 46px;
+        margin: 12px 0 4px;
+        letter-spacing: -0.025em;
+        background: linear-gradient(
+          135deg,
+          var(--gold) 0%,
+          #ffeab2 35%,
+          var(--cyan) 65%,
+          var(--violet) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 8px rgba(255, 203, 69, 0.25));
+      }
+      .hero .lede {
+        color: var(--ink-soft);
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0 0 18px;
+      }
+
+      .sec-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        color: var(--gold);
+        margin: 18px 2px 8px;
+        text-align: left;
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 4px;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid var(--line);
+        padding: 4px;
+        border-radius: 12px;
+      }
+      .tab {
+        padding: 10px 4px;
+        background: transparent;
+        border: 0;
+        color: var(--ink-soft);
+        font: inherit;
+        font-weight: 600;
+        font-size: 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        letter-spacing: 0.04em;
+      }
+      .tab.active {
+        background: linear-gradient(
+          180deg,
+          var(--gold) 0%,
+          var(--gold-deep) 100%
+        );
+        color: #1f1300;
+        box-shadow: 0 0 14px rgba(255, 203, 69, 0.45);
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+        font-weight: 700;
+      }
+
+      .cta {
+        width: 100%;
+        margin-top: 22px;
+        padding: 16px;
+        background: linear-gradient(
+          180deg,
+          var(--gold) 0%,
+          var(--gold-deep) 100%
+        );
+        color: #1f1300;
+        border: 0;
+        border-radius: 12px;
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 0 6px 24px rgba(255, 203, 69, 0.45);
+        overflow: hidden;
+      }
+      .cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.6) 50%,
+          transparent 70%
+        );
+        background-size: 200% 200%;
+        animation: shimmer 3s linear infinite;
+        mix-blend-mode: screen;
+      }
+
+      .meta {
+        text-align: center;
+        margin-top: 14px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        color: var(--ink-faint);
+      }
+
+      /* Question */
+      .q-tag {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        gap: 8px;
+      }
+      .q-tag .label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--ink-soft);
+      }
+      .q-points {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 13px;
+        background: linear-gradient(135deg, var(--gold), #ffeab2);
+        color: #1f1300;
+        padding: 5px 12px;
+        border-radius: 999px;
+        letter-spacing: 0.06em;
+        box-shadow: 0 0 14px rgba(255, 203, 69, 0.4);
+      }
+      .q-points.x2 {
+        background: linear-gradient(135deg, var(--cyan), #bff4ff);
+        color: #001f26;
+        box-shadow: 0 0 14px rgba(94, 224, 255, 0.5);
+      }
+      .q-points.x3 {
+        background: linear-gradient(135deg, var(--pink), #ffc6e0);
+        color: #2a0014;
+        box-shadow: 0 0 18px rgba(255, 111, 171, 0.55);
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        50% {
+          transform: scale(1.06);
+        }
+      }
+
+      .progress {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 14px;
+      }
+      .pip {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .pip.active {
+        background: var(--gold);
+        box-shadow: 0 0 8px rgba(255, 203, 69, 0.5);
+      }
+      .pip.green {
+        background: #6eeaa9;
+        box-shadow: 0 0 8px rgba(110, 234, 169, 0.4);
+      }
+      .pip.red {
+        background: #ff7388;
+        box-shadow: 0 0 8px rgba(255, 115, 136, 0.4);
+      }
+
+      .q-prompt {
+        font-family: var(--display);
+        font-size: 28px;
+        line-height: 1.1;
+        margin: 4px 0 16px;
+        letter-spacing: -0.015em;
+      }
+
+      .subject-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .subject-card.centered {
+        justify-content: center;
+        padding: 26px;
+      }
+      .subject-card .frame {
+        width: 92px;
+        height: 92px;
+        background: linear-gradient(135deg, #fff, #f0e5c7);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow:
+          0 0 0 2px var(--gold),
+          0 6px 20px rgba(0, 0, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+      .subject-card.centered .frame {
+        width: 130px;
+        height: 130px;
+      }
+      .subject-card .frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          115deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.5) 50%,
+          transparent 70%
+        );
+        background-size: 200% 200%;
+        animation: shimmer 4s linear infinite;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+      .subject-card .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 6px;
+        position: relative;
+        z-index: 1;
+      }
+      .subject-card .frame.photo img {
+        object-fit: cover;
+        padding: 0;
+        object-position: 50% 18%;
+      }
+      .subject-card .name {
+        font-family: var(--display);
+        font-size: 22px;
+        line-height: 1.05;
+      }
+      .subject-card .meta-line {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        color: var(--ink-soft);
+        margin-top: 4px;
+      }
+
+      .choices {
+        display: grid;
+        gap: 8px;
+      }
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        text-align: left;
+        font: inherit;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 200ms ease;
+      }
+      .choice:hover {
+        background: rgba(255, 203, 69, 0.08);
+        border-color: rgba(255, 203, 69, 0.4);
+        transform: translateX(2px);
+      }
+      .choice .frame {
+        width: 42px;
+        height: 42px;
+        background: #fff;
+        border-radius: 8px;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .choice .frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 18%;
+      }
+      .choice .frame.logo img {
+        object-fit: contain;
+        padding: 4px;
+      }
+      .choice .label-name {
+        font-weight: 600;
+        font-size: 15px;
+        font-family: var(--display);
+      }
+      .choice .label-sub {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--ink-soft);
+        letter-spacing: 0.12em;
+        margin-top: 2px;
+      }
+      .choice.correct {
+        background: rgba(110, 234, 169, 0.1);
+        border-color: rgba(110, 234, 169, 0.5);
+        box-shadow: 0 0 18px rgba(110, 234, 169, 0.2);
+      }
+
+      /* Result */
+      .result-card {
+        text-align: center;
+        padding-top: 20px;
+      }
+      .result-card .top {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        color: var(--gold);
+      }
+      .result-card .score {
+        font-family: var(--display);
+        font-size: 110px;
+        line-height: 1;
+        margin: 8px 0;
+        letter-spacing: -0.04em;
+        background: linear-gradient(
+          135deg,
+          var(--gold),
+          #ffeab2 40%,
+          var(--cyan)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 4px 16px rgba(255, 203, 69, 0.4));
+      }
+      .result-card .score-of {
+        font-size: 48px;
+        -webkit-text-fill-color: var(--ink-soft);
+      }
+      .grid-share {
+        font-size: 28px;
+        letter-spacing: 6px;
+        margin: 14px 0;
+        filter: drop-shadow(0 0 12px rgba(255, 203, 69, 0.3));
+      }
+      .summary {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 4px 14px;
+        text-align: left;
+        margin-top: 14px;
+      }
+      .summary-row {
+        display: grid;
+        grid-template-columns: 12px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed var(--line);
+        font-size: 14px;
+      }
+      .summary-row:last-child {
+        border-bottom: 0;
+      }
+      .summary-row .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ink-faint);
+      }
+      .summary-row .dot.green {
+        background: #6eeaa9;
+        box-shadow: 0 0 10px rgba(110, 234, 169, 0.5);
+      }
+      .summary-row .dot.red {
+        background: #ff7388;
+        box-shadow: 0 0 10px rgba(255, 115, 136, 0.5);
+      }
+      .summary-row .pts {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--gold);
+      }
+
+      .section-divider {
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.35em;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <a class="back" href="index.html">← All skins</a>
+
+      <!-- Hero -->
+      <div class="card hero">
+        <div class="holo-corner tl"></div>
+        <div class="holo-corner tr"></div>
+        <div class="holo-corner bl"></div>
+        <div class="holo-corner br"></div>
+        <div class="rarity">★ Holographic · No. 127 / ∞ ★</div>
+        <div class="num">DAILY · MAY 8 · 2026</div>
+        <div class="logo-frame">
+          <img src="../images/hat-trick-icon.png" alt="" />
+        </div>
+        <h1>Hat Trick</h1>
+        <p class="lede">Five questions. Pull the perfect 10.</p>
+
+        <div style="text-align: left">
+          <div class="sec-label">POOL</div>
+          <div class="tabs">
+            <button class="tab active">Pro</button>
+            <button class="tab">College</button>
+            <button class="tab">All</button>
+          </div>
+          <div class="sec-label">QUESTION TYPE</div>
+          <div class="tabs">
+            <button class="tab">Mascots</button>
+            <button class="tab active">Both</button>
+            <button class="tab">Logos</button>
+          </div>
+        </div>
+
+        <button class="cta">Open Pack</button>
+        <div class="meta">SET 02 · QUIZ #127</div>
+      </div>
+
+      <div class="section-divider">— First Pull —</div>
+
+      <!-- Q1 -->
+      <div class="card">
+        <div class="holo-corner tl"></div>
+        <div class="holo-corner tr"></div>
+        <div class="holo-corner bl"></div>
+        <div class="holo-corner br"></div>
+        <div class="progress">
+          <div class="pip active"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="q-tag">
+          <div class="label">MLB · LOGO</div>
+          <div class="q-points">1 PT · COMMON</div>
+        </div>
+        <h2 class="q-prompt">Whose logo is this?</h2>
+        <div class="subject-card centered">
+          <div class="frame">
+            <img
+              src="https://a.espncdn.com/i/teamlogos/mlb/500/sd.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="choices">
+          <button class="choice">
+            <div class="text-block">
+              <div class="label-name">Padres</div>
+              <div class="label-sub">SAN DIEGO</div>
+            </div>
+          </button>
+          <button class="choice">
+            <div class="text-block">
+              <div class="label-name">Mets</div>
+              <div class="label-sub">NEW YORK</div>
+            </div>
+          </button>
+          <button class="choice">
+            <div class="text-block">
+              <div class="label-name">Red Sox</div>
+              <div class="label-sub">BOSTON</div>
+            </div>
+          </button>
+          <button class="choice">
+            <div class="text-block">
+              <div class="label-name">Cardinals</div>
+              <div class="label-sub">ST. LOUIS</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-divider">— Rare Pull · 2× —</div>
+
+      <!-- Q3 -->
+      <div class="card">
+        <div class="holo-corner tl"></div>
+        <div class="holo-corner tr"></div>
+        <div class="holo-corner bl"></div>
+        <div class="holo-corner br"></div>
+        <div class="progress">
+          <div class="pip green"></div>
+          <div class="pip green"></div>
+          <div class="pip active"></div>
+          <div class="pip"></div>
+          <div class="pip"></div>
+        </div>
+        <div class="q-tag">
+          <div class="label">MLB · MASCOT</div>
+          <div class="q-points x2">2 PTS · RARE</div>
+        </div>
+        <h2 class="q-prompt">Who is the mascot of this team?</h2>
+        <div class="subject-card">
+          <div class="frame">
+            <img
+              src="https://a.espncdn.com/i/teamlogos/mlb/500/phi.png"
+              alt=""
+            />
+          </div>
+          <div>
+            <div class="name">Philadelphia Phillies</div>
+            <div class="meta-line">NL EAST · MLB</div>
+          </div>
+        </div>
+        <div class="choices">
+          <button class="choice correct">
+            <div class="frame">
+              <img src="../images/mascots/phillie-phanatic.png" alt="" />
+            </div>
+            <div class="text-block">
+              <div class="label-name">Phillie Phanatic</div>
+            </div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/mr-met.png" alt="" />
+            </div>
+            <div class="text-block"><div class="label-name">Mr. Met</div></div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/wally.png" alt="" />
+            </div>
+            <div class="text-block">
+              <div class="label-name">Wally the Green Monster</div>
+            </div>
+          </button>
+          <button class="choice">
+            <div class="frame">
+              <img src="../images/mascots/fredbird.png" alt="" />
+            </div>
+            <div class="text-block"><div class="label-name">Fredbird</div></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="section-divider">— Final Reveal —</div>
+
+      <!-- Result -->
+      <div class="card result-card">
+        <div class="holo-corner tl"></div>
+        <div class="holo-corner tr"></div>
+        <div class="holo-corner bl"></div>
+        <div class="holo-corner br"></div>
+        <div class="top">PRO · MAY 8, 2026</div>
+        <div class="score">8<span class="score-of"> / 10</span></div>
+        <div class="grid-share">🟩🟩🟥🟩🟩</div>
+        <div class="rarity">CARD GRADE: GEM MINT 8</div>
+        <div class="summary">
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q1 — Padres</div>
+            <div class="pts">1 / 1</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q2 — Maple Leafs</div>
+            <div class="pts">1 / 1</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot red"></div>
+            <div>Q3 — Phanatic</div>
+            <div class="pts">0 / 2</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q4 — Wisconsin</div>
+            <div class="pts">3 / 3</div>
+          </div>
+          <div class="summary-row">
+            <div class="dot green"></div>
+            <div>Q5 — Odd one out</div>
+            <div class="pts">3 / 3</div>
+          </div>
+        </div>
+        <button class="cta" style="margin-top: 18px">Share Pull</button>
+        <div class="meta">NEXT PACK · MIDNIGHT</div>
+      </div>
+    </div>
+  </body>
+</html>
