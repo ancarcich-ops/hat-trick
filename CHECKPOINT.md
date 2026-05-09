@@ -95,7 +95,7 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 ## Daily quiz logic
 
 - 5 questions per day, seeded by `${date}:${level}:${contentType}`
-- **Slot structure:** Q1+Q2 from EASY bucket, Q3 from MEDIUM, Q4+Q5 from HARD
+- **Slot structure:** Q1+Q2 from EASY bucket, Q3 from MEDIUM, Q4 pinned to map question (`gen_pickState`) when contentType allows, Q5 from HARD
 - **Pool filter:** Pro / College / All (tabs in title screen)
 - **Content filter:** Mascots / Both / Logos (second row of tabs) — filters generators by which "side" they test
 

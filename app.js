@@ -970,12 +970,20 @@
     const seed = `${todayKey()}:${level}:${contentType}`;
     const rng = seededRng(seed);
 
-    // Q1, Q2: easy. Q3: medium. Q4, Q5: hard.
+    // Q1, Q2: easy. Q3: medium. Q4: pinned map (when contentType allows). Q5: hard.
     const used = new Set();
     const slots = [EASY_GENS, EASY_GENS, MEDIUM_GENS, HARD_GENS, HARD_GENS];
     const lineup = [];
-    for (const bucket of slots) {
-      const g = pickFrom(bucket, rng, contentType, used);
+    // Map question (gen_pickState) is in LOGO_GENS_SET, so it's only pinnable
+    // when the player hasn't restricted to mascots-only content.
+    const mapPinnable = contentType !== "mascots";
+    for (let i = 0; i < slots.length; i++) {
+      let g;
+      if (i === 3 && mapPinnable && !used.has(gen_pickState)) {
+        g = gen_pickState;
+      } else {
+        g = pickFrom(slots[i], rng, contentType, used);
+      }
       if (g) {
         lineup.push(g);
         used.add(g);
@@ -1801,7 +1809,7 @@
 
     // Animate the high-striker — back-easing overshoot + tier flashes + ticker punches.
     const target = today.score || 0;
-    const duration = 1900;
+    const duration = 5700;
     const startTs = performance.now();
     // Back-out overshoot: shoots past target, settles back. Adds physicality.
     const easeOutBack = (t) => {
