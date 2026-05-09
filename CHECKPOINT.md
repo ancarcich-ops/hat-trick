@@ -99,9 +99,9 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 - **Pool filter:** Pro / College / All (tabs in title screen)
 - **Content filter:** Mascots / Both / Logos (second row of tabs) — filters generators by which "side" they test
 
-## Scoring (out of 100)
+## Scoring (out of 1000)
 
-- Per-question max: **Q1=10, Q2=10, Q3=20, Q4=30, Q5=30** (= 100 perfect)
+- Per-question max: **Q1=100, Q2=100, Q3=200, Q4=300, Q5=300** (= 1000 perfect)
 - 30-second timer per question with 4 speed bands:
   - **⚡ Lightning** (<8s): 100% × max
   - **🔥 Quick** (<16s): 75%
@@ -134,11 +134,11 @@ Theme dots in the top-right of the header. State persists as `state.theme`.
   - Tall thermometer tower (cool blue → red gradient)
   - Hammer + striker pad at base — hammer swings, pad squishes, _then_ puck launches
   - Glowing puck with motion-blur trail
-  - Tick marks (10..100) flash white as puck crosses
-  - LED ticker punches every 10 pts
-  - Bell wobbles during climb, hard-rings at score ≥ 80
+  - Tick marks (100..1000) flash white as puck crosses
+  - LED ticker punches every 100 pts
+  - Bell wobbles during climb, hard-rings at score ≥ 800
   - Shockwave ring expands at settle position
-  - Hall of Fame (≥95): gold rank pill + glow
+  - Hall of Fame (≥950): gold rank pill + glow
 
 ## Skins folder (`skins/`)
 

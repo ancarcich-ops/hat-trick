@@ -912,7 +912,7 @@
   ];
 
   // Per-question MAX point values. Total perfect = 100.
-  const POINTS = [10, 10, 20, 30, 30];
+  const POINTS = [100, 100, 200, 300, 300];
   const TIMER_SECONDS = 30;
   // Speed bands — each correct answer scaled by this multiplier based on elapsed seconds.
   const BANDS = [
@@ -1650,29 +1650,29 @@
 
     // Carnival "test of strength" — fire/ice thermometer with hammer + striker pad
     const RANK_TIERS = [
-      { min: 95, label: "HALL OF FAME", emoji: "🏆" },
-      { min: 80, label: "CHAMPION", emoji: "🥇" },
-      { min: 60, label: "PRO", emoji: "⚡" },
-      { min: 40, label: "AMATEUR", emoji: "💪" },
-      { min: 20, label: "ROOKIE", emoji: "👶" },
+      { min: 950, label: "HALL OF FAME", emoji: "🏆" },
+      { min: 800, label: "CHAMPION", emoji: "🥇" },
+      { min: 600, label: "PRO", emoji: "⚡" },
+      { min: 400, label: "AMATEUR", emoji: "💪" },
+      { min: 200, label: "ROOKIE", emoji: "👶" },
       { min: 0, label: "WARMING UP", emoji: "🥱" },
     ];
     const tierFor = (s) => RANK_TIERS.find((t) => s >= t.min);
 
     // LED-style score readout at the top of the tower
-    const ticker = el("div", { class: "striker-led-num" }, "00");
+    const ticker = el("div", { class: "striker-led-num" }, "0000");
     const led = el("div", { class: "striker-led" }, [
       ticker,
-      el("div", { class: "striker-led-of" }, "/100"),
+      el("div", { class: "striker-led-of" }, "/1000"),
     ]);
     const bell = el("div", { class: "striker-bell" }, "🔔");
-    // Thermometer ticks down the tower (10..100 from bottom to top)
+    // Thermometer ticks down the tower (100..1000 from bottom to top)
     const tickEls = [];
     for (let v = 100; v >= 10; v -= 10) {
       tickEls.push(
         el("div", { class: "striker-tick", style: `bottom:${v}%` }, [
           el("div", { class: "striker-tick-line" }),
-          el("div", { class: "striker-tick-num" }, String(v)),
+          el("div", { class: "striker-tick-num" }, String(v * 10)),
         ]),
       );
     }
@@ -1817,14 +1817,14 @@
       const t = Math.min(1, (now - startTs) / duration);
       const eased = easeOutBack(t);
       const cur = Math.max(0, target * eased);
-      const pct = Math.max(0, Math.min(105, cur));
+      const pct = Math.max(0, Math.min(105, cur / 10));
       const displayed = Math.round(Math.min(target, cur));
-      ticker.textContent = String(displayed).padStart(2, "0");
+      ticker.textContent = String(displayed).padStart(4, "0");
       fillEl.style.height = pct + "%";
       puckEl.style.bottom = pct + "%";
 
-      // Punch the ticker each time it passes a multiple of 10.
-      const decade = Math.floor(displayed / 10);
+      // Punch the ticker each time it passes a multiple of 100.
+      const decade = Math.floor(displayed / 100);
       if (decade !== lastDecade && displayed > 0) {
         lastDecade = decade;
         ticker.classList.remove("punch");
@@ -1854,19 +1854,19 @@
       }
 
       // Bell starts wobbling early, rings hard at the end if score is high.
-      if (target >= 60 && !bell.classList.contains("wobble")) {
+      if (target >= 600 && !bell.classList.contains("wobble")) {
         bell.classList.add("wobble");
       }
 
       if (t < 1) requestAnimationFrame(tick);
       else {
         // Final flourish
-        ticker.textContent = String(target).padStart(2, "0");
-        if (target >= 80) {
+        ticker.textContent = String(target).padStart(4, "0");
+        if (target >= 800) {
           bell.classList.remove("wobble");
           bell.classList.add("ring");
         }
-        if (target >= 95) striker.classList.add("hall-of-fame");
+        if (target >= 950) striker.classList.add("hall-of-fame");
         striker.classList.add("settled");
         // Shockwave from puck position at settle
         const wave = el("div", { class: "striker-shockwave" });
