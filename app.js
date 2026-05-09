@@ -281,6 +281,12 @@
 
   const LEVELS = [
     {
+      id: "all",
+      short: "All",
+      label: "College (D1) + Pro",
+      desc: "Everything together",
+    },
+    {
       id: "pro",
       short: "Pro",
       label: "Pro sports only",
@@ -291,12 +297,6 @@
       short: "College",
       label: "College (D1) only",
       desc: "SEC · Big Ten · ACC · Big 12 · more",
-    },
-    {
-      id: "all",
-      short: "All",
-      label: "College (D1) + Pro",
-      desc: "Everything together",
     },
   ];
 
@@ -1150,8 +1150,8 @@
   }
 
   const CONTENT_TYPES = [
-    { id: "mascots", short: "Mascots", desc: "Just the characters" },
     { id: "both", short: "Both", desc: "Mascots & logos mixed" },
+    { id: "mascots", short: "Mascots", desc: "Just the characters" },
     { id: "logos", short: "Logos", desc: "Just team logos" },
   ];
 
