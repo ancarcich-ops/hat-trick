@@ -1692,6 +1692,57 @@
     return today.results.map((r) => (r ? "🟩" : "🟥")).join("");
   }
 
+  // Builds the expandable detail panel under a result-summary row, showing
+  // the question prompt + the subject (logo/photo if any) + the correct answer.
+  function buildAnswerDetail(q, wasCorrect) {
+    const parts = [];
+    parts.push(el("div", { class: "detail-prompt" }, q.prompt));
+    if (q.subject && (q.subject.logo || q.subject.image)) {
+      const visEl =
+        q.subject.image || q.subject.logo
+          ? (() => {
+              const img = document.createElement("img");
+              img.src = q.subject.image || q.subject.logo;
+              img.alt = q.subject.name || "";
+              img.className = "detail-thumb";
+              return img;
+            })()
+          : null;
+      if (visEl) parts.push(visEl);
+      if (q.subject.name) {
+        parts.push(el("div", { class: "detail-subject-name" }, q.subject.name));
+      }
+    }
+    let answerText = "";
+    if (q.type === "map") {
+      const stateName = STATE_NAMES[q.targetState] || q.targetState;
+      answerText = `${stateName} (${q.targetCity})`;
+    } else if (q.type === "write-in") {
+      const list = q.acceptable.slice(0, 8).map(canonicalOf).join(" · ");
+      const more =
+        q.acceptable.length > 8 ? ` +${q.acceptable.length - 8}` : "";
+      answerText = list + more;
+    } else if (q.choices) {
+      const correct = q.choices.find((c) => c.correct);
+      if (correct) {
+        answerText = correct.label + (correct.sub ? ` — ${correct.sub}` : "");
+      }
+    }
+    if (answerText) {
+      parts.push(
+        el("div", { class: "detail-answer" }, [
+          el(
+            "span",
+            { class: "detail-answer-label" },
+            wasCorrect ? "Answer:" : "Correct answer:",
+          ),
+          el("span", { class: "detail-answer-value" }, " " + answerText),
+        ]),
+      );
+    }
+    return parts;
+  }
+
   function showResult(level, contentType) {
     clearScreen();
     const today = state.history[`${todayKey()}:${level}:${contentType}`] || {
@@ -1702,6 +1753,15 @@
     const n = quizNumber();
     const levelMeta = LEVELS.find((l) => l.id === level);
 
+    // Regenerate the same daily quiz (deterministic by seed) so we can show
+    // the prompt + correct answer when a player clicks a row.
+    let recapQuiz = null;
+    try {
+      recapQuiz = buildDailyQuiz(level, contentType);
+    } catch (e) {
+      recapQuiz = null;
+    }
+
     const summaryRows = today.results.map((r, i) => {
       const earned = (today.points && today.points[i]) || 0;
       const band = today.bands && today.bands[i];
@@ -1711,15 +1771,30 @@
           ? `${bandMeta.emoji} ${band}`
           : "Correct"
         : "Missed";
-      return el("div", { class: `row ${r ? "correct" : "wrong"}` }, [
-        el("div", { class: "pip" }),
-        el("div", { style: "flex:1" }, `Q${i + 1} — ${bandLabel}`),
-        el(
-          "div",
-          { style: "font-weight:700;color:var(--ink-soft)" },
-          `${earned} / ${POINTS[i]}`,
-        ),
-      ]);
+      const q = recapQuiz?.questions?.[i];
+      const head = el(
+        "div",
+        { class: `row row-head ${r ? "correct" : "wrong"}` },
+        [
+          el("div", { class: "pip" }),
+          el("div", { style: "flex:1" }, `Q${i + 1} — ${bandLabel}`),
+          el(
+            "div",
+            { style: "font-weight:700;color:var(--ink-soft)" },
+            `${earned} / ${POINTS[i]}`,
+          ),
+        ],
+      );
+      if (!q) return head;
+      head.classList.add("row-clickable");
+      head.appendChild(el("div", { class: "row-chevron" }, "▾"));
+      const detail = buildAnswerDetail(q, r);
+      const detailEl = el("div", { class: "row-detail" }, detail);
+      const wrap = el("div", { class: "row-wrap" }, [head, detailEl]);
+      head.addEventListener("click", () => {
+        wrap.classList.toggle("expanded");
+      });
+      return wrap;
     });
 
     // Carnival "test of strength" — fire/ice thermometer with hammer + striker pad
