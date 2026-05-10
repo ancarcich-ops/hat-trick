@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hat Trick — Risograph Accent Mockups</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="themes.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #1a1a1a;
+        color: #fff;
+        font-family: system-ui, sans-serif;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .opt {
+        background: #f4ecdb;
+        padding: 18px;
+        border-radius: 6px;
+      }
+      .opt h2 {
+        color: #1b1a2e;
+        margin: 0 0 6px;
+        font-family: "Caprasimo", serif;
+        font-size: 22px;
+      }
+      .opt .hex {
+        color: #5a576f;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      .swatch {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        border: 2px solid #1b1a2e;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      .demo {
+        /* riso theme overrides will scope here */
+        --bg: #f4ecdb;
+        --surface: #fffaec;
+        --ink: #1b1a2e;
+        --ink-soft: #5a576f;
+        --line: #c8b98c;
+        --primary: #2a4ed6;
+        --primary-soft: rgba(42, 78, 214, 0.1);
+        --correct: #2cab6b;
+        background: var(--bg);
+        padding: 14px;
+      }
+      .card-mock {
+        background: var(--surface);
+        border: 3px solid var(--ink);
+        box-shadow: 6px 6px 0 var(--accent);
+        padding: 16px;
+        margin-bottom: 14px;
+      }
+      .card-mock h3 {
+        font-family: "Caprasimo", serif;
+        color: var(--primary);
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+      .tabs-mock {
+        display: flex;
+        border: 2px solid var(--ink);
+        background: var(--surface);
+      }
+      .tabs-mock .tab {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .tabs-mock .tab.active {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-mock {
+        display: block;
+        width: 100%;
+        margin-top: 14px;
+        padding: 14px;
+        background: var(--primary);
+        color: #fff;
+        border: 3px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--accent);
+        font-family: "Caprasimo", serif;
+        font-size: 18px;
+        text-align: center;
+      }
+      .header {
+        color: #f4ecdb;
+        max-width: 1600px;
+        margin: 0 auto 24px;
+      }
+      .header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+      }
+      .header p {
+        margin: 0;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Risograph theme — accent color options</h1>
+      <p>Compare side by side. Current pink shown as option 0 for reference.</p>
+    </div>
+    <div class="grid">
+      <div class="opt">
+        <h2>
+          <span class="swatch" style="background: #ff5e8e"></span>0. Pink
+          (current)
+        </h2>
+        <div class="hex">#ff5e8e</div>
+        <div class="demo" style="--accent: #ff5e8e">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <h2>
+          <span class="swatch" style="background: #e5a13a"></span>1. Marigold
+        </h2>
+        <div class="hex">#e5a13a</div>
+        <div class="demo" style="--accent: #e5a13a">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <h2>
+          <span class="swatch" style="background: #ff6a3d"></span>2. Fluoro
+          Orange
+        </h2>
+        <div class="hex">#ff6a3d</div>
+        <div class="demo" style="--accent: #ff6a3d">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <h2>
+          <span class="swatch" style="background: #3d896a"></span>3. Hunter
+          Green
+        </h2>
+        <div class="hex">#3d896a</div>
+        <div class="demo" style="--accent: #3d896a">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <h2>
+          <span class="swatch" style="background: #fbd226"></span>4. Sun Yellow
+        </h2>
+        <div class="hex">#fbd226</div>
+        <div class="demo" style="--accent: #fbd226">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <h2><span class="swatch" style="background: #2a8c8d"></span>5. Teal</h2>
+        <div class="hex">#2a8c8d</div>
+        <div class="demo" style="--accent: #2a8c8d">
+          <div class="card-mock">
+            <h3>Hat Trick</h3>
+            <div class="tabs-mock">
+              <div class="tab">All</div>
+              <div class="tab active">Pro</div>
+              <div class="tab">College</div>
+            </div>
+            <div class="btn-mock">See today's result</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
