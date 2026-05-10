@@ -643,8 +643,10 @@
       promptLabel: "Name them",
       prompt: `Name 3 ${scopeStr}mascots whose team is named after a ${ANIMAL_LABELS[animal]}.`,
       inputs: 3,
-      acceptable: group.map((m) => m.name),
-      acceptableTeams: group.map((m) => `${m.city} ${m.team}`),
+      acceptable: group.map((m) => ({
+        canonical: m.name,
+        aliases: [m.name, m.team, `${m.city} ${m.team}`, m.city],
+      })),
     };
   }
 
@@ -685,7 +687,10 @@
       promptLabel: "Same family",
       prompt: flavor,
       inputs: 1,
-      acceptable: others.map((m) => m.name),
+      acceptable: others.map((m) => ({
+        canonical: m.name,
+        aliases: [m.name, m.team, `${m.city} ${m.team}`, m.city],
+      })),
       subject: target.image
         ? {
             image: target.image,
@@ -804,10 +809,10 @@
   };
 
   function gen_writeMatchColors(rng, pool) {
-    // Find color schemes where at least 2 teams' "city team" string is in the pool.
-    const poolSet = new Set(pool.map((m) => `${m.city} ${m.team}`));
+    // Find color schemes where at least 3 teams' "city team" string is in the pool.
+    const poolByKey = new Map(pool.map((m) => [`${m.city} ${m.team}`, m]));
     const eligible = Object.entries(COLOR_SCHEMES)
-      .map(([scheme, teams]) => [scheme, teams.filter((t) => poolSet.has(t))])
+      .map(([scheme, teams]) => [scheme, teams.filter((t) => poolByKey.has(t))])
       .filter(([, teams]) => teams.length >= 3);
     if (eligible.length === 0) return null;
     const [scheme, teams] = eligible[Math.floor(rng() * eligible.length)];
@@ -820,7 +825,12 @@
         return `Name 2 ${scopeStr}teams with ${scheme} as primary colors.`;
       })(),
       inputs: 2,
-      acceptable: teams,
+      acceptable: teams.map((t) => {
+        const m = poolByKey.get(t);
+        const aliases = [t, m.team, m.city];
+        if (m.name) aliases.push(m.name);
+        return { canonical: t, aliases };
+      }),
     };
   }
 
@@ -1422,20 +1432,32 @@
       .replace(/\s+/g, " ")
       .trim();
   }
+  // An acceptable entry may be either a plain string (canonical = alias) or
+  // an object with { canonical, aliases } so a single mascot can be matched
+  // by its name, team, or "city team" string and still de-dupe correctly.
+  function canonicalOf(item) {
+    return typeof item === "string" ? item : item.canonical;
+  }
+  function aliasesOf(item) {
+    return typeof item === "string" ? [item] : item.aliases;
+  }
   function matchAnswer(input, acceptableList) {
     const ni = normalizeAnswer(input);
     if (!ni || ni.length < 2) return null;
     let best = null;
-    for (const a of acceptableList) {
-      const na = normalizeAnswer(a);
-      if (na === ni) return a;
-      // Substring fuzzy: input must be a meaningful chunk (>=3 chars) of acceptable
-      if (na.includes(ni) && ni.length >= 3) {
-        best = best || a;
+    for (const item of acceptableList) {
+      const canonical = canonicalOf(item);
+      for (const a of aliasesOf(item)) {
+        const na = normalizeAnswer(a);
+        if (na === ni) return canonical;
+        // Substring fuzzy: input must be a meaningful chunk (>=3 chars) of alias
+        if (na.includes(ni) && ni.length >= 3) {
+          best = best || canonical;
+        }
+        // Or first significant word of alias matches input fully
+        const aWords = na.split(" ");
+        if (aWords.some((w) => w.length >= 3 && w === ni)) return canonical;
       }
-      // Or first significant word of acceptable matches input fully
-      const aWords = na.split(" ");
-      if (aWords.some((w) => w.length >= 3 && w === ni)) return a;
     }
     return best;
   }
@@ -1446,7 +1468,8 @@
       const inp = document.createElement("input");
       inp.type = "text";
       inp.className = "writein-input";
-      inp.placeholder = `Mascot ${i + 1}`;
+      inp.placeholder =
+        q.inputs > 1 ? `Mascot or team ${i + 1}` : `Mascot or team`;
       inp.autocomplete = "off";
       inp.autocapitalize = "off";
       inp.spellcheck = false;
@@ -1508,15 +1531,15 @@
       band ? `${band.name} ${correctCount}/${q.inputs}` : null,
     );
 
-    // Show what they missed
-    const missed = q.acceptable.filter((a) => !matched.has(a));
+    // Show what they missed (display canonical names)
+    const missed = q.acceptable.filter((a) => !matched.has(canonicalOf(a)));
     if (missed.length > 0) {
       const missedEl = el("div", { class: "writein-missed" }, [
         el("div", { class: "writein-missed-label" }, "Other valid answers:"),
         el(
           "div",
           { class: "writein-missed-list" },
-          missed.slice(0, 6).join(" · "),
+          missed.slice(0, 6).map(canonicalOf).join(" · "),
         ),
       ]);
       submitBtn.parentElement.appendChild(missedEl);
