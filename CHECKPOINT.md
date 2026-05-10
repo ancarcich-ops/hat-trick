@@ -102,12 +102,12 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 ## Scoring (out of 1000)
 
 - Per-question max: **Q1=100, Q2=100, Q3=200, Q4=300, Q5=300** (= 1000 perfect)
-- 30-second timer per question with 4 speed bands:
-  - **⚡ Lightning** (<8s): 100% × max
-  - **🔥 Quick** (<16s): 75%
-  - **✓ Steady** (<24s): 50%
-  - **⏱ Last second** (<30s): 25%
-  - **🐢 Overtime** (≥30s): 25% floor (player can still answer; floor = your spec)
+- 30-second timer per question with 4 speed bands. The multiplier is **continuous within each band** — it ramps linearly from the band's start value down to the next band's value, so faster answers always score higher (even within the same band). Bands still drive the toast/label:
+  - **⚡ Lightning** (0–8s): 1.0 → 0.75
+  - **🔥 Quick** (8–16s): 0.75 → 0.5
+  - **✓ Steady** (16–24s): 0.5 → 0.25
+  - **⏱ Last second** (24–30s): 0.25 → 0.10
+  - **🐢 Overtime** (≥30s): 0.10 hard floor
 - Wrong answer = 0 pts.
 - Write-in scoring: partial credit by ratio. `points = max × (correctCount / inputs) × bandMultiplier`.
 - State persisted in `state.history[`${date}:${level}:${contentType}`]` with `{score, results, points, bands}`.

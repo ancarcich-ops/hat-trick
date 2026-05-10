@@ -914,18 +914,39 @@
   // Per-question MAX point values. Total perfect = 100.
   const POINTS = [100, 100, 200, 300, 300];
   const TIMER_SECONDS = 30;
-  // Speed bands — each correct answer scaled by this multiplier based on elapsed seconds.
+  // Speed bands — `mult` is the multiplier at the START of each band; the
+  // actual multiplier ramps down linearly across the band toward the next
+  // band's mult (see getBandMultiplier). This produces a continuous gradient
+  // so faster answers score higher even within the same band.
   const BANDS = [
     { name: "Lightning", maxSec: 8, mult: 1.0, emoji: "⚡" },
     { name: "Quick", maxSec: 16, mult: 0.75, emoji: "🔥" },
     { name: "Steady", maxSec: 24, mult: 0.5, emoji: "✓" },
     { name: "Last second", maxSec: 30, mult: 0.25, emoji: "⏱" },
-    // beyond 30s: still floor (player took longer than the timer)
-    { name: "Overtime", maxSec: Infinity, mult: 0.25, emoji: "🐢" },
+    // beyond 30s: hard floor (player took longer than the timer)
+    { name: "Overtime", maxSec: Infinity, mult: 0.1, emoji: "🐢" },
   ];
   function getBand(elapsedSec) {
     for (const b of BANDS) if (elapsedSec < b.maxSec) return b;
     return BANDS[BANDS.length - 1];
+  }
+  // Continuous multiplier: interpolates within a band from its mult (start)
+  // down to the next band's mult (end). The Overtime band stays flat.
+  function getBandMultiplier(elapsedSec) {
+    for (let i = 0; i < BANDS.length; i++) {
+      const b = BANDS[i];
+      if (elapsedSec < b.maxSec) {
+        if (b.maxSec === Infinity) return b.mult;
+        const prev = i > 0 ? BANDS[i - 1].maxSec : 0;
+        const next = BANDS[i + 1] || b;
+        const t = Math.max(
+          0,
+          Math.min(1, (elapsedSec - prev) / (b.maxSec - prev)),
+        );
+        return b.mult + (next.mult - b.mult) * t;
+      }
+    }
+    return BANDS[BANDS.length - 1].mult;
   }
 
   // Categorize "mascot vs logo" by primary subject visual.
@@ -1458,7 +1479,8 @@
     const max = POINTS[currentIdx];
     const ratio = correctCount / q.inputs;
     const band = correctCount > 0 ? getBand(e) : null;
-    const pts = correctCount > 0 ? Math.round(max * ratio * band.mult) : 0;
+    const pts =
+      correctCount > 0 ? Math.round(max * ratio * getBandMultiplier(e)) : 0;
     results.push(correctCount > 0);
     pointsEarned.push(pts);
     bandsAchieved.push(
@@ -1522,7 +1544,7 @@
           const correct = stateAbbr === q.targetState;
           const max = POINTS[currentIdx];
           const band = correct ? getBand(e) : null;
-          const pts = correct ? Math.round(max * band.mult) : 0;
+          const pts = correct ? Math.round(max * getBandMultiplier(e)) : 0;
           results.push(correct);
           pointsEarned.push(pts);
           bandsAchieved.push(band ? band.name : null);
@@ -1561,7 +1583,7 @@
     const correct = q.choices[idx].correct;
     const max = POINTS[currentIdx];
     const band = correct ? getBand(e) : null;
-    const pts = correct ? Math.round(max * band.mult) : 0;
+    const pts = correct ? Math.round(max * getBandMultiplier(e)) : 0;
     results.push(correct);
     pointsEarned.push(pts);
     bandsAchieved.push(band ? band.name : null);
