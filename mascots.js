@@ -5,6 +5,8 @@ const ESPN = (sport, abbr) =>
   `https://a.espncdn.com/i/teamlogos/${sport}/500/${abbr}.png`;
 const NCAA = (id) => `https://a.espncdn.com/i/teamlogos/ncaa/500/${id}.png`;
 const SOCCER = (id) => `https://a.espncdn.com/i/teamlogos/soccer/500/${id}.png`;
+// Some MLS teams 404 on the soccer/{id} path but work via the mls/{abbr} path.
+const MLS = (abbr) => `https://a.espncdn.com/i/teamlogos/mls/500/${abbr}.png`;
 
 const IMG = (slug) => `images/mascots/${slug}.png`;
 
@@ -1084,6 +1086,7 @@ window.MASCOTS = [
     level: "pro",
     logo: SOCCER(192),
     image: IMG("clawhauser"),
+    noLogo: true,
   },
   {
     name: "Swoop",
@@ -1115,7 +1118,7 @@ window.MASCOTS = [
     animal: "bird",
     emoji: "🐦",
     level: "pro",
-    logo: SOCCER(17012),
+    logo: SOCCER(21812),
     image: IMG("redbird"),
   },
   {
@@ -1203,7 +1206,7 @@ window.MASCOTS = [
     animal: "dog",
     emoji: "🐶",
     level: "pro",
-    logo: SOCCER(188),
+    logo: MLS("chi"),
     image: IMG("sparky-mls"),
   },
   {
@@ -1247,7 +1250,7 @@ window.MASCOTS = [
     animal: "human",
     emoji: "⚓",
     level: "pro",
-    logo: SOCCER(9678),
+    logo: MLS("sea"),
     image: IMG("captain-k"),
   },
   {

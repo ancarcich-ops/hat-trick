@@ -402,6 +402,9 @@
   }
 
   function gen_pickTeamFromMascot(rng, pool) {
+    // Choices display team logos — exclude entries marked noLogo so we never
+    // show a placeholder tile for a question or answer.
+    pool = pool.filter((m) => !m.noLogo);
     const safe = pool.filter((m) => !leaksTeam(m));
     if (safe.length < 1) return null;
     const target = safe[Math.floor(rng() * safe.length)];
@@ -440,10 +443,11 @@
   }
 
   function gen_pickMascotFromTeam(rng, pool) {
-    // Choices show mascot photos. Restrict to mascots that have real images
-    // so we never show an emoji choice next to photo choices (the emoji becomes
-    // a giveaway by visual elimination).
-    pool = pool.filter((m) => m.image);
+    // Subject is the team logo. Choices show mascot photos. Restrict to mascots
+    // that have real images so we never show an emoji choice next to photo
+    // choices (emoji = giveaway by visual elimination), and exclude noLogo so
+    // the subject is never a placeholder.
+    pool = pool.filter((m) => m.image && !m.noLogo);
     const safe = pool.filter((m) => !leaksTeam(m));
     if (safe.length < 1 || pool.length < 4) return null;
     const target = safe[Math.floor(rng() * safe.length)];
@@ -610,6 +614,15 @@
     lion: "lion",
   };
 
+  // Detect whether the pool is all-pro, all-college, or mixed — used to
+  // disambiguate write-in prompts so a player on the Pro pool isn't surprised
+  // when a college lion is rejected.
+  function poolScopeLabel(pool) {
+    const levels = new Set(pool.map((m) => m.level));
+    if (levels.size !== 1) return null;
+    return [...levels][0] === "pro" ? "pro" : "college";
+  }
+
   function gen_writeMatchAnimal(rng, pool) {
     // Group by animal; only animals with >=4 mascots in the pool (so we can ask
     // for 3 and still leave wiggle room).
@@ -623,10 +636,12 @@
     );
     if (eligible.length === 0) return null;
     const [animal, group] = eligible[Math.floor(rng() * eligible.length)];
+    const scope = poolScopeLabel(pool);
+    const scopeStr = scope ? `${scope} ` : "";
     return {
       type: "write-in",
       promptLabel: "Name them",
-      prompt: `Name 3 mascots whose team is named after a ${ANIMAL_LABELS[animal]}.`,
+      prompt: `Name 3 ${scopeStr}mascots whose team is named after a ${ANIMAL_LABELS[animal]}.`,
       inputs: 3,
       acceptable: group.map((m) => m.name),
       acceptableTeams: group.map((m) => `${m.city} ${m.team}`),
@@ -659,10 +674,12 @@
     );
     if (others.length === 0) return null;
     const animalLabel = ANIMAL_LABELS[animal];
+    const scope = poolScopeLabel(pool);
+    const scopeStr = scope ? `${scope} ` : "";
     const flavor =
       target.team === "Cubs"
-        ? `${target.name} is a young bear cub. Name another bear-themed mascot.`
-        : `${target.name} (${target.city} ${target.team}) is a ${animalLabel}. Name another ${animalLabel} mascot.`;
+        ? `${target.name} is a young bear cub. Name another ${scopeStr}bear-themed mascot.`
+        : `${target.name} (${target.city} ${target.team}) is a ${animalLabel}. Name another ${scopeStr}${animalLabel} mascot.`;
     return {
       type: "write-in",
       promptLabel: "Same family",
@@ -797,14 +814,18 @@
     return {
       type: "write-in",
       promptLabel: "Color match",
-      prompt: `Name 2 teams with ${scheme} as primary colors.`,
+      prompt: (() => {
+        const scope = poolScopeLabel(pool);
+        const scopeStr = scope ? `${scope} ` : "";
+        return `Name 2 ${scopeStr}teams with ${scheme} as primary colors.`;
+      })(),
       inputs: 2,
       acceptable: teams,
     };
   }
 
   function gen_logoToTeam(rng, pool) {
-    pool = pool.filter((m) => m.logo);
+    pool = pool.filter((m) => m.logo && !m.noLogo);
     const target = pool[Math.floor(rng() * pool.length)];
     const sameLeague = pool.filter(
       (m) =>
@@ -840,7 +861,7 @@
   }
 
   function gen_logoToCity(rng, pool) {
-    pool = pool.filter((m) => m.logo);
+    pool = pool.filter((m) => m.logo && !m.noLogo);
     const target = pool[Math.floor(rng() * pool.length)];
     const isCollege = target.level === "college";
     const sameLeague = pool.filter(
@@ -882,7 +903,7 @@
   }
 
   function gen_pickState(rng, pool) {
-    pool = pool.filter((m) => m.logo);
+    pool = pool.filter((m) => m.logo && !m.noLogo);
     const stateOf = (m) => m.state || STATE_BY_CITY[m.city];
     const us = pool.filter((m) => {
       const s = stateOf(m);
