@@ -77,18 +77,18 @@ College conferences: ACC, A-10, AAC, America East, Big 12, Big East, Big Sky, Bi
 
 ## Question generators (all in `app.js`)
 
-| Generator                | Type                | Difficulty bucket | Notes                                                                                           |
-| ------------------------ | ------------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
-| `gen_pickLeague`         | multiple-choice     | EASY              | Subject = mascot name only (no team, no logo) — text-only to avoid leak                         |
-| `gen_logoToTeam`         | multiple-choice     | EASY              | Logo subject with **center-out reveal animation** over 30s                                      |
-| `gen_logoToCity`         | multiple-choice     | EASY              | Same reveal animation                                                                           |
-| `gen_pickTeamFromMascot` | multiple-choice     | MEDIUM            | Photo + name subject (no league sub)                                                            |
-| `gen_pickMascotFromTeam` | multiple-choice     | MEDIUM            | Logo subject; choices are mascot **photos** (filtered to mascots with `image` so no emoji-leak) |
-| `gen_pickState`          | map                 | HARD              | Click-a-state on US SVG; hidden tooltip; show state name on answer                              |
-| `gen_oddOneOut`          | multiple-choice     | HARD              | Choices show photos only (no team names — would leak)                                           |
-| `gen_writeMatchAnimal`   | write-in (3 inputs) | HARD              | "Name 3 mascots of type X"                                                                      |
-| `gen_writeAdultVersion`  | write-in (1 input)  | HARD              | "Clark is a young bear cub. Name another bear-themed mascot."                                   |
-| `gen_writeMatchColors`   | write-in (2 inputs) | HARD              | "Name 2 teams with Black & Gold colors" — `COLOR_SCHEMES` map curated for ~12 schemes           |
+| Generator                | Type            | Difficulty bucket | Notes                                                                                           |
+| ------------------------ | --------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
+| `gen_pickLeague`         | multiple-choice | EASY              | Subject = mascot name only (no team, no logo) — text-only to avoid leak                         |
+| `gen_logoToTeam`         | multiple-choice | EASY              | Logo subject with **center-out reveal animation** over 30s                                      |
+| `gen_logoToCity`         | multiple-choice | EASY              | Same reveal animation                                                                           |
+| `gen_pickTeamFromMascot` | multiple-choice | MEDIUM            | Photo + name subject (no league sub)                                                            |
+| `gen_pickMascotFromTeam` | multiple-choice | MEDIUM            | Logo subject; choices are mascot **photos** (filtered to mascots with `image` so no emoji-leak) |
+| `gen_pickState`          | map             | HARD              | Click-a-state on US SVG; hidden tooltip; show state name on answer                              |
+| `gen_oddOneOut`          | multiple-choice | HARD              | Choices show photos only (no team names — would leak)                                           |
+| `gen_writeMatchAnimal`   | multiple-choice | HARD              | "Which mascot represents a [animal] team?" (was write-in; reverted to MC for difficulty)        |
+| `gen_writeAdultVersion`  | multiple-choice | HARD              | "Bailey is a lion. Which of these is also a lion mascot?" (was write-in; reverted to MC)        |
+| `gen_writeMatchColors`   | multiple-choice | HARD              | "Which team has [scheme] colors?" — `COLOR_SCHEMES` map curated (was write-in; reverted to MC)  |
 
 `leaksTeam(mascot)` filter excludes mascots whose name shares a stem with their team name (e.g., "Blue Devil" → "Blue Devils") from generators where that would give the answer away.
 

@@ -624,81 +624,90 @@
   }
 
   function gen_writeMatchAnimal(rng, pool) {
-    // Group by animal; only animals with >=4 mascots in the pool (so we can ask
-    // for 3 and still leave wiggle room).
+    // Multi-choice: "Which of these mascots has a [animal] team?"
+    // 1 correct from the target animal, 3 distractors from other animals.
     const byAnimal = {};
     for (const m of pool) {
       if (!ANIMAL_LABELS[m.animal]) continue;
       (byAnimal[m.animal] ||= []).push(m);
     }
     const eligible = Object.entries(byAnimal).filter(
-      ([, arr]) => arr.length >= 4,
+      ([, arr]) => arr.length >= 1,
     );
-    if (eligible.length === 0) return null;
+    if (eligible.length < 2) return null;
     const [animal, group] = eligible[Math.floor(rng() * eligible.length)];
+    const target = group[Math.floor(rng() * group.length)];
+    const distractorPool = pool.filter(
+      (m) => m.animal !== animal && ANIMAL_LABELS[m.animal],
+    );
+    if (distractorPool.length < 3) return null;
+    const distractors = pick(distractorPool, rng, 3);
+    const choices = shuffle(
+      [target, ...distractors].map((m) => ({
+        label: m.name,
+        sub: `${m.city} ${m.team}`,
+        correct: m.name === target.name && m.city === target.city,
+      })),
+      rng,
+    );
     const scope = poolScopeLabel(pool);
     const scopeStr = scope ? `${scope} ` : "";
     return {
-      type: "write-in",
-      promptLabel: "Name them",
-      prompt: `Name 3 ${scopeStr}mascots whose team is named after a ${ANIMAL_LABELS[animal]}.`,
-      inputs: 3,
-      acceptable: group.map((m) => ({
-        canonical: m.name,
-        aliases: [m.name, m.team, `${m.city} ${m.team}`, m.city],
-      })),
+      promptLabel: "Animal type",
+      prompt: `Which of these ${scopeStr}mascots represents a ${ANIMAL_LABELS[animal]} team?`,
+      choices,
     };
   }
 
   function gen_writeAdultVersion(rng, pool) {
-    // Pick a mascot whose team is a "young animal" (Cubs) or just any mascot
-    // and ask for another mascot of the same type. Uses photo + name as the prompt.
+    // Multi-choice: subject mascot + "which of these is also a [animal]?"
     const byAnimal = {};
     for (const m of pool) {
       if (!ANIMAL_LABELS[m.animal]) continue;
       (byAnimal[m.animal] ||= []).push(m);
     }
     const eligible = Object.entries(byAnimal).filter(
-      ([, arr]) => arr.length >= 3,
+      ([, arr]) => arr.length >= 2,
     );
     if (eligible.length === 0) return null;
     const [animal, group] = eligible[Math.floor(rng() * eligible.length)];
-    // Prefer mascots whose team name implies "young" (Cubs) but otherwise any.
+    // Prefer "young animal" team names as the subject (Cubs/Wildcats/etc.).
     const youngTeams = ["Cubs", "Bears", "Wolfpack", "Wildcats"];
-    const youngOnes = group.filter((m) =>
-      youngTeams.some((t) => m.team.includes(t)),
+    const shuffled = shuffle(group, rng);
+    const subjectPick =
+      shuffled.find((m) => youngTeams.some((t) => m.team.includes(t))) ||
+      shuffled[0];
+    const subject = subjectPick;
+    const correctAnswer = shuffled.find(
+      (m) => m.name !== subject.name || m.city !== subject.city,
     );
-    const target = (youngOnes.length ? youngOnes : group)[
-      Math.floor(rng() * (youngOnes.length || group.length))
-    ];
-    const others = group.filter(
-      (m) => m.name !== target.name || m.city !== target.city,
+    if (!correctAnswer) return null;
+    const distractorPool = pool.filter(
+      (m) => m.animal !== animal && ANIMAL_LABELS[m.animal],
     );
-    if (others.length === 0) return null;
-    const animalLabel = ANIMAL_LABELS[animal];
-    const scope = poolScopeLabel(pool);
-    const scopeStr = scope ? `${scope} ` : "";
-    const flavor =
-      target.team === "Cubs"
-        ? `${target.name} is a young bear cub. Name another ${scopeStr}bear-themed mascot.`
-        : `${target.name} (${target.city} ${target.team}) is a ${animalLabel}. Name another ${scopeStr}${animalLabel} mascot.`;
-    return {
-      type: "write-in",
-      promptLabel: "Same family",
-      prompt: flavor,
-      inputs: 1,
-      acceptable: others.map((m) => ({
-        canonical: m.name,
-        aliases: [m.name, m.team, `${m.city} ${m.team}`, m.city],
+    if (distractorPool.length < 3) return null;
+    const distractors = pick(distractorPool, rng, 3);
+    const choices = shuffle(
+      [correctAnswer, ...distractors].map((m) => ({
+        label: m.name,
+        sub: `${m.city} ${m.team}`,
+        correct: m.name === correctAnswer.name && m.city === correctAnswer.city,
       })),
-      subject: target.image
+      rng,
+    );
+    const animalLabel = ANIMAL_LABELS[animal];
+    return {
+      promptLabel: "Same family",
+      prompt: `${subject.name} (${subject.city} ${subject.team}) is a ${animalLabel}. Which of these is also a ${animalLabel} mascot?`,
+      subject: subject.image
         ? {
-            image: target.image,
-            emoji: target.emoji,
-            name: target.name,
-            sub: `${target.city} ${target.team}`,
+            image: subject.image,
+            emoji: subject.emoji,
+            name: subject.name,
+            sub: `${subject.city} ${subject.team}`,
           }
         : null,
+      choices,
     };
   }
 
@@ -809,28 +818,43 @@
   };
 
   function gen_writeMatchColors(rng, pool) {
-    // Find color schemes where at least 3 teams' "city team" string is in the pool.
+    // Multi-choice: 1 correct team from the target scheme, 3 distractors from
+    // *other* color schemes (so the wrong answers also have a known scheme).
     const poolByKey = new Map(pool.map((m) => [`${m.city} ${m.team}`, m]));
     const eligible = Object.entries(COLOR_SCHEMES)
       .map(([scheme, teams]) => [scheme, teams.filter((t) => poolByKey.has(t))])
-      .filter(([, teams]) => teams.length >= 3);
-    if (eligible.length === 0) return null;
+      .filter(([, teams]) => teams.length >= 1);
+    if (eligible.length < 2) return null;
     const [scheme, teams] = eligible[Math.floor(rng() * eligible.length)];
+    const correctKey = teams[Math.floor(rng() * teams.length)];
+    const correctMascot = poolByKey.get(correctKey);
+    const sameSchemeSet = new Set(teams);
+    // Build distractor pool from teams in OTHER schemes (excludes any team in
+    // the target scheme to prevent ambiguity).
+    const distractorKeys = new Set();
+    for (const [s, ts] of Object.entries(COLOR_SCHEMES)) {
+      if (s === scheme) continue;
+      for (const t of ts) {
+        if (!sameSchemeSet.has(t) && poolByKey.has(t)) distractorKeys.add(t);
+      }
+    }
+    const distractorPool = [...distractorKeys].map((k) => poolByKey.get(k));
+    if (distractorPool.length < 3) return null;
+    const distractors = pick(distractorPool, rng, 3);
+    const choices = shuffle(
+      [correctMascot, ...distractors].map((m) => ({
+        label: m.team,
+        sub: m.city,
+        correct: m.team === correctMascot.team && m.city === correctMascot.city,
+      })),
+      rng,
+    );
+    const scope = poolScopeLabel(pool);
+    const scopeStr = scope ? `${scope} ` : "";
     return {
-      type: "write-in",
       promptLabel: "Color match",
-      prompt: (() => {
-        const scope = poolScopeLabel(pool);
-        const scopeStr = scope ? `${scope} ` : "";
-        return `Name 2 ${scopeStr}teams with ${scheme} as primary colors.`;
-      })(),
-      inputs: 2,
-      acceptable: teams.map((t) => {
-        const m = poolByKey.get(t);
-        const aliases = [t, m.team, m.city];
-        if (m.name) aliases.push(m.name);
-        return { canonical: t, aliases };
-      }),
+      prompt: `Which of these ${scopeStr}teams has ${scheme} as primary colors?`,
+      choices,
     };
   }
 
