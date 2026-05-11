@@ -777,6 +777,33 @@ main#screen {
   color: var(--correct);
   margin-right: 4px;
 }
+.result .summary .detail-guess {
+  padding: 8px 10px;
+  border-radius: 8px;
+  line-height: 1.4;
+  border: 1px solid;
+}
+.result .summary .detail-guess.correct {
+  background: var(--correct-bg);
+  border-color: var(--correct);
+}
+.result .summary .detail-guess.wrong {
+  background: var(--wrong-bg);
+  border-color: var(--wrong);
+}
+.result .summary .row-wrap:not(.expanded) .detail-guess {
+  display: none;
+}
+.result .summary .detail-guess-label {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.result .summary .detail-guess.correct .detail-guess-label {
+  color: var(--correct);
+}
+.result .summary .detail-guess.wrong .detail-guess-label {
+  color: var(--wrong);
+}
 
 .result-actions {
   display: grid;

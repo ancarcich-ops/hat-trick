@@ -1195,6 +1195,7 @@
     results,
     pointsEarned,
     bandsAchieved,
+    userAnswers,
     currentLevel,
     currentContentType;
   let timerStart = 0;
@@ -1337,6 +1338,7 @@
     results = [];
     pointsEarned = [];
     bandsAchieved = [];
+    userAnswers = [];
     showQuestion();
   }
 
@@ -1554,6 +1556,7 @@
     bandsAchieved.push(
       band ? `${band.name} ${correctCount}/${q.inputs}` : null,
     );
+    userAnswers.push(inputEls.map((inp) => inp.value).filter(Boolean));
 
     // Show what they missed (display canonical names)
     const missed = q.acceptable.filter((a) => !matched.has(canonicalOf(a)));
@@ -1616,6 +1619,7 @@
           results.push(correct);
           pointsEarned.push(pts);
           bandsAchieved.push(band ? band.name : null);
+          userAnswers.push(stateAbbr);
           p.classList.add(correct ? "state-correct" : "state-wrong");
           if (!correct) {
             const correctPath = svg.querySelector(
@@ -1655,6 +1659,14 @@
     results.push(correct);
     pointsEarned.push(pts);
     bandsAchieved.push(band ? band.name : null);
+    const pickedChoice = q.choices[idx];
+    userAnswers.push(
+      pickedChoice
+        ? pickedChoice.sub
+          ? `${pickedChoice.label} — ${pickedChoice.sub}`
+          : pickedChoice.label
+        : null,
+    );
 
     buttons.forEach((b, i) => {
       b.disabled = true;
@@ -1692,6 +1704,7 @@
       results: results.slice(),
       points: pointsEarned.slice(),
       bands: bandsAchieved.slice(),
+      userAnswers: userAnswers.slice(),
       level: currentLevel,
       contentType: currentContentType,
     };
@@ -1717,8 +1730,8 @@
   }
 
   // Builds the expandable detail panel under a result-summary row, showing
-  // the question prompt + the subject (logo/photo if any) + the correct answer.
-  function buildAnswerDetail(q, wasCorrect) {
+  // the question prompt + subject + user's answer + correct answer.
+  function buildAnswerDetail(q, wasCorrect, userAnswer) {
     const parts = [];
     parts.push(el("div", { class: "detail-prompt" }, q.prompt));
     if (q.subject && (q.subject.logo || q.subject.image)) {
@@ -1751,6 +1764,36 @@
       if (correct) {
         answerText = correct.label + (correct.sub ? ` — ${correct.sub}` : "");
       }
+    }
+    // Format the user's answer for display (handles MC label, map state, write-in array, missed)
+    let userText = null;
+    if (userAnswer != null) {
+      if (Array.isArray(userAnswer)) {
+        userText = userAnswer.filter(Boolean).join(" · ") || null;
+      } else if (q.type === "map") {
+        userText = STATE_NAMES[userAnswer] || userAnswer;
+      } else {
+        userText = String(userAnswer);
+      }
+    }
+    if (userText) {
+      parts.push(
+        el(
+          "div",
+          { class: `detail-guess ${wasCorrect ? "correct" : "wrong"}` },
+          [
+            el("span", { class: "detail-guess-label" }, "Your answer:"),
+            el("span", { class: "detail-guess-value" }, " " + userText),
+          ],
+        ),
+      );
+    } else if (!wasCorrect) {
+      parts.push(
+        el("div", { class: "detail-guess wrong" }, [
+          el("span", { class: "detail-guess-label" }, "Your answer:"),
+          el("span", { class: "detail-guess-value" }, " (no answer)"),
+        ]),
+      );
     }
     if (answerText) {
       parts.push(
@@ -1812,7 +1855,8 @@
       if (!q) return head;
       head.classList.add("row-clickable");
       head.appendChild(el("div", { class: "row-chevron" }, "▾"));
-      const detail = buildAnswerDetail(q, r);
+      const userAnswer = today.userAnswers ? today.userAnswers[i] : undefined;
+      const detail = buildAnswerDetail(q, r, userAnswer);
       const detailEl = el("div", { class: "row-detail" }, detail);
       const wrap = el("div", { class: "row-wrap" }, [head, detailEl]);
       head.addEventListener("click", () => {
