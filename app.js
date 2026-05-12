@@ -2042,11 +2042,14 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://hat-trick-app.vercel.app`;
+              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}`;
+              const url = "https://hat-trick-app.vercel.app";
               try {
-                if (navigator.share) await navigator.share({ text });
+                // Pass url separately so the native share sheet attaches it as
+                // a rich link preview (tappable card) instead of a raw URL line.
+                if (navigator.share) await navigator.share({ text, url });
                 else {
-                  await navigator.clipboard.writeText(text);
+                  await navigator.clipboard.writeText(`${text}\n${url}`);
                   toast("Copied result to clipboard");
                 }
               } catch {}
