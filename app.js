@@ -642,10 +642,12 @@
     );
     if (distractorPool.length < 3) return null;
     const distractors = pick(distractorPool, rng, 3);
+    // Hide the team-name suffix — a team named after the animal would
+    // trivially give away the answer. Show city + league instead.
     const choices = shuffle(
       [target, ...distractors].map((m) => ({
         label: m.name,
-        sub: `${m.city} ${m.team}`,
+        sub: `${m.city} · ${m.league}`,
         correct: m.name === target.name && m.city === target.city,
       })),
       rng,
@@ -687,10 +689,13 @@
     );
     if (distractorPool.length < 3) return null;
     const distractors = pick(distractorPool, rng, 3);
+    // Hide the team-name suffix from choice subtitles — the question is
+    // "which is also a <animal>?" and a team name like "Cougars" would
+    // literally name the animal. Show city + league instead.
     const choices = shuffle(
       [correctAnswer, ...distractors].map((m) => ({
         label: m.name,
-        sub: `${m.city} ${m.team}`,
+        sub: `${m.city} · ${m.league}`,
         correct: m.name === correctAnswer.name && m.city === correctAnswer.city,
       })),
       rng,
