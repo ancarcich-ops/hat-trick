@@ -2042,14 +2042,14 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}`;
-              const url = "https://hat-trick-app.vercel.app";
+              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhat-trick-app.vercel.app`;
               try {
-                // Pass url separately so the native share sheet attaches it as
-                // a rich link preview (tappable card) instead of a raw URL line.
-                if (navigator.share) await navigator.share({ text, url });
+                // URL inlined as plain text (no `url` field) so the native
+                // share sheet doesn't generate a rich preview card — receiving
+                // apps auto-link it as tappable plain text.
+                if (navigator.share) await navigator.share({ text });
                 else {
-                  await navigator.clipboard.writeText(`${text}\n${url}`);
+                  await navigator.clipboard.writeText(text);
                   toast("Copied result to clipboard");
                 }
               } catch {}
