@@ -2037,7 +2037,7 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}`;
+              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://hat-trick-app.vercel.app`;
               try {
                 if (navigator.share) await navigator.share({ text });
                 else {
