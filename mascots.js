@@ -884,7 +884,7 @@ window.MASCOTS = [
     animal: "lion",
     emoji: "🦁",
     level: "pro",
-    logo: ESPN("nhl", "lak"),
+    logo: ESPN("nhl", "la"),
     image: IMG("bailey"),
   },
   {

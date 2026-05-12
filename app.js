@@ -1726,7 +1726,25 @@
   function shareGrid(level, contentType) {
     const today = state.history[`${todayKey()}:${level}:${contentType}`];
     if (!today) return "";
-    return today.results.map((r) => (r ? "🟩" : "🟥")).join("");
+    return today.results.map((r) => (r ? "✅" : "❌")).join("");
+  }
+  function shareDateLabel() {
+    const d = new Date();
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
   }
 
   // Builds the expandable detail panel under a result-summary row, showing
@@ -2019,7 +2037,7 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick #${n} • ${levelMeta.short} ${today.score}/1000\n${grid}`;
+              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}`;
               try {
                 if (navigator.share) await navigator.share({ text });
                 else {
