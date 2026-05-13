@@ -1066,6 +1066,16 @@ window.MASCOTS = [
     image: IMG("diesel-dynamo"),
   },
   {
+    name: "REDD",
+    team: "Red Bulls",
+    city: "Harrison",
+    league: "MLS",
+    animal: "bull",
+    emoji: "🐂",
+    level: "pro",
+    logo: SOCCER(190),
+  },
+  {
     name: "Swoop",
     team: "Union",
     city: "Philadelphia",
