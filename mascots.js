@@ -1076,6 +1076,18 @@ window.MASCOTS = [
     logo: SOCCER(190),
   },
   {
+    name: "Crew Cat",
+    team: "Crew",
+    city: "Columbus",
+    league: "MLS",
+    animal: "cat",
+    emoji: "🐱",
+    level: "pro",
+    logo: SOCCER(192),
+    image: IMG("crew-cat"),
+    noLogo: true,
+  },
+  {
     name: "Swoop",
     team: "Union",
     city: "Philadelphia",
@@ -1239,6 +1251,16 @@ window.MASCOTS = [
     level: "pro",
     logo: SOCCER(193),
     image: IMG("hoots"),
+  },
+  {
+    name: "The Loon",
+    team: "United FC",
+    city: "Saint Paul",
+    league: "MLS",
+    animal: "loon",
+    emoji: "🐦",
+    level: "pro",
+    logo: SOCCER(17362),
   },
   {
     name: "Chomps",
@@ -2406,7 +2428,7 @@ window.MASCOTS = [
 
   // Sun Belt
   {
-    name: "Yodel the Mountaineer",
+    name: "Yosef",
     team: "Mountaineers",
     city: "Appalachian State",
     league: "Sun Belt",
@@ -2414,7 +2436,7 @@ window.MASCOTS = [
     emoji: "🪕",
     level: "college",
     logo: NCAA(2026),
-    image: IMG("yodel"),
+    image: IMG("yosef"),
   },
   {
     name: "The Chanticleer",
@@ -2441,7 +2463,7 @@ window.MASCOTS = [
 
   // Conference USA (selected)
   {
-    name: "LU the Eagle",
+    name: "Sparky the Eagle",
     team: "Flames",
     city: "Liberty",
     league: "CUSA",
@@ -2449,7 +2471,7 @@ window.MASCOTS = [
     emoji: "🦅",
     level: "college",
     logo: NCAA(2335),
-    image: IMG("lu-eagle"),
+    image: IMG("sparky-liberty"),
   },
   {
     name: "Sammy Bearkat",
@@ -2660,7 +2682,7 @@ window.MASCOTS = [
     image: IMG("youdee"),
   },
   {
-    name: "Drex the Dragon",
+    name: "Mario the Magnificent",
     team: "Dragons",
     city: "Drexel",
     league: "CAA",
@@ -2668,7 +2690,7 @@ window.MASCOTS = [
     emoji: "🐉",
     level: "college",
     logo: NCAA(2182),
-    image: IMG("drex"),
+    image: IMG("mario-magnificent"),
   },
   {
     name: "Sammy the Seahawk",
@@ -2741,28 +2763,28 @@ window.MASCOTS = [
     image: IMG("rhett-bu"),
   },
   {
-    name: "Holy Cross Crusader",
+    name: "Iggy",
     team: "Crusaders",
     city: "Holy Cross",
     league: "Patriot League",
-    animal: "human",
-    emoji: "✝️",
+    animal: "dragon",
+    emoji: "🐉",
     level: "college",
     logo: NCAA(107),
-    image: IMG("holy-cross-eagle"),
+    image: IMG("iggy-holy-cross"),
   },
 
   // SoCon
   {
-    name: "The Citadel General",
+    name: "Spike the Bulldog",
     team: "Bulldogs",
     city: "The Citadel",
     league: "SoCon",
-    animal: "human",
-    emoji: "🪖",
+    animal: "bulldog",
+    emoji: "🐶",
     level: "college",
     logo: NCAA(2127),
-    image: IMG("general-citadel"),
+    image: IMG("spike-citadel"),
   },
 
   // Southland Conference
