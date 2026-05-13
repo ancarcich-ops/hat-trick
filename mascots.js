@@ -1251,6 +1251,7 @@ window.MASCOTS = [
     emoji: "🐦",
     level: "pro",
     logo: SOCCER(17362),
+    image: IMG("the-loon"),
   },
   {
     name: "Chomps",
@@ -1989,15 +1990,15 @@ window.MASCOTS = [
     image: IMG("river-hawk"),
   },
   {
-    name: "Bonnie",
+    name: "Bona Wolf",
     team: "Bonnies",
     city: "St. Bonaventure",
     league: "Big East",
-    animal: "creature",
-    emoji: "🟤",
+    animal: "wolf",
+    emoji: "🐺",
     level: "college",
     logo: NCAA(179),
-    image: IMG("bonnie-bonnies"),
+    image: IMG("bona-wolf"),
   },
 
   // Smaller D1 (basketball-strong, no FBS football) — no photos yet,
@@ -2125,7 +2126,7 @@ window.MASCOTS = [
   },
   // Rest of Ivy League
   {
-    name: "Boomer the Bear",
+    name: "Bruno",
     team: "Bears",
     city: "Brown",
     league: "Ivy League",
@@ -2133,7 +2134,7 @@ window.MASCOTS = [
     emoji: "🐻",
     level: "college",
     logo: NCAA(225),
-    image: IMG("boomer-bear"),
+    image: IMG("bruno"),
   },
   {
     name: "Roaree the Lion",
