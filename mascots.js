@@ -1074,6 +1074,7 @@ window.MASCOTS = [
     emoji: "🐂",
     level: "pro",
     logo: SOCCER(190),
+    image: IMG("redd"),
   },
   {
     name: "Crew Cat",
