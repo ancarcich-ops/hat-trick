@@ -1111,17 +1111,6 @@ window.MASCOTS = [
     image: IMG("quakesadus"),
   },
   {
-    name: "Verde the Armadillo",
-    team: "Austin FC",
-    city: "Austin",
-    league: "MLS",
-    animal: "armadillo",
-    emoji: "🦔",
-    level: "pro",
-    logo: SOCCER(20906),
-    image: IMG("verde-armadillo"),
-  },
-  {
     name: "Sparky",
     team: "Fire FC",
     city: "Chicago",
