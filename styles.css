@@ -133,6 +133,16 @@ main#screen {
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(15, 26, 46, 0.15);
 }
+.hero-text {
+  font-family: "DM Serif Display", "Caprasimo", Georgia, serif;
+  font-size: clamp(54px, 14vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+  color: var(--ink);
+  padding: 8px 0;
+}
 .title-screen h1 {
   font-size: 32px;
   margin: 0 0 8px;

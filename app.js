@@ -1285,11 +1285,7 @@
 
     const card = el("div", { class: "card title-screen" }, [
       el("div", { class: "hero" }, [
-        el("img", {
-          src: "images/hat-trick-wordmark.png",
-          alt: "Hat Trick",
-          class: "hero-img",
-        }),
+        el("div", { class: "hero-text" }, "Combine"),
       ]),
       el(
         "p",
@@ -2042,7 +2038,7 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Hat Trick · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://hat-trick-app.vercel.app`;
+              const text = `Combine · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://hat-trick-app.vercel.app`;
               try {
                 // URL inlined as plain text (no `url` field) so the native
                 // share sheet doesn't generate a rich preview card — receiving
@@ -2159,7 +2155,7 @@
   let pressTimer = null;
   document.getElementById("streakBtn").addEventListener("mousedown", () => {
     pressTimer = setTimeout(() => {
-      if (confirm("Reset all Hat Trick progress?")) {
+      if (confirm("Reset all Combine progress?")) {
         localStorage.removeItem(STORAGE_KEY);
         location.reload();
       }
