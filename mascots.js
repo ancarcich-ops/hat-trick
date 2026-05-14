@@ -1111,17 +1111,6 @@ window.MASCOTS = [
     image: IMG("quakesadus"),
   },
   {
-    name: "Marco",
-    team: "Rapids",
-    city: "Commerce City",
-    league: "MLS",
-    animal: "goat",
-    emoji: "🐐",
-    level: "pro",
-    logo: SOCCER(182),
-    image: IMG("marco-rapids"),
-  },
-  {
     name: "Timber Joey",
     team: "Timbers",
     city: "Portland",
