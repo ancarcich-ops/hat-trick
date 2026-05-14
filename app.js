@@ -1100,7 +1100,7 @@
   state.lastPlayed ||= null;
   state.level ||= "all";
   state.contentType ||= "both";
-  state.theme ||= "default";
+  state.theme ||= "editorial";
 
   function applyTheme(t) {
     const all = ["default", "editorial", "stadium", "glass", "riso"];
