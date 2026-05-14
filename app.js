@@ -1100,7 +1100,7 @@
   state.lastPlayed ||= null;
   state.level ||= "all";
   state.contentType ||= "both";
-  state.theme ||= "editorial";
+  state.theme = "editorial";
 
   function applyTheme(t) {
     const all = ["default", "editorial", "stadium", "glass", "riso"];
@@ -2042,7 +2042,7 @@
           {
             class: "btn",
             onclick: async () => {
-              const text = `Combine · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://hat-trick-app.vercel.app`;
+              const text = `Combine · ${shareDateLabel()}\n${today.score}/1000\n${grid}\nhttps://combine-app.vercel.app`;
               try {
                 // URL inlined as plain text (no `url` field) so the native
                 // share sheet doesn't generate a rich preview card — receiving
