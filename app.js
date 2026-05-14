@@ -1285,7 +1285,11 @@
 
     const card = el("div", { class: "card title-screen" }, [
       el("div", { class: "hero" }, [
-        el("div", { class: "hero-text" }, "Combine"),
+        el("img", {
+          src: "images/combine-wordmark.svg",
+          alt: "Combine",
+          class: "hero-img",
+        }),
       ]),
       el(
         "p",

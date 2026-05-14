@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512" aria-label="Combine wordmark">
+  <g stroke="#1A1714" stroke-width="2" fill="none">
+    <line x1="120" y1="148" x2="904" y2="148"/>
+    <line x1="120" y1="156" x2="904" y2="156"/>
+  </g>
+  <g font-family="JetBrains Mono, monospace" font-size="14" fill="#6B5E4F" letter-spacing="3">
+    <text x="120" y="138" text-anchor="start">EST. MMXXVI</text>
+    <text x="904" y="138" text-anchor="end">№ 001</text>
+  </g>
+  <text x="512" y="320" text-anchor="middle" font-family="DM Serif Display, serif" font-size="172" fill="#1A1714" letter-spacing="-2">Combine</text>
+  <g stroke="#1A1714" stroke-width="2" fill="none">
+    <line x1="120" y1="368" x2="904" y2="368"/>
+    <line x1="120" y1="376" x2="904" y2="376"/>
+  </g>
+  <g font-family="JetBrains Mono, monospace" font-size="22" fill="#1A1714" letter-spacing="10" font-weight="500">
+    <text x="512" y="420" text-anchor="middle">DAILY · SCOUT · COMPILE</text>
+  </g>
+</svg>
