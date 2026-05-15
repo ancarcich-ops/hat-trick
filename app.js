@@ -1476,12 +1476,12 @@
     screen.appendChild(card);
 
     // Staged reveal — orient the player before starting the timer.
-    // Order: question-type label → question prompt → subject (if any) → body
-    // (choices/map/write-in) + timer bar starting together.
+    // Order: question-type label → question prompt → subject (if any) →
+    // choices/body → (brief beat) → timer bar appears and starts.
     const stages = [labelLine, promptEl];
     if (subjectEl) stages.push(subjectEl);
-    const finalStage = [body, timer];
-    for (const el of [...stages, ...finalStage]) {
+    stages.push(body);
+    for (const el of [...stages, timer]) {
       el.classList.add("q-stage-reveal");
     }
     let delay = 150;
@@ -1490,9 +1490,10 @@
       setTimeout(() => stageEl.classList.add("q-stage-shown"), delay);
       delay += stepMs;
     }
-    // Last stage: reveal body + timer bar together, then start the timer.
+    // After choices land, give the player a short beat to scan, then reveal
+    // the timer bar and start the clock.
     setTimeout(() => {
-      for (const el of finalStage) el.classList.add("q-stage-shown");
+      timer.classList.add("q-stage-shown");
       startTimer();
     }, delay);
   }
