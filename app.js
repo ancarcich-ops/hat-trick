@@ -2146,7 +2146,6 @@
       ticker,
       el("div", { class: "striker-led-of" }, "/1000"),
     ]);
-    const bell = el("div", { class: "striker-bell" }, "🔔");
     // Thermometer ticks down the tower (100..1000 from bottom to top)
     const tickEls = [];
     for (let v = 100; v >= 10; v -= 10) {
@@ -2268,7 +2267,7 @@
     const rankLabel = el("div", { class: "striker-rank" }, "");
 
     const striker = el("div", { class: "strength-tester" }, [
-      el("div", { class: "striker-cabinet" }, [led, bell, tower]),
+      el("div", { class: "striker-cabinet" }, [led, tower]),
       rankLabel,
     ]);
 
@@ -2363,19 +2362,10 @@
         rankLabel.classList.add("punch");
       }
 
-      // Bell starts wobbling early, rings hard at the end if score is high.
-      if (target >= 600 && !bell.classList.contains("wobble")) {
-        bell.classList.add("wobble");
-      }
-
       if (t < 1) requestAnimationFrame(tick);
       else {
         // Final flourish
         ticker.textContent = String(target);
-        if (target >= 800) {
-          bell.classList.remove("wobble");
-          bell.classList.add("ring");
-        }
         if (target >= 950) striker.classList.add("hall-of-fame");
         striker.classList.add("settled");
         // Shockwave from puck position at settle
