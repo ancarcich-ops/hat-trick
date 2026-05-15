@@ -2681,15 +2681,14 @@ window.MASCOTS = [
 
   // Southland Conference
   {
-    name: "Boomtown",
+    name: "Big Red",
     team: "Cardinals",
     city: "Lamar",
     league: "Southland",
-    animal: "lion",
-    emoji: "🦁",
+    animal: "cardinal",
+    emoji: "🐦",
     level: "college",
     logo: NCAA(2320),
-    image: IMG("boomtown-lamar"),
   },
   {
     name: "Sammy the Cowboy",

@@ -469,9 +469,11 @@
       promptLabel: `${target.league} • Question`,
       prompt: `Who is the mascot of this team?`,
       subject: {
+        // Hide team nickname (e.g. "Cardinals") since it can give away a
+        // distractor mascot with a matching animal. Show city/school + logo.
         logo: target.logo,
         emoji: target.emoji,
-        name: `${target.city} ${target.team}`,
+        name: target.city,
         sub: target.league,
       },
       choices,
