@@ -1012,13 +1012,15 @@
   // actual multiplier ramps down linearly across the band toward the next
   // band's mult (see getBandMultiplier). This produces a continuous gradient
   // so faster answers score higher even within the same band.
+  // Tuned generously so a player answering most questions correctly in ~5s
+  // can reach 950+/1000 (Hall of Fame).
   const BANDS = [
-    { name: "Lightning", maxSec: 8, mult: 1.0, emoji: "⚡" },
-    { name: "Quick", maxSec: 16, mult: 0.75, emoji: "🔥" },
-    { name: "Steady", maxSec: 24, mult: 0.5, emoji: "✓" },
-    { name: "Last second", maxSec: 30, mult: 0.25, emoji: "⏱" },
+    { name: "Lightning", maxSec: 12, mult: 1.0, emoji: "⚡" },
+    { name: "Quick", maxSec: 20, mult: 0.85, emoji: "🔥" },
+    { name: "Steady", maxSec: 26, mult: 0.65, emoji: "✓" },
+    { name: "Last second", maxSec: 30, mult: 0.45, emoji: "⏱" },
     // beyond 30s: hard floor (player took longer than the timer)
-    { name: "Overtime", maxSec: Infinity, mult: 0.1, emoji: "🐢" },
+    { name: "Overtime", maxSec: Infinity, mult: 0.3, emoji: "🐢" },
   ];
   function getBand(elapsedSec) {
     for (const b of BANDS) if (elapsedSec < b.maxSec) return b;
