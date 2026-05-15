@@ -1894,7 +1894,7 @@ window.MASCOTS = [
     name: "Sam the Minuteman",
     team: "Minutemen",
     city: "UMass",
-    league: "Big East",
+    league: "A-10",
     animal: "human",
     emoji: "🪖",
     level: "college",
@@ -1902,10 +1902,10 @@ window.MASCOTS = [
     image: IMG("sam-minuteman"),
   },
   {
-    name: "River Hawk",
+    name: "Rowdy the River Hawk",
     team: "River Hawks",
     city: "UMass Lowell",
-    league: "Big East",
+    league: "America East",
     animal: "hawk",
     emoji: "🦅",
     level: "college",
@@ -2071,7 +2071,7 @@ window.MASCOTS = [
     image: IMG("roaree"),
   },
   {
-    name: "Touchdown the Bear",
+    name: "Touchdown",
     team: "Big Red",
     city: "Cornell",
     league: "Ivy League",
@@ -2261,7 +2261,7 @@ window.MASCOTS = [
     image: IMG("rocky-bull"),
   },
   {
-    name: "Riptide the Wave",
+    name: "Riptide",
     team: "Green Wave",
     city: "Tulane",
     league: "AAC",
@@ -2401,15 +2401,14 @@ window.MASCOTS = [
     image: IMG("rose-hill-ram"),
   },
   {
-    name: "George the Colonial",
-    team: "Colonials",
+    name: "George the Revolutionary",
+    team: "Revolutionaries",
     city: "George Washington",
     league: "A-10",
     animal: "human",
     emoji: "🎩",
     level: "college",
     logo: NCAA(45),
-    image: IMG("gw-colonial"),
   },
   {
     name: "Rhody",
@@ -2482,7 +2481,7 @@ window.MASCOTS = [
 
   // Missouri Valley
   {
-    name: "Bruin the Bear",
+    name: "Bruiser the Bruin",
     team: "Bruins",
     city: "Belmont",
     league: "MVC",
@@ -2493,7 +2492,7 @@ window.MASCOTS = [
     image: IMG("bruin-belmont"),
   },
   {
-    name: "Spike (Drake)",
+    name: "Spike",
     team: "Bulldogs",
     city: "Drake",
     league: "MVC",
@@ -2550,7 +2549,7 @@ window.MASCOTS = [
     image: IMG("petey-peacock"),
   },
   {
-    name: "Boomer (Quinnipiac)",
+    name: "Boomer",
     team: "Bobcats",
     city: "Quinnipiac",
     league: "MAAC",
@@ -2873,7 +2872,7 @@ window.MASCOTS = [
     image: IMG("baldwin-eagle"),
   },
   {
-    name: "The Tiger (Clemson)",
+    name: "The Tiger",
     team: "Tigers",
     city: "Clemson",
     league: "ACC",
@@ -2906,7 +2905,7 @@ window.MASCOTS = [
     image: IMG("buzz"),
   },
   {
-    name: "The Cardinal Bird",
+    name: "Louie",
     team: "Cardinals",
     city: "Louisville",
     league: "ACC",
