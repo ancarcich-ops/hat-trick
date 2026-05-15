@@ -2141,7 +2141,7 @@
     const tierFor = (s) => RANK_TIERS.find((t) => s >= t.min);
 
     // LED-style score readout at the top of the tower
-    const ticker = el("div", { class: "striker-led-num" }, "0000");
+    const ticker = el("div", { class: "striker-led-num" }, "0");
     const led = el("div", { class: "striker-led" }, [
       ticker,
       el("div", { class: "striker-led-of" }, "/1000"),
@@ -2268,7 +2268,7 @@
     const rankLabel = el("div", { class: "striker-rank" }, "");
 
     const striker = el("div", { class: "strength-tester" }, [
-      el("div", { class: "striker-cabinet" }, [led, bell, tower, base]),
+      el("div", { class: "striker-cabinet" }, [led, bell, tower]),
       rankLabel,
     ]);
 
@@ -2328,7 +2328,7 @@
       const cur = Math.max(0, target * eased);
       const pct = Math.max(0, Math.min(105, cur / 10));
       const displayed = Math.round(Math.min(target, cur));
-      ticker.textContent = String(displayed).padStart(4, "0");
+      ticker.textContent = String(displayed);
       fillEl.style.height = pct + "%";
       puckEl.style.bottom = pct + "%";
 
@@ -2371,7 +2371,7 @@
       if (t < 1) requestAnimationFrame(tick);
       else {
         // Final flourish
-        ticker.textContent = String(target).padStart(4, "0");
+        ticker.textContent = String(target);
         if (target >= 800) {
           bell.classList.remove("wobble");
           bell.classList.add("ring");
