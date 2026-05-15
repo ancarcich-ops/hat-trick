@@ -2460,11 +2460,35 @@
     card.appendChild(
       el("div", { class: "groups-head" }, [
         el("div", { class: "score-label" }, "Groups"),
-        el(
-          "div",
-          { class: "groups-player-name" },
-          `Playing as ${player.display_name}`,
-        ),
+        el("div", { class: "groups-player-row" }, [
+          el(
+            "span",
+            { class: "groups-player-name" },
+            `Playing as ${player.display_name}`,
+          ),
+          el(
+            "button",
+            {
+              class: "groups-edit-name",
+              onclick: async () => {
+                const newName = prompt(
+                  "Update your display name (1–24 characters):",
+                  player.display_name,
+                );
+                if (newName == null) return;
+                const trimmed = newName.trim().slice(0, 24);
+                if (!trimmed) return;
+                try {
+                  await window.Combine.setDisplayName(trimmed);
+                  showGroups();
+                } catch (e) {
+                  alert("Couldn't update name: " + (e.message || e));
+                }
+              },
+            },
+            "Edit",
+          ),
+        ]),
       ]),
     );
 

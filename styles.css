@@ -107,13 +107,33 @@ body {
   text-align: center;
   margin-bottom: 14px;
 }
+.groups-screen .groups-player-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
 .groups-screen .groups-player-name {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-top: 4px;
+}
+.groups-edit-name {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.groups-edit-name:hover {
+  color: var(--ink);
+  border-color: var(--ink);
 }
 .groups-screen .groups-section-h {
   font-size: 13px;
