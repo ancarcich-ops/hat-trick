@@ -623,6 +623,29 @@
     return [...levels][0] === "pro" ? "pro" : "college";
   }
 
+  // Detects if a mascot's NAME would give away the animal (e.g., "Rocky the
+  // Bull" when asked which mascot represents a bull team). Mirrors the
+  // name-vs-team stem logic in leaksTeam, but compares against the animal.
+  function nameLeaksAnimal(mascot, animal) {
+    const aliases = [animal, ...(ANIMAL_SYNONYMS[animal] || [])];
+    const stem = (w) => w.replace(/[^a-z]/g, "").replace(/s$/, "");
+    const nameStems = mascot.name
+      .toLowerCase()
+      .split(/\s+/)
+      .map(stem)
+      .filter((s) => s.length >= 3);
+    for (const a of aliases) {
+      const as = stem(a.toLowerCase());
+      if (as.length < 3) continue;
+      for (const ns of nameStems) {
+        if (ns === as) return true;
+        if (ns.length >= 4 && as.includes(ns)) return true;
+        if (as.length >= 4 && ns.includes(as)) return true;
+      }
+    }
+    return false;
+  }
+
   function gen_writeMatchAnimal(rng, pool) {
     // Multi-choice: "Which of these mascots has a [animal] team?"
     // 1 correct from the target animal, 3 distractors from other animals.
@@ -636,7 +659,11 @@
     );
     if (eligible.length < 2) return null;
     const [animal, group] = eligible[Math.floor(rng() * eligible.length)];
-    const target = group[Math.floor(rng() * group.length)];
+    // Exclude target candidates whose own NAME contains the animal (e.g.
+    // "Rocky the Bull" would self-identify when asking about a bull team).
+    const safeGroup = group.filter((m) => !nameLeaksAnimal(m, animal));
+    if (safeGroup.length === 0) return null;
+    const target = safeGroup[Math.floor(rng() * safeGroup.length)];
     const distractorPool = pool.filter(
       (m) => m.animal !== animal && ANIMAL_LABELS[m.animal],
     );
@@ -680,8 +707,13 @@
       shuffled.find((m) => youngTeams.some((t) => m.team.includes(t))) ||
       shuffled[0];
     const subject = subjectPick;
+    // Exclude correct-answer candidates whose own NAME contains the animal
+    // (e.g. "Rocky the Bull" would self-identify). Subject itself can still
+    // have a leaky name — the question already names the animal explicitly.
     const correctAnswer = shuffled.find(
-      (m) => m.name !== subject.name || m.city !== subject.city,
+      (m) =>
+        (m.name !== subject.name || m.city !== subject.city) &&
+        !nameLeaksAnimal(m, animal),
     );
     if (!correctAnswer) return null;
     const distractorPool = pool.filter(
@@ -1448,8 +1480,8 @@
     for (const el of [...stages, ...finalStage]) {
       el.classList.add("q-stage-reveal");
     }
-    let delay = 80;
-    const stepMs = 650;
+    let delay = 150;
+    const stepMs = 950;
     for (const stageEl of stages) {
       setTimeout(() => stageEl.classList.add("q-stage-shown"), delay);
       delay += stepMs;
@@ -1668,6 +1700,193 @@
         });
       }
     });
+
+    attachMapZoom(container, svg);
+  }
+
+  // Pinch-zoom + pan + on-screen zoom controls for the US map.
+  function attachMapZoom(container, svg) {
+    let scale = 1;
+    let tx = 0;
+    let ty = 0;
+    let startScale = 1;
+    let startTx = 0;
+    let startTy = 0;
+    let pinchDist = 0;
+    let panStart = null;
+    let moved = 0;
+    const minScale = 1;
+    const maxScale = 5;
+    svg.style.transformOrigin = "0 0";
+    svg.style.willChange = "transform";
+
+    function apply() {
+      svg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    }
+    function clamp() {
+      if (scale <= 1) {
+        tx = 0;
+        ty = 0;
+        return;
+      }
+      const w = container.clientWidth;
+      const h = svg.getBoundingClientRect().height / scale;
+      const sw = w * scale;
+      const sh = h * scale;
+      tx = Math.max(w - sw, Math.min(0, tx));
+      ty = Math.max(h - sh, Math.min(0, ty));
+    }
+    function zoomBy(factor, cx, cy) {
+      const oldScale = scale;
+      scale = Math.max(minScale, Math.min(maxScale, scale * factor));
+      if (cx != null && cy != null) {
+        tx = cx - ((cx - tx) * scale) / oldScale;
+        ty = cy - ((cy - ty) * scale) / oldScale;
+      }
+      clamp();
+      apply();
+    }
+
+    container.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length === 2) {
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          pinchDist = Math.hypot(dx, dy);
+          startScale = scale;
+          startTx = tx;
+          startTy = ty;
+        } else if (e.touches.length === 1) {
+          panStart = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY,
+            ix: tx,
+            iy: ty,
+          };
+          moved = 0;
+        }
+      },
+      { passive: true },
+    );
+    container.addEventListener(
+      "touchmove",
+      (e) => {
+        if (e.touches.length === 2 && pinchDist > 0) {
+          e.preventDefault();
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          const dist = Math.hypot(dx, dy);
+          scale = Math.max(
+            minScale,
+            Math.min(maxScale, startScale * (dist / pinchDist)),
+          );
+          clamp();
+          apply();
+        } else if (e.touches.length === 1 && panStart) {
+          const dx = e.touches[0].clientX - panStart.x;
+          const dy = e.touches[0].clientY - panStart.y;
+          moved = Math.max(moved, Math.hypot(dx, dy));
+          if (scale > 1) {
+            e.preventDefault();
+            tx = panStart.ix + dx;
+            ty = panStart.iy + dy;
+            clamp();
+            apply();
+          }
+        }
+      },
+      { passive: false },
+    );
+    container.addEventListener("touchend", () => {
+      panStart = null;
+      pinchDist = 0;
+    });
+    // Block state taps if the user actually panned.
+    svg.addEventListener(
+      "click",
+      (e) => {
+        if (moved > 8) {
+          e.stopPropagation();
+          e.preventDefault();
+          moved = 0;
+        }
+      },
+      true,
+    );
+    // Desktop wheel-zoom (ctrl+wheel / trackpad pinch).
+    container.addEventListener(
+      "wheel",
+      (e) => {
+        if (!e.ctrlKey) return;
+        e.preventDefault();
+        const rect = container.getBoundingClientRect();
+        zoomBy(
+          e.deltaY < 0 ? 1.1 : 1 / 1.1,
+          e.clientX - rect.left,
+          e.clientY - rect.top,
+        );
+      },
+      { passive: false },
+    );
+    // Desktop click-drag pan when zoomed.
+    let mouseDown = null;
+    container.addEventListener("mousedown", (e) => {
+      if (scale <= 1) return;
+      mouseDown = { x: e.clientX, y: e.clientY, ix: tx, iy: ty };
+      moved = 0;
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!mouseDown) return;
+      const dx = e.clientX - mouseDown.x;
+      const dy = e.clientY - mouseDown.y;
+      moved = Math.max(moved, Math.hypot(dx, dy));
+      tx = mouseDown.ix + dx;
+      ty = mouseDown.iy + dy;
+      clamp();
+      apply();
+    });
+    window.addEventListener("mouseup", () => {
+      mouseDown = null;
+    });
+    // On-screen zoom buttons (top-right of map).
+    const cxCenter = () => container.clientWidth / 2;
+    const cyCenter = () => svg.getBoundingClientRect().height / 2;
+    const controls = el("div", { class: "map-zoom-controls" }, [
+      el(
+        "button",
+        {
+          class: "map-zoom-btn",
+          "aria-label": "Zoom in",
+          onclick: () => zoomBy(1.4, cxCenter(), cyCenter()),
+        },
+        "+",
+      ),
+      el(
+        "button",
+        {
+          class: "map-zoom-btn",
+          "aria-label": "Zoom out",
+          onclick: () => zoomBy(1 / 1.4, cxCenter(), cyCenter()),
+        },
+        "−",
+      ),
+      el(
+        "button",
+        {
+          class: "map-zoom-btn",
+          "aria-label": "Reset",
+          onclick: () => {
+            scale = 1;
+            tx = 0;
+            ty = 0;
+            apply();
+          },
+        },
+        "⌂",
+      ),
+    ]);
+    container.appendChild(controls);
   }
 
   function onAnswer(idx, buttons) {

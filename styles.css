@@ -516,6 +516,38 @@ main#screen {
 .us-map-svg .state-wrong {
   fill: var(--wrong) !important;
 }
+.map-zoom-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+.map-zoom-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.map-zoom-btn:hover {
+  background: var(--bg);
+}
+.map-zoom-btn:active {
+  transform: translateY(1px);
+}
 .us-map-svg .state-correct-shown {
   fill: var(--correct) !important;
   opacity: 0.65;
