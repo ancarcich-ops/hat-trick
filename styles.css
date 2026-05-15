@@ -412,6 +412,20 @@ main#screen {
   line-height: 1.25;
   margin: 0 0 6px;
 }
+/* Staged reveal — each element fades in before the timer starts. */
+.q-stage-reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.45s ease-out;
+}
+.q-stage-reveal.q-stage-shown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 .q-subject {
   display: flex;
   align-items: center;

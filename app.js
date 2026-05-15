@@ -1371,11 +1371,8 @@
       el("div", { class: "q-prompt-label" }, q.promptLabel),
       el("div", { class: `q-points q-points-${tier}x` }, `up to ${points} pts`),
     ]);
-    const header = [
-      timer,
-      labelLine,
-      el("h2", { class: "q-prompt" }, q.prompt),
-    ];
+    const promptEl = el("h2", { class: "q-prompt" }, q.prompt);
+    const header = [timer, labelLine, promptEl];
 
     let subjectEl = null;
     if (q.subject) {
@@ -1441,7 +1438,27 @@
       body,
     ]);
     screen.appendChild(card);
-    startTimer();
+
+    // Staged reveal — orient the player before starting the timer.
+    // Order: question-type label → question prompt → subject (if any) → body
+    // (choices/map/write-in) + timer bar starting together.
+    const stages = [labelLine, promptEl];
+    if (subjectEl) stages.push(subjectEl);
+    const finalStage = [body, timer];
+    for (const el of [...stages, ...finalStage]) {
+      el.classList.add("q-stage-reveal");
+    }
+    let delay = 80;
+    const stepMs = 650;
+    for (const stageEl of stages) {
+      setTimeout(() => stageEl.classList.add("q-stage-shown"), delay);
+      delay += stepMs;
+    }
+    // Last stage: reveal body + timer bar together, then start the timer.
+    setTimeout(() => {
+      for (const el of finalStage) el.classList.add("q-stage-shown");
+      startTimer();
+    }, delay);
   }
 
   // ---- Map rendering ----
