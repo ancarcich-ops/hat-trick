@@ -218,6 +218,75 @@ body {
   font-size: 18px;
 }
 
+/* Group detail (leaderboard) */
+.group-share-btn {
+  margin: 0 0 16px;
+  width: 100%;
+}
+.group-tabs {
+  margin-bottom: 14px;
+}
+.group-lb {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.group-lb-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.group-lb-row.is-me {
+  border-color: var(--ink);
+  background: var(--primary-soft, var(--surface));
+}
+.group-lb-rank {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.group-lb-name-text {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 15px;
+}
+.group-lb-sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+.group-lb-score {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink);
+  text-align: right;
+  min-width: 56px;
+}
+.group-detail-actions {
+  display: grid;
+  gap: 10px;
+}
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  padding: 8px;
+}
+.btn-link:hover {
+  color: var(--wrong);
+}
+
 main#screen {
   flex: 1;
   display: flex;

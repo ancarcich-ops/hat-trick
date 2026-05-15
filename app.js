@@ -1966,6 +1966,18 @@
     state.lastPlayed = dateKey;
     saveState(state);
     refreshStreak();
+    // Background-submit to Combine leaderboards (any groups this player is
+    // in for this exact mode will pick it up). Best-effort — failure here
+    // never blocks the result screen.
+    if (window.Combine) {
+      window.Combine.submitScore({
+        date: dateKey,
+        level: currentLevel,
+        contentType: currentContentType,
+        score: points,
+        correctCount,
+      }).catch((e) => console.warn("Score submit failed:", e.message || e));
+    }
     showResult(currentLevel, currentContentType);
   }
 
@@ -2640,23 +2652,197 @@
     return sel;
   }
 
-  async function showGroupDetail(code) {
+  async function showGroupDetail(code, initialRange) {
     clearScreen();
-    const card = el("div", { class: "card groups-screen" }, [
-      el("div", { class: "groups-loading" }, "Loading…"),
-    ]);
+    const range = initialRange || "today";
+    const loadingEl = el("div", { class: "groups-loading" }, "Loading…");
+    const card = el("div", { class: "card groups-screen" }, [loadingEl]);
     screen.appendChild(card);
-    // Full leaderboard UI ships in step 3.
-    alert(
-      `Group detail (leaderboard) for ${code} ships in the next update. The Today / Week / All-time tabs come next.`,
+
+    let payload;
+    try {
+      payload = await window.Combine.getGroupLeaderboard(code, range);
+    } catch (e) {
+      console.error(e);
+      loadingEl.textContent = "Couldn't load: " + (e.message || e);
+      card.appendChild(
+        el(
+          "button",
+          { class: "btn secondary", onclick: () => showGroups() },
+          "Back",
+        ),
+      );
+      return;
+    }
+    loadingEl.remove();
+
+    const { group, rows } = payload;
+    const playerNow = await window.Combine.getPlayer();
+
+    // Header — name + mode tag + 6-char code with copy-to-clipboard.
+    const shareUrl = `${location.origin}/?join=${group.id}`;
+    card.appendChild(
+      el("div", { class: "groups-head" }, [
+        el("div", { class: "score-label" }, group.name),
+        el(
+          "div",
+          { class: "groups-player-name" },
+          `${levelShort(group.level)} · ${contentShort(group.content_type)} · ${group.id}`,
+        ),
+      ]),
     );
-    showGroups();
+
+    // Share row
+    const shareBtn = el(
+      "button",
+      {
+        class: "btn secondary group-share-btn",
+        onclick: async () => {
+          const text = `Join my Combine group "${group.name}" (${levelShort(group.level)} · ${contentShort(group.content_type)})\n${shareUrl}`;
+          try {
+            if (navigator.share)
+              await navigator.share({ title: "Combine group", text });
+            else {
+              await navigator.clipboard.writeText(text);
+              shareBtn.textContent = "Copied!";
+              setTimeout(() => (shareBtn.textContent = "Share invite"), 1400);
+            }
+          } catch {}
+        },
+      },
+      "Share invite",
+    );
+    card.appendChild(shareBtn);
+
+    // Tabs
+    const tabs = ["today", "week", "all"];
+    const tabLabels = { today: "Today", week: "This week", all: "All-time" };
+    const tabRow = el(
+      "div",
+      { class: "level-tabs group-tabs" },
+      tabs.map((t) =>
+        el(
+          "button",
+          {
+            class: `level-tab${range === t ? " active" : ""}`,
+            onclick: () => showGroupDetail(code, t),
+          },
+          tabLabels[t],
+        ),
+      ),
+    );
+    card.appendChild(tabRow);
+
+    // Leaderboard rows
+    const lbWrap = el("div", { class: "group-lb" });
+    if (rows.length === 0) {
+      lbWrap.appendChild(
+        el(
+          "div",
+          { class: "groups-empty" },
+          "No members yet. Share the code above to invite friends.",
+        ),
+      );
+    } else {
+      rows.forEach((r, i) => {
+        const isMe = playerNow && r.player_id === playerNow.id;
+        let primary, secondary;
+        if (range === "today") {
+          primary = r.score == null ? "—" : `${r.score}`;
+          secondary =
+            r.score == null
+              ? "Hasn't played yet"
+              : `${r.correct_count != null ? "" : ""}`;
+        } else if (range === "week") {
+          primary = r.avg == null ? "—" : `${r.avg}`;
+          secondary =
+            r.plays === 0
+              ? "No plays this week"
+              : `${r.plays} play${r.plays === 1 ? "" : "s"} this week`;
+        } else {
+          primary = r.avg == null ? "—" : `${r.avg}`;
+          secondary =
+            r.plays === 0
+              ? "Hasn't played yet"
+              : `${r.plays} play${r.plays === 1 ? "" : "s"} · avg`;
+        }
+        // Rank: only assign numerical ranks to players with a non-null score.
+        const hasScore = range === "today" ? r.score != null : r.plays > 0;
+        const rank = hasScore ? i + 1 : "—";
+        lbWrap.appendChild(
+          el("div", { class: `group-lb-row${isMe ? " is-me" : ""}` }, [
+            el("div", { class: "group-lb-rank" }, String(rank)),
+            el("div", { class: "group-lb-name" }, [
+              el(
+                "div",
+                { class: "group-lb-name-text" },
+                r.display_name + (isMe ? " (you)" : ""),
+              ),
+              el("div", { class: "group-lb-sub" }, secondary),
+            ]),
+            el("div", { class: "group-lb-score" }, primary),
+          ]),
+        );
+      });
+    }
+    card.appendChild(lbWrap);
+
+    // Footer actions
+    const actions = el("div", { class: "group-detail-actions" }, [
+      el(
+        "button",
+        { class: "btn secondary", onclick: () => showGroups() },
+        "Back to groups",
+      ),
+      el(
+        "button",
+        {
+          class: "btn-link group-leave",
+          onclick: async () => {
+            if (!confirm(`Leave "${group.name}"?`)) return;
+            try {
+              await window.Combine.leaveGroup(group.id);
+              showGroups();
+            } catch (e) {
+              alert("Couldn't leave: " + (e.message || e));
+            }
+          },
+        },
+        "Leave group",
+      ),
+    ]);
+    card.appendChild(actions);
   }
 
   // Quietly establish the anon session on boot so subsequent calls are fast.
+  // If the URL has ?join=CODE, immediately surface the join flow.
   if (window.Combine) {
-    window.Combine.ensureSession().catch((e) => {
-      console.warn("Combine session init failed:", e.message || e);
-    });
+    (async () => {
+      try {
+        await window.Combine.ensureSession();
+        const url = new URL(location.href);
+        const joinCode = (url.searchParams.get("join") || "")
+          .trim()
+          .toUpperCase();
+        if (!joinCode) return;
+        // Clean the URL so a refresh doesn't re-trigger.
+        url.searchParams.delete("join");
+        history.replaceState(null, "", url.toString());
+        let player = await window.Combine.getPlayer();
+        if (!player) {
+          player = await promptDisplayName();
+          if (!player) return;
+        }
+        if (!confirm(`Join group "${joinCode}"?`)) return;
+        try {
+          await window.Combine.joinGroup(joinCode);
+          showGroupDetail(joinCode);
+        } catch (e) {
+          alert("Couldn't join: " + (e.message || e));
+        }
+      } catch (e) {
+        console.warn("Combine boot failed:", e.message || e);
+      }
+    })();
   }
 })();
