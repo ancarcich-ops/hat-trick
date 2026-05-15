@@ -89,6 +89,18 @@ body {
 .streak-flame {
   font-size: 14px;
 }
+.groups-btn {
+  padding: 6px 10px;
+}
+.groups-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.topbar-right {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
 
 main#screen {
   flex: 1;

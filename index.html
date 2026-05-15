@@ -17,6 +17,8 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="themes.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/combine-supabase.js" defer></script>
   </head>
   <body>
     <div id="app">
@@ -47,6 +49,9 @@
               title="Risograph Zine"
             ></button>
           </div>
+          <button id="groupsBtn" class="streak groups-btn" title="Groups">
+            <span class="groups-icon">👥</span>
+          </button>
           <button id="streakBtn" class="streak" title="Streak">
             <span class="streak-flame">🔥</span>
             <span id="streakCount">0</span>

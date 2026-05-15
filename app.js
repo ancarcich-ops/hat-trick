@@ -2402,4 +2402,43 @@
   document
     .getElementById("streakBtn")
     .addEventListener("mouseleave", () => clearTimeout(pressTimer));
+
+  // ---------- Combine groups (Supabase) ----------
+  // The groups button currently just ensures a display name is set. The
+  // groups screen + leaderboard UI is wired up in a follow-up commit.
+  document.getElementById("groupsBtn").addEventListener("click", async () => {
+    try {
+      await window.Combine.ensureSession();
+      let player = await window.Combine.getPlayer();
+      if (!player) {
+        player = await promptDisplayName();
+      }
+      if (player) {
+        alert(
+          `Signed in as ${player.display_name}. Groups UI ships in the next update.`,
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Couldn't connect to Combine groups: " + (e.message || e));
+    }
+  });
+
+  // First-run prompt for a display name. Resolves to the player row, or null
+  // if the user dismisses.
+  async function promptDisplayName() {
+    let name = prompt(
+      "Pick a display name for the leaderboard (1-24 characters)",
+    );
+    name = (name || "").trim().slice(0, 24);
+    if (!name) return null;
+    return await window.Combine.setDisplayName(name);
+  }
+
+  // Quietly establish the anon session on boot so subsequent calls are fast.
+  if (window.Combine) {
+    window.Combine.ensureSession().catch((e) => {
+      console.warn("Combine session init failed:", e.message || e);
+    });
+  }
 })();
