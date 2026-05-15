@@ -102,6 +102,102 @@ body {
   align-items: center;
 }
 
+/* Groups screen */
+.groups-screen .groups-head {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.groups-screen .groups-player-name {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.groups-screen .groups-section-h {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  margin: 22px 0 8px;
+  font-weight: 700;
+}
+.groups-screen .groups-empty {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 4px 0 8px;
+}
+.groups-loading {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 24px 0;
+}
+.groups-list {
+  display: grid;
+  gap: 8px;
+}
+.group-item {
+  text-align: left;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: block;
+}
+.group-item:hover {
+  border-color: var(--ink);
+}
+.group-item-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+}
+.group-item-meta {
+  margin-top: 3px;
+  font-size: 12px;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+.group-create,
+.group-join {
+  display: grid;
+  gap: 8px;
+}
+.group-create-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.group-mode-lbl {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: block;
+}
+.group-mode-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+.group-code-input {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 18px;
+}
+
 main#screen {
   flex: 1;
   display: flex;

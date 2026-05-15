@@ -2404,25 +2404,9 @@
     .addEventListener("mouseleave", () => clearTimeout(pressTimer));
 
   // ---------- Combine groups (Supabase) ----------
-  // The groups button currently just ensures a display name is set. The
-  // groups screen + leaderboard UI is wired up in a follow-up commit.
-  document.getElementById("groupsBtn").addEventListener("click", async () => {
-    try {
-      await window.Combine.ensureSession();
-      let player = await window.Combine.getPlayer();
-      if (!player) {
-        player = await promptDisplayName();
-      }
-      if (player) {
-        alert(
-          `Signed in as ${player.display_name}. Groups UI ships in the next update.`,
-        );
-      }
-    } catch (e) {
-      console.error(e);
-      alert("Couldn't connect to Combine groups: " + (e.message || e));
-    }
-  });
+  document
+    .getElementById("groupsBtn")
+    .addEventListener("click", () => showGroups());
 
   // First-run prompt for a display name. Resolves to the player row, or null
   // if the user dismisses.
@@ -2433,6 +2417,216 @@
     name = (name || "").trim().slice(0, 24);
     if (!name) return null;
     return await window.Combine.setDisplayName(name);
+  }
+
+  function levelShort(id) {
+    return (LEVELS.find((l) => l.id === id) || { short: id }).short;
+  }
+  function contentShort(id) {
+    return (CONTENT_TYPES.find((c) => c.id === id) || { short: id }).short;
+  }
+
+  async function showGroups() {
+    clearScreen();
+    let player;
+    try {
+      await window.Combine.ensureSession();
+      player = await window.Combine.getPlayer();
+      if (!player) {
+        player = await promptDisplayName();
+        if (!player) return showTitle();
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Couldn't connect to Combine: " + (e.message || e));
+      return showTitle();
+    }
+
+    const loadingEl = el("div", { class: "groups-loading" }, "Loading groups…");
+    const card = el("div", { class: "card groups-screen" }, [loadingEl]);
+    screen.appendChild(card);
+
+    let groups = [];
+    try {
+      groups = await window.Combine.listMyGroups();
+    } catch (e) {
+      console.error(e);
+      loadingEl.textContent = "Couldn't load groups: " + (e.message || e);
+      return;
+    }
+    loadingEl.remove();
+
+    // Header
+    card.appendChild(
+      el("div", { class: "groups-head" }, [
+        el("div", { class: "score-label" }, "Groups"),
+        el(
+          "div",
+          { class: "groups-player-name" },
+          `Playing as ${player.display_name}`,
+        ),
+      ]),
+    );
+
+    // List of your groups
+    card.appendChild(el("h3", { class: "groups-section-h" }, "Your groups"));
+    if (groups.length === 0) {
+      card.appendChild(
+        el(
+          "p",
+          { class: "groups-empty" },
+          "No groups yet. Create one below or join with a code from a friend.",
+        ),
+      );
+    } else {
+      const list = el("div", { class: "groups-list" });
+      for (const g of groups) {
+        list.appendChild(
+          el(
+            "button",
+            { class: "group-item", onclick: () => showGroupDetail(g.id) },
+            [
+              el("div", { class: "group-item-name" }, g.name),
+              el(
+                "div",
+                { class: "group-item-meta" },
+                `${levelShort(g.level)} · ${contentShort(g.content_type)} · ${g.id}`,
+              ),
+            ],
+          ),
+        );
+      }
+      card.appendChild(list);
+    }
+
+    // Create group
+    card.appendChild(el("h3", { class: "groups-section-h" }, "Create a group"));
+    const createName = document.createElement("input");
+    createName.className = "writein-input";
+    createName.placeholder = "Group name";
+    createName.maxLength = 40;
+    const createLevel = makeModeSelect(
+      LEVELS.map((l) => ({ id: l.id, label: l.short })),
+      currentLevel || state.level || "all",
+    );
+    const createContent = makeModeSelect(
+      CONTENT_TYPES.map((c) => ({ id: c.id, label: c.short })),
+      currentContentType || state.contentType || "both",
+    );
+    const createBtn = el(
+      "button",
+      {
+        class: "btn",
+        onclick: async () => {
+          const name = createName.value.trim();
+          if (!name) {
+            alert("Group name required");
+            return;
+          }
+          createBtn.disabled = true;
+          createBtn.textContent = "Creating…";
+          try {
+            await window.Combine.createGroup({
+              name,
+              level: createLevel.value,
+              contentType: createContent.value,
+            });
+            showGroups();
+          } catch (e) {
+            console.error(e);
+            alert("Couldn't create group: " + (e.message || e));
+            createBtn.disabled = false;
+            createBtn.textContent = "Create group";
+          }
+        },
+      },
+      "Create group",
+    );
+    card.appendChild(
+      el("div", { class: "group-create" }, [
+        createName,
+        el("div", { class: "group-create-mode" }, [
+          el("label", {}, [
+            el("span", { class: "group-mode-lbl" }, "Pool"),
+            createLevel,
+          ]),
+          el("label", {}, [
+            el("span", { class: "group-mode-lbl" }, "Type"),
+            createContent,
+          ]),
+        ]),
+        createBtn,
+      ]),
+    );
+
+    // Join with code
+    card.appendChild(el("h3", { class: "groups-section-h" }, "Join with code"));
+    const joinCode = document.createElement("input");
+    joinCode.className = "writein-input group-code-input";
+    joinCode.placeholder = "ABC123";
+    joinCode.maxLength = 6;
+    joinCode.autocapitalize = "characters";
+    const joinBtn = el(
+      "button",
+      {
+        class: "btn",
+        onclick: async () => {
+          const code = joinCode.value.trim().toUpperCase();
+          if (!code) {
+            alert("Enter a 6-character group code");
+            return;
+          }
+          joinBtn.disabled = true;
+          joinBtn.textContent = "Joining…";
+          try {
+            await window.Combine.joinGroup(code);
+            showGroups();
+          } catch (e) {
+            console.error(e);
+            alert("Couldn't join: " + (e.message || e));
+            joinBtn.disabled = false;
+            joinBtn.textContent = "Join";
+          }
+        },
+      },
+      "Join",
+    );
+    card.appendChild(el("div", { class: "group-join" }, [joinCode, joinBtn]));
+
+    // Back
+    card.appendChild(
+      el(
+        "button",
+        { class: "btn secondary", onclick: () => showTitle() },
+        "Back to play",
+      ),
+    );
+  }
+
+  function makeModeSelect(options, selected) {
+    const sel = document.createElement("select");
+    sel.className = "group-mode-select";
+    for (const o of options) {
+      const opt = document.createElement("option");
+      opt.value = o.id;
+      opt.textContent = o.label;
+      if (o.id === selected) opt.selected = true;
+      sel.appendChild(opt);
+    }
+    return sel;
+  }
+
+  async function showGroupDetail(code) {
+    clearScreen();
+    const card = el("div", { class: "card groups-screen" }, [
+      el("div", { class: "groups-loading" }, "Loading…"),
+    ]);
+    screen.appendChild(card);
+    // Full leaderboard UI ships in step 3.
+    alert(
+      `Group detail (leaderboard) for ${code} ships in the next update. The Today / Week / All-time tabs come next.`,
+    );
+    showGroups();
   }
 
   // Quietly establish the anon session on boot so subsequent calls are fast.
