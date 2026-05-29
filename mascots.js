@@ -2304,7 +2304,6 @@ window.MASCOTS = [
     emoji: "🦅",
     level: "college",
     logo: NCAA(189),
-    image: IMG("freddy-falcon-bg"),
   },
   {
     name: "Rufus the Bobcat",

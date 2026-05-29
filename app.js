@@ -403,9 +403,10 @@
 
   function gen_pickTeamFromMascot(rng, pool) {
     // Choices display team logos — exclude entries marked noLogo so we never
-    // show a placeholder tile for a question or answer.
+    // show a placeholder tile. The subject shows the target's mascot PHOTO, so
+    // the target must have a real image (never fall back to an emoji subject).
     pool = pool.filter((m) => !m.noLogo);
-    const safe = pool.filter((m) => !leaksTeam(m));
+    const safe = pool.filter((m) => !leaksTeam(m) && m.image);
     if (safe.length < 1) return null;
     const target = safe[Math.floor(rng() * safe.length)];
     const sameLeague = pool.filter(
@@ -1202,17 +1203,11 @@
       img.decoding = "async";
       img.className = isMascot ? "mascot-img" : "logo-img";
       img.onerror = () => {
+        // Never fall back to an emoji — emoji-as-mascot/logo is misleading and
+        // can give the answer away. Show a neutral placeholder instead.
         wrap.innerHTML = "";
         wrap.classList.remove("visual-mascot");
-        if (isMascot) {
-          // Mascot photos can fall back to emoji — emoji is a reasonable proxy.
-          wrap.classList.add("visual-fallback");
-          wrap.textContent = item.emoji || "•";
-        } else {
-          // Team logo failed to load — show a neutral placeholder, not an emoji
-          // (emoji-as-logo is misleading and gives the answer away).
-          wrap.classList.add("visual-empty");
-        }
+        wrap.classList.add("visual-empty");
       };
       wrap.appendChild(img);
     } else {
